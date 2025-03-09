@@ -1,0 +1,19 @@
+{
+  "medicine": {
+    "name": "Bilasi",
+    "generic_name": "Bilastine",
+    "manufacturer": "TEAM Pharmaceuticals Limited",
+    "form": "Tablet",
+    "strength": "20 mg"
+  },
+  "product_details": {
+    "description": "Bilastine is a potent, effective, non-sedating, long-acting histamine antagonist with selective & high affinity to H1 receptor (3 times higher than Cetirizine and 5 times higher than Fexofenadine). Even at a high concentration, Bilastine does not show affinity for the 30 other receptors including muscarinic, serotonergic, dopaminergic and noradrenergic receptors, for the other histamine receptor subtypes (H2, H3 and H4). It shows excellent safety profile and very favorable pharmacokinetic characteristics. Bilastine doesn’t undergo any metabolism to be active. Bilastine is excreted by feces (non-systemic) & urine (systemic) approximately 66.35% & 28.31% respectively."
+  },
+  "dosage_and_administration": {
+    "administration": {
+      "adult": "20 mg tablet once daily for symptomatic relief of allergic rhinitis, urticaria and allergic rhinoconjunctivitis. The maximum recommended daily dose is 20 mg Bilastine (1 tablet) and should not be exceeded. If a dose is missed, the next scheduled dose should be taken. An extra dose should not be taken. 20 mg Bilastine tablet (1 tablet) once daily should be swallowed with water on an empty stomach to achieve optimal exposure to Bilastine.",
+      "child1": "10 mg mouth dissolving tablet for the symptomatic relief of allergic rhinitis, allergic rhinoconjunctivitis and urticaria. The Mouth dissolving tablet is for oral use only. It should be placed in the mouth. It will disperse rapidly in saliva and can be easily swallowed. Alternatively, the mouth dissolving tablet can be dispersed in a teaspoon of water before being swallowed by the children. The maximum recommended daily dose for children between 6 to 11 years is 10 mg Bilastine mouth dissolving tablet (1 tablet) and should not be exceeded. If a dose is missed, the next scheduled dose should be taken. An extra dose should not be taken.",
+      "child2": "4 ml once daily."
+    }
+  }
+}
