@@ -1,23 +1,29 @@
-import React, { type FC, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useState} from 'react';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 
 import GuestImage from '../../assets/guest-image';
 import EditProfileModal from '../../Components/EditProfileModal/EditProfileModal';
 import Header from '../../Components/Header/Header';
 
 import styles from './style';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 const UserProfile: FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const userName = useSelector((state: RootState) => state.users.user?.data?.user?.fullName);
-  const userMobileNumber = useSelector(
-    (state: RootState) => state.users.user?.data?.user?.mobileNumber
+  const userName = useSelector(
+    (state: RootState) => state.users.user?.data?.user?.fullName,
   );
-  const userGender = useSelector((state: RootState) => state.users.user?.data?.user?.gender);
-  const userBirthDay = useSelector((state: RootState) => state.users.user?.data?.user?.birthday);
+  const userMobileNumber = useSelector(
+    (state: RootState) => state.users.user?.data?.user?.mobileNumber,
+  );
+  const userGender = useSelector(
+    (state: RootState) => state.users.user?.data?.user?.gender,
+  );
+  const userBirthDay = useSelector(
+    (state: RootState) => state.users.user?.data?.user?.birthday,
+  );
 
   // Function to open modal
   const openModal: any = () => {
@@ -39,7 +45,12 @@ const UserProfile: FC = () => {
         <Text style={styles.userNameUnderProfileImage}>{userName}</Text>
         <TouchableOpacity onPress={openModal}>
           <Text style={styles.editProfileText}>Edit Profile</Text>
-          {modalVisible && <EditProfileModal modalVisible={modalVisible} closeModal={closeModal} />}
+          {modalVisible && (
+            <EditProfileModal
+              modalVisible={modalVisible}
+              closeModal={closeModal}
+            />
+          )}
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>

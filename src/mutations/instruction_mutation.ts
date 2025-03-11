@@ -1,12 +1,12 @@
-import { InstrucTion } from '@/store/slices/features/medicineDetailsExtraSetting/types';
-import { BASE_URL } from '@/utils/environment';
-import ToastPopUp from '@/utils/Toast.android';
+import {InstrucTion} from '../store/slices/features/medicineDetailsExtraSetting/types';
+import {BASE_URL} from '../utils/environment';
+import ToastPopUp from '../utils/Toast.android';
 import axios from 'axios';
 
 export const INSTRUCTION_MUTATION = async (
   instructions: InstrucTion[],
   medicineLocalId: string,
-  accessToken: string
+  accessToken: string,
 ) => {
   const buildMutation = `
         mutation {
@@ -16,7 +16,7 @@ export const INSTRUCTION_MUTATION = async (
           instruction => `{
         medicineLocalId: "${instruction.medicineLocalId}",
         instrucTion: "${instruction.instrucTion}",
-      }`
+      }`,
         )
         .join(',')}
     ]) {
@@ -31,15 +31,15 @@ export const INSTRUCTION_MUTATION = async (
       {
         query: buildMutation,
         variables: {
-          medicineDetailsExtraId: medicineLocalId
-        }
+          medicineDetailsExtraId: medicineLocalId,
+        },
       },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      }
+          'Content-Type': 'application/json',
+        },
+      },
     );
 
     if (
@@ -47,7 +47,10 @@ export const INSTRUCTION_MUTATION = async (
       response.data.data.createInstructionMedicines.message !== null
     ) {
       ToastPopUp(response.data.data.createInstructionMedicines.message);
-    } else if (Array.isArray(response?.data?.errors) && response.data.errors.length > 0) {
+    } else if (
+      Array.isArray(response?.data?.errors) &&
+      response.data.errors.length > 0
+    ) {
       // Show error message from the response
       const errorMessage: any = response?.data?.errors[0]?.message;
       if (typeof errorMessage === 'string') {

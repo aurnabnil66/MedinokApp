@@ -1,19 +1,16 @@
-import React, { type FC, useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useState} from 'react';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { format, set } from 'date-fns';
-
-import { type RootState } from '@/store';
-import { setExtraTreatmentDuration } from '@/store/slices/features/medicineDetailsExtraSetting/slice';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {format} from 'date-fns';
+import {type RootState} from '../../store';
+import {setExtraTreatmentDuration} from '../../store/slices/features/medicineDetailsExtraSetting/slice';
 import TreatmentDuration from '../../assets/treatment-duration';
 import CalendarModal from '../../Components/CalendarModal/CalenderModal';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import Header from '../../Components/Header/Header';
-import { colors } from '../../theme/colors';
-
+import {colors} from '../../theme/colors';
 import styles from './style';
 
 const SetTreatmentDuration: FC = () => {
@@ -21,7 +18,7 @@ const SetTreatmentDuration: FC = () => {
   const dispatch = useDispatch();
 
   const route = useRoute();
-  const { prevRoute } = route.params as { prevRoute: string };
+  const {prevRoute} = route.params as {prevRoute: string};
 
   const [startDateModalOpen, setStartDateModalOpen] = useState(false);
   const [endDateModalOpen, setendDateModalOpen] = useState(false);
@@ -29,7 +26,9 @@ const SetTreatmentDuration: FC = () => {
   const [endDate, setEndDate] = useState('');
   const [giveInput, setGiveInput] = useState('');
 
-  const medicineLocalId = useSelector((state: RootState) => state.medicineDetails.medicineLocalId);
+  const medicineLocalId = useSelector(
+    (state: RootState) => state.medicineDetails.medicineLocalId,
+  );
 
   const handleStartDateSelectInstruction: any = () => {
     setStartDateModalOpen(!startDateModalOpen);
@@ -55,14 +54,15 @@ const SetTreatmentDuration: FC = () => {
           treatmentDurationStartTime: startDate,
           treatmentDurationEndTime: endDate,
           medicineTakeEachDay: giveInput,
-          medicineLocalId
-        }
-      ])
+          medicineLocalId,
+        },
+      ]),
     );
     setStartDate('');
     setEndDate('');
     setGiveInput('');
-    navigation.navigate(`${prevRoute}` as never);
+    //navigation.navigate(`${prevRoute}` as never);
+    navigation.goBack();
   };
 
   return (
@@ -86,7 +86,9 @@ const SetTreatmentDuration: FC = () => {
             <TouchableOpacity
               style={styles.selectButton}
               onPress={() => handleStartDateSelectInstruction()}>
-              <Text style={styles.selectButtonText}>{startDate !== '' ? startDate : 'Select'}</Text>
+              <Text style={styles.selectButtonText}>
+                {startDate !== '' ? startDate : 'Select'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -98,7 +100,9 @@ const SetTreatmentDuration: FC = () => {
             <TouchableOpacity
               style={styles.selectButton}
               onPress={() => handleEndDateSelectInstruction()}>
-              <Text style={styles.selectButtonText}>{endDate !== '' ? endDate : 'Select'}</Text>
+              <Text style={styles.selectButtonText}>
+                {endDate !== '' ? endDate : 'Select'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -141,7 +145,9 @@ const SetTreatmentDuration: FC = () => {
         <View style={styles.NextbuttonPosition}>
           <CustomButton
             onPress={handleNext}
-            icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+            icon={
+              <AntDesign name="arrowright" size={30} color={colors.white} />
+            }
             text="Next"
           />
         </View>

@@ -1,42 +1,61 @@
-import React, { type FC } from 'react';
-import { Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, {type FC} from 'react';
+import {Text, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
-import { type RootState } from '@/store';
-import { updateFirstTimeQrScreen } from '@/store/slices/features/settings/slice';
+import {type RootState} from '../../store';
 
 import MedicineImage from '../../assets/medicine-image';
 import CustomButton from '../../Components/CustomButton/CustomButton';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
 
-const MedicineDetails: FC = (): JSX.Element => {
+const MedicineDetails: FC = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
-  const authStatus = useSelector((state: RootState) => state.users.user.loginStatus);
-
-  const medicineName = useSelector((state: RootState) => state.medicineDetails.medicineName);
-  const genericName = useSelector((state: RootState) => state.medicineDetails.medicineGenericName);
-  const manufacturerName = useSelector(
-    (state: RootState) => state.medicineDetails.medicineManufacturer
+  const authStatus = useSelector(
+    (state: RootState) => state.users.user.loginStatus,
   );
-  const medicineForm = useSelector((state: RootState) => state.medicineDetails.typeMed);
-  const medicineStrength = useSelector((state: RootState) => state.medicineDetails.strengthMed);
-  const description = useSelector((state: RootState) => state.medicineDetails.description);
 
-  const person1 = useSelector((state: RootState) => state.medicineDetails.person1);
-  const person2 = useSelector((state: RootState) => state.medicineDetails.person2);
-  const person3 = useSelector((state: RootState) => state.medicineDetails.person3);
+  const medicineName = useSelector(
+    (state: RootState) => state.medicineDetails.medicineName,
+  );
+  const genericName = useSelector(
+    (state: RootState) => state.medicineDetails.medicineGenericName,
+  );
+  const manufacturerName = useSelector(
+    (state: RootState) => state.medicineDetails.medicineManufacturer,
+  );
+  const medicineForm = useSelector(
+    (state: RootState) => state.medicineDetails.typeMed,
+  );
+  const medicineStrength = useSelector(
+    (state: RootState) => state.medicineDetails.strengthMed,
+  );
+  const description = useSelector(
+    (state: RootState) => state.medicineDetails.description,
+  );
 
-  const appLoadFirstTime = useSelector((state: RootState) => state.settings.appLoadFirstTime);
+  const person1 = useSelector(
+    (state: RootState) => state.medicineDetails.person1,
+  );
+  const person2 = useSelector(
+    (state: RootState) => state.medicineDetails.person2,
+  );
+  const person3 = useSelector(
+    (state: RootState) => state.medicineDetails.person3,
+  );
+
+  const appLoadFirstTime = useSelector(
+    (state: RootState) => state.settings.appLoadFirstTime,
+  );
 
   const handlePress: any = () => {
     // authStatus
@@ -69,9 +88,15 @@ const MedicineDetails: FC = (): JSX.Element => {
           <View style={styles.medicineTypeAndQuantityStyle}>
             <View style={styles.medicineTypeAndQuantityProperties}>
               <View style={styles.iconPosition}>
-                <MaterialCommunityIcons name="pill" size={17} color={colors.header} />
+                <MaterialCommunityIcons
+                  name="pill"
+                  size={17}
+                  color={colors.header}
+                />
               </View>
-              <Text style={styles.medicineTypeAndQuantityText}>{medicineForm}</Text>
+              <Text style={styles.medicineTypeAndQuantityText}>
+                {medicineForm}
+              </Text>
             </View>
           </View>
           <View style={styles.medicineTypeAndQuantityStyle}>
@@ -79,7 +104,9 @@ const MedicineDetails: FC = (): JSX.Element => {
               <View style={styles.iconPosition}>
                 <SimpleLineIcons name="drop" size={16} color={colors.header} />
               </View>
-              <Text style={styles.medicineTypeAndQuantityText}>{medicineStrength}</Text>
+              <Text style={styles.medicineTypeAndQuantityText}>
+                {medicineStrength}
+              </Text>
             </View>
           </View>
         </View>
@@ -105,12 +132,16 @@ const MedicineDetails: FC = (): JSX.Element => {
                 </View>
                 <Text></Text>
                 <View style={styles.scannedHeaderAndTextStyle}>
-                  <Text style={styles.scannedTextHeader}>Children between 2 to 11 years:</Text>
+                  <Text style={styles.scannedTextHeader}>
+                    Children between 2 to 11 years:
+                  </Text>
                   <Text style={styles.scannedText}>{person2}</Text>
                 </View>
                 <Text></Text>
                 <View style={styles.scannedHeaderAndTextStyle}>
-                  <Text style={styles.scannedTextHeader}>Children under 2 years:</Text>
+                  <Text style={styles.scannedTextHeader}>
+                    Children under 2 years:
+                  </Text>
                   <Text style={styles.scannedText}>{person3}</Text>
                 </View>
               </View>
@@ -122,7 +153,13 @@ const MedicineDetails: FC = (): JSX.Element => {
       <View style={styles.buttonPosition}>
         <CustomButton
           onPress={() => handlePress()}
-          icon={<Icon name="calendar-number-outline" size={30} color={colors.white} />}
+          icon={
+            <Icon
+              name="calendar-number-outline"
+              size={30}
+              color={colors.white}
+            />
+          }
           text="Schedule Dosage"
           pageName="MedicineDetails"
         />

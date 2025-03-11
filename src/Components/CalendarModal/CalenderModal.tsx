@@ -1,11 +1,9 @@
 import React from 'react';
-import { Modal, View } from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import { moderateScale } from 'react-native-size-matters';
-
+import {Modal, View} from 'react-native';
+import {Calendar} from 'react-native-calendars';
+import {moderateScale} from 'react-native-size-matters';
 import type ICalendarModalProps from '../../Interfaces/ICalendarModalProps';
-import { colors } from '../../theme/colors';
-
+import {colors} from '../../theme/colors';
 import styles from './style';
 
 // Define the type for the day parameter
@@ -22,7 +20,7 @@ const CalendarModal: React.FC<ICalendarModalProps> = ({
   setModalVisible,
   setStartDate,
   setEndDate,
-  modalFOr
+  modalFOr,
 }) => {
   const handleDayPress: any = (day: DayObject) => {
     if (modalFOr === 'startDate' && setStartDate != null) {
@@ -54,13 +52,13 @@ const CalendarModal: React.FC<ICalendarModalProps> = ({
               selectedDayTextColor: colors.textInput,
               textDayFontFamily: 'WorkSansMedium',
               textMonthFontFamily: 'WorkSansMedium',
-              textDayHeaderFontWeight: 'WorkSansSemiBold',
+              textDayHeaderFontWeight: '600',
               textMonthFontSize: moderateScale(16),
               textDayFontSize: moderateScale(18),
-              textDayHeaderFontSize: moderateScale(14)
+              textDayHeaderFontSize: moderateScale(14),
             }}
             style={styles.calendarShape}
-            minDate={new Date().toISOString().split('T')[0]}
+            minDate={new Date().toISOString()}
           />
         </View>
       </Modal>

@@ -1,22 +1,22 @@
-import React, { type FC, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import * as Progress from 'react-native-progress';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
-import { type RootState } from '@/store';
+import {type RootState} from '../../store';
 import {
   setXDaysDoseTime,
-  updateTimeInterval
-} from '@/store/slices/features/medicineDetails/slice';
+  updateTimeInterval,
+} from '../../store/slices/features/medicineDetails/slice';
 
 import MedicineLogo from '../../assets/medicine-logo';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import CustomNumberPickerModal from '../../Components/CustomNumberPickerModal/CustomNumberPickerModal';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
 
@@ -31,7 +31,9 @@ const EveryXdaysDose: FC = () => {
   const [timeInterval, setTimeInterval] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
-  const medicineLocalId = useSelector((state: RootState) => state.medicineDetails.medicineLocalId);
+  const medicineLocalId = useSelector(
+    (state: RootState) => state.medicineDetails.medicineLocalId,
+  );
 
   const handleSelectDayNumber: any = () => {
     setOpen(!open);
@@ -88,7 +90,7 @@ const EveryXdaysDose: FC = () => {
       day: selectedNumber,
       date: selectedDate,
       timeTravel: timeInterval, // Assuming timeInterval holds the time you want to store
-      medicineLocalId
+      medicineLocalId,
     };
 
     dispatch(updateTimeInterval(timeInterval));
@@ -105,7 +107,12 @@ const EveryXdaysDose: FC = () => {
 
   return (
     <View style={styles.container}>
-      <Progress.Bar color="#A6BDF8" progress={0.2} width={380} style={styles.progressBarPosition} />
+      <Progress.Bar
+        color="#A6BDF8"
+        progress={0.2}
+        width={380}
+        style={styles.progressBarPosition}
+      />
       <View style={styles.imagePosition}>
         <MedicineLogo />
       </View>
@@ -124,7 +131,9 @@ const EveryXdaysDose: FC = () => {
               )}
               <Text style={styles.chipText}>Day</Text>
             </View>
-            <TouchableOpacity style={styles.selectButton} onPress={handleSelectDayNumber}>
+            <TouchableOpacity
+              style={styles.selectButton}
+              onPress={handleSelectDayNumber}>
               <Text style={styles.selectButtonText}>
                 {selectedNumber === '' ? 'Select' : selectedNumber}
               </Text>
@@ -134,7 +143,9 @@ const EveryXdaysDose: FC = () => {
       </View>
 
       <View style={styles.chipheadingPosition}>
-        <Text style={styles.chipheadingText}>When do you need to take the first dose?</Text>
+        <Text style={styles.chipheadingText}>
+          When do you need to take the first dose?
+        </Text>
       </View>
       <View style={styles.chipPosition}>
         <View style={styles.chip}>
@@ -147,7 +158,9 @@ const EveryXdaysDose: FC = () => {
               )}
               <Text style={styles.chipText}>Date</Text>
             </View>
-            <TouchableOpacity style={styles.selectDateButton} onPress={handleSelectDate}>
+            <TouchableOpacity
+              style={styles.selectDateButton}
+              onPress={handleSelectDate}>
               <Text style={styles.selectButtonText}>
                 {selectedDate === '' ? 'Select' : selectedDate}
               </Text>
@@ -170,7 +183,9 @@ const EveryXdaysDose: FC = () => {
               )}
               <Text style={styles.chipText}>Time Interval</Text>
             </View>
-            <TouchableOpacity style={styles.selectButton} onPress={handleSelectTimeInterval}>
+            <TouchableOpacity
+              style={styles.selectButton}
+              onPress={handleSelectTimeInterval}>
               <Text style={styles.selectButtonText}>
                 {timeInterval === '' ? 'Select' : timeInterval}
               </Text>
@@ -220,9 +235,11 @@ const EveryXdaysDose: FC = () => {
               weekday: 'short',
               month: 'long',
               day: '2-digit',
-              year: 'numeric'
+              year: 'numeric',
             };
-            const dateStr = new Intl.DateTimeFormat('en-US', options).format(date);
+            const dateStr = new Intl.DateTimeFormat('en-US', options).format(
+              date,
+            );
             setSelectedDate(dateStr);
           }}
           onCancel={() => {
@@ -237,7 +254,9 @@ const EveryXdaysDose: FC = () => {
           <View style={styles.buttonPosition}>
             <CustomButton
               onPress={handleNext}
-              icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+              icon={
+                <AntDesign name="arrowright" size={30} color={colors.white} />
+              }
               text="Next"
             />
           </View>

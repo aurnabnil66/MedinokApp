@@ -21,7 +21,6 @@ import SetReminderModal from '../../Components/SetReminderModal/SetReminderModal
 import {colors} from '../../theme/colors';
 
 import styles from './style';
-import moment from 'moment';
 import {appointmentSchedule} from '../../helper/appointmentSchedule';
 
 const DoctorAppointments: FC = () => {
@@ -30,10 +29,6 @@ const DoctorAppointments: FC = () => {
 
   const route = useRoute();
   const {prevRoute} = route.params as {prevRoute: string};
-
-  const selectedDateTime = useSelector(
-    (state: RootState) => state.medicineDetails.selectedDateTime,
-  );
 
   const [dateModalOpen, setDateModalOpen] = useState(false);
   const [date, setDate] = useState('');
@@ -86,7 +81,8 @@ const DoctorAppointments: FC = () => {
     setTempReminder('');
     setLocation('');
     setDoctorName('');
-    navigation.navigate(`${prevRoute}` as never);
+    //navigation.navigate(`${prevRoute}` as never);
+    navigation.goBack();
   };
   const handleSelectTime: any = () => {
     setOpen(true);

@@ -1,18 +1,18 @@
-import React, { type FC, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-import { type RootState } from '@/store';
-import { setExtraInstrucTion } from '@/store/slices/features/medicineDetailsExtraSetting/slice';
+import {type RootState} from '../../store';
+import {setExtraInstrucTion} from '../../store/slices/features/medicineDetailsExtraSetting/slice';
 
 import AddInstructionsLogo from '../../assets/add-instructions';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import Header from '../../Components/Header/Header';
 import SetInstructionsModal from '../../Components/SetInstructionsModal/SetInstructionsModal';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
 interface RouteParams {
@@ -26,8 +26,6 @@ const AddInstructions: FC = () => {
   // Access the parameter
   const prevRoute = (route.params as RouteParams)?.prevRoute;
 
-  console.log('prevRoute', prevRoute);
-
   const dispatch = useDispatch();
   const [instruction, setInstruction] = useState('');
   const [open, setOpen] = useState(false); // for instruction picker
@@ -35,7 +33,9 @@ const AddInstructions: FC = () => {
 
   const [disable, setDisable] = useState(false);
 
-  const medicineLocalId = useSelector((state: RootState) => state.medicineDetails.medicineLocalId);
+  const medicineLocalId = useSelector(
+    (state: RootState) => state.medicineDetails.medicineLocalId,
+  );
 
   const handleSelectInstruction: any = () => {
     setOpen(!open);
@@ -46,7 +46,9 @@ const AddInstructions: FC = () => {
   };
 
   const okPress: any = () => {
-    dispatch(setExtraInstrucTion([{ instrucTion: tempInstruction, medicineLocalId }]));
+    dispatch(
+      setExtraInstrucTion([{instrucTion: tempInstruction, medicineLocalId}]),
+    );
     setInstruction(tempInstruction);
     setOpen(false);
   };
@@ -60,7 +62,8 @@ const AddInstructions: FC = () => {
     setDisable(true);
     setInstruction('');
     setTempInstruction('');
-    navigation.navigate(`${prevRoute}` as never);
+    //navigation.popTo(`${prevRoute}` as never);
+    navigation.goBack();
   };
 
   return (
@@ -81,12 +84,17 @@ const AddInstructions: FC = () => {
             <View style={styles.chipContentProperties}>
               {instruction !== '' && (
                 <TouchableOpacity onPress={() => clearInstructionSelection()}>
-                  <FontAwesome name="minus-circle" size={30} color={'red'}></FontAwesome>
+                  <FontAwesome
+                    name="minus-circle"
+                    size={30}
+                    color={'red'}></FontAwesome>
                 </TouchableOpacity>
               )}
               <Text style={styles.chipText}>Instruction</Text>
             </View>
-            <TouchableOpacity style={styles.selectButton} onPress={() => handleSelectInstruction()}>
+            <TouchableOpacity
+              style={styles.selectButton}
+              onPress={() => handleSelectInstruction()}>
               <Text style={styles.selectButtonText}>
                 {instruction === '' ? 'Select' : instruction}
               </Text>
@@ -110,7 +118,9 @@ const AddInstructions: FC = () => {
           <CustomButton
             onPress={handleNext}
             disabled={disable}
-            icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+            icon={
+              <AntDesign name="arrowright" size={30} color={colors.white} />
+            }
             text="Next"
           />
         </View>

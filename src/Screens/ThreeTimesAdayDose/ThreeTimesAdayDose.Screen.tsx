@@ -22,7 +22,6 @@ import {
   setThreeTimesAdayStoreData,
 } from '../../store/slices/features/medicineDetails/slice';
 import {RootState} from '../../store';
-import ToastPopUp from '../../utils/Toast.android';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {localSchedule} from '../../helper/notify';

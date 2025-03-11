@@ -17,7 +17,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-
 import {fetchMonthlyMedicines} from '../../mutations/createMonthly';
 import {fetchMedicines} from '../../mutations/medicine';
 import {RootState} from '../../store';
@@ -25,10 +24,8 @@ import {
   setDoseList,
   setMonthlyStoreData,
 } from '../../store/slices/features/medicineDetails/slice';
-import {updateAppStatus} from '../../store/slices/features/settings/slice';
 import useNetworkStatus from '../../utils/networkUtills';
 import ToastPopUp from '../../utils/Toast.android';
-
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import CustomTextInput from '../../Components/CustomTextInput/CustomTextInput';
 import Header from '../../Components/Header/Header';
@@ -36,7 +33,6 @@ import {getUserSuccessAction} from '../../store/slices/features/users/slice';
 import {colors} from '../../theme/colors';
 import {BASE_URL} from '../../utils/environment';
 import {mobileSignInFormValidation} from '../../utils/formValidation';
-
 import styles from './style';
 
 interface ISignInFormDataProps {

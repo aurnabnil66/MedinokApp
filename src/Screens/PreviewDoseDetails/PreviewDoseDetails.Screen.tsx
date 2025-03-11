@@ -1,17 +1,14 @@
-import React, { type FC } from 'react';
-import { Text, TextInput, View } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector } from 'react-redux';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, {type FC} from 'react';
+import {Text, TextInput, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-import { type RootState } from '@/store';
+import {type RootState} from '../../store';
 
 import MedicineImage from '../../assets/medicine-image';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import Header from '../../Components/Header/Header';
-import { colors } from '../../theme/colors';
 
 import styles from './style';
 import moment from 'moment';
@@ -19,10 +16,12 @@ import moment from 'moment';
 const PreviewDoseDetails: FC = () => {
   const route = useRoute(); // Access the route prop
 
-  const { medicine } = route.params as { medicine: any }; // Extract medicineId from route params
+  const {medicine} = route.params as {medicine: any}; // Extract medicineId from route params
   console.log(medicine, 'medicine');
 
-  const weeklyTime = useSelector((state: RootState) => state.medicineDetails.weeklyTime);
+  const weeklyTime = useSelector(
+    (state: RootState) => state.medicineDetails.weeklyTime,
+  );
 
   const navigation = useNavigation();
 
@@ -41,7 +40,9 @@ const PreviewDoseDetails: FC = () => {
           <Header mainHeader={medicine.medicineName} />
         </View>
         <View style={styles.subHeader}>
-          <Header subHeader={`${medicine.typeMed}, ${medicine.strengthMed}${medicine.unitMed}`} />
+          <Header
+            subHeader={`${medicine.typeMed}, ${medicine.strengthMed}${medicine.unitMed}`}
+          />
         </View>
 
         <View style={styles.doseDetailsPosition}>

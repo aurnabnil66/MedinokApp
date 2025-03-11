@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import {StyleSheet} from 'react-native';
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 const styles = StyleSheet.create({
   NextbuttonPosition: {
     alignItems: 'center',
-    marginTop: verticalScale(275)
+    top: verticalScale(218),
   },
   chip: {
     backgroundColor: colors.textInput,
@@ -14,38 +14,38 @@ const styles = StyleSheet.create({
     height: verticalScale(35),
     justifyContent: 'center',
     marginTop: verticalScale(5),
-    width: scale(330)
+    width: scale(330),
   },
   chipContentProperties: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginLeft: 20
+    marginLeft: 20,
   },
   chipPosition: {
     alignItems: 'center',
-    marginTop: verticalScale(10)
+    marginTop: verticalScale(10),
   },
   chipProperties: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   chipText: {
     alignSelf: 'center',
     color: colors.header,
     fontFamily: 'WorkSansMedium',
-    marginLeft: scale(10)
+    marginLeft: scale(10),
   },
   container: {
     backgroundColor: colors.white,
-    flex: 1
+    flex: 1,
   },
   headingPosition: {
     alignItems: 'center',
-    top: verticalScale(30)
+    top: verticalScale(30),
   },
   imagePosition: {
     alignItems: 'center',
-    top: verticalScale(30)
+    top: verticalScale(30),
   },
   instructionProperties: {
     alignItems: 'center',
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     height: scale(40),
     justifyContent: 'center',
     marginRight: scale(5),
-    width: scale(168)
+    width: scale(168),
   },
   medicineInput: {
     borderRadius: scale(2),
@@ -63,28 +63,28 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(14),
     height: scale(34),
     textAlign: 'center',
-    width: scale(80)
+    width: scale(80),
   },
   medicineInputContent: {
     flexDirection: 'row',
     gap: scale(15),
     justifyContent: 'center',
-    marginTop: scale(10)
+    marginTop: scale(10),
   },
   medicineInputHeaderPosition: {
     alignItems: 'center',
-    marginTop: scale(30)
+    marginTop: scale(30),
   },
   medicineInputHeaderText: {
     color: colors.mainText,
     fontFamily: 'WorkSansMedium',
-    fontSize: moderateScale(15)
+    fontSize: moderateScale(15),
   },
   medicineText: {
     alignSelf: 'center',
     color: colors.buttonBg,
     fontFamily: 'WorkSansMedium',
-    fontSize: moderateScale(14)
+    fontSize: moderateScale(14),
   },
   selectButton: {
     alignItems: 'center',
@@ -94,25 +94,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
     right: scale(15),
-    width: scale(145)
+    width: scale(145),
   },
   selectButtonText: {
     color: colors.buttonBg,
-    fontFamily: 'WorkSansMedium'
+    fontFamily: 'WorkSansMedium',
   },
   subHeadingPosition: {
     left: scale(10),
-    marginTop: verticalScale(30)
+    marginTop: verticalScale(30),
   },
   treatmentDurationContainer: {
     backgroundColor: colors.textInput,
     position: 'absolute',
     right: scale(10),
-    top: verticalScale(240)
+    top: verticalScale(240),
   },
   treatmentDurationText: {
-    color: colors.header
-  }
+    color: colors.header,
+  },
 });
 
 export default styles;

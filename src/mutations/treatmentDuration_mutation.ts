@@ -1,12 +1,12 @@
-import { ITreatmentDuration } from '@/store/slices/features/medicineDetailsExtraSetting/types';
-import { BASE_URL } from '@/utils/environment';
-import ToastPopUp from '@/utils/Toast.android';
+import {ITreatmentDuration} from '../store/slices/features/medicineDetailsExtraSetting/types';
+import {BASE_URL} from '../utils/environment';
+import ToastPopUp from '../utils/Toast.android';
 import axios from 'axios';
 
 export const TREATMENT_DURATION_MUTATION = async (
   durations: ITreatmentDuration[],
   medicineLocalId: string,
-  accessToken: string
+  accessToken: string,
 ) => {
   const buildMutation = `
         mutation {
@@ -17,7 +17,7 @@ export const TREATMENT_DURATION_MUTATION = async (
         medicineTakeEachDay: "${duration.medicineTakeEachDay}",
         treatmentDurationEndTime: "${duration.treatmentDurationEndTime}",
         treatmentDurationStartTime: "${duration.treatmentDurationStartTime}",
-      }`
+      }`,
         )
         .join(',')}
     ]) {
@@ -32,15 +32,15 @@ export const TREATMENT_DURATION_MUTATION = async (
       {
         query: buildMutation,
         variables: {
-          medicineDetailsExtraId: medicineLocalId
-        }
+          medicineDetailsExtraId: medicineLocalId,
+        },
       },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      }
+          'Content-Type': 'application/json',
+        },
+      },
     );
 
     if (
@@ -48,7 +48,10 @@ export const TREATMENT_DURATION_MUTATION = async (
       response.data.data.createDurationMedicines.message !== null
     ) {
       ToastPopUp(response.data.data.createDurationMedicines.message);
-    } else if (Array.isArray(response?.data?.errors) && response.data.errors.length > 0) {
+    } else if (
+      Array.isArray(response?.data?.errors) &&
+      response.data.errors.length > 0
+    ) {
       // Show error message from the response
       const errorMessage: any = response?.data?.errors[0]?.message;
       if (typeof errorMessage === 'string') {

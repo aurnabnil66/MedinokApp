@@ -1,23 +1,23 @@
-import React, { type FC, useEffect } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useEffect} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import Animated, {
   Easing,
   FadeInUp,
   FadeOut,
   useAnimatedStyle,
   useSharedValue,
-  withTiming
+  withTiming,
 } from 'react-native-reanimated';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
-import { type RootState } from '@/store';
-import { clearStoreMedicine } from '@/store/slices/features/medicineDetails/slice';
+import {type RootState} from '../../store';
+import {clearStoreMedicine} from '../../store/slices/features/medicineDetails/slice';
 
 import AddMedicineLogo from '../../assets/add-medicine-logo';
 import CustomButton from '../../Components/CustomButton/CustomButton';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
 
@@ -30,21 +30,25 @@ const AddedMedicine: FC = () => {
   const sv = useSharedValue(0);
   const scale = useSharedValue(1);
 
-  const authStatus = useSelector((state: RootState) => state.users.user.loginStatus);
+  const authStatus = useSelector(
+    (state: RootState) => state.users.user.loginStatus,
+  );
 
-  const medicineName = useSelector((state: RootState) => state.medicineDetails.medicineName);
+  const medicineName = useSelector(
+    (state: RootState) => state.medicineDetails.medicineName,
+  );
 
   const storedMedicineList = useSelector(
-    (state: RootState) => state.medicineDetails.storedMedicineList
+    (state: RootState) => state.medicineDetails.storedMedicineList,
   );
 
   const scaleStyles = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }]
+    transform: [{scale: scale.value}],
   }));
 
   useEffect(() => {
-    scale.value = withTiming(scale.value * 3, { duration: 1000 });
-    sv.value = withTiming(1, { duration, easing });
+    scale.value = withTiming(scale.value * 3, {duration: 1000});
+    sv.value = withTiming(1, {duration, easing});
   }, []);
 
   const handleAddAnotherMedicine: any = () => {
@@ -66,10 +70,16 @@ const AddedMedicine: FC = () => {
       <Animated.View style={[styles.imageContainer, scaleStyles]}>
         <AddMedicineLogo />
       </Animated.View>
-      <Animated.Text entering={FadeInUp.delay(1000)} exiting={FadeOut} style={styles.mainText}>
+      <Animated.Text
+        entering={FadeInUp.delay(1000)}
+        exiting={FadeOut}
+        style={styles.mainText}>
         You have successfully added
       </Animated.Text>
-      <Animated.Text entering={FadeInUp.delay(1300)} exiting={FadeOut} style={styles.subText}>
+      <Animated.Text
+        entering={FadeInUp.delay(1300)}
+        exiting={FadeOut}
+        style={styles.subText}>
         {medicineName}
       </Animated.Text>
       <Animated.View

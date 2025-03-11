@@ -1,21 +1,20 @@
-import { IMedicine } from "@/store/slices/features/medicineDetails/types";
+import {IMedicine} from '../store/slices/features/medicineDetails/types';
 
 const filterDuplicateMedicines = (medicines: IMedicine[]): IMedicine[] => {
-    const uniqueSet = new Set<string>();
-    const filteredMedicines: IMedicine[] = [];
+  const uniqueSet = new Set<string>();
+  const filteredMedicines: IMedicine[] = [];
 
-    medicines.forEach((medicine) => {
-        // Create a unique key using medicineLocalId, medicineName, and doseTime
-        const uniqueKey = `${medicine.medicineLocalId}-${medicine.medicineName}-${medicine.doseTime}`;
+  medicines.forEach(medicine => {
+    // Create a unique key using medicineLocalId, medicineName, and doseTime
+    const uniqueKey = `${medicine.medicineLocalId}-${medicine.medicineName}-${medicine.doseTime}`;
 
-        if (!uniqueSet.has(uniqueKey)) {
-            uniqueSet.add(uniqueKey);
-            filteredMedicines.push(medicine);
-        }
-    });
+    if (!uniqueSet.has(uniqueKey)) {
+      uniqueSet.add(uniqueKey);
+      filteredMedicines.push(medicine);
+    }
+  });
 
-    return filteredMedicines;
+  return filteredMedicines;
 };
 
-
-export default filterDuplicateMedicines
+export default filterDuplicateMedicines;

@@ -1,11 +1,14 @@
 /* eslint-disable */
 
-import { IMedicine } from '@/store/slices/features/medicineDetails/types';
-import { BASE_URL } from '@/utils/environment';
-import ToastPopUp from '@/utils/Toast.android';
+import {IMedicine} from '../store/slices/features/medicineDetails/types';
+import {BASE_URL} from '../utils/environment';
+import ToastPopUp from '../utils/Toast.android';
 import axios from 'axios';
 
-export const createMedicineData = async (medicines: IMedicine[], accessToken: string) => {
+export const createMedicineData = async (
+  medicines: IMedicine[],
+  accessToken: string,
+) => {
   const buildMutation = `
   mutation {
     createMedicines(medicines: [
@@ -23,7 +26,7 @@ export const createMedicineData = async (medicines: IMedicine[], accessToken: st
         typeMed: "${medicine.typeMed}",
         createdDate: "${medicine.createdDate}"
         selectedDateTime: "${medicine.selectedDateTime}"
-      }`
+      }`,
         )
         .join(',')}
     ]) {
@@ -39,13 +42,13 @@ export const createMedicineData = async (medicines: IMedicine[], accessToken: st
   try {
     const response = await axios.post(
       BASE_URL,
-      { query: buildMutation },
+      {query: buildMutation},
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      }
+          'Content-Type': 'application/json',
+        },
+      },
     );
 
     if (
@@ -53,7 +56,10 @@ export const createMedicineData = async (medicines: IMedicine[], accessToken: st
       response?.data?.data?.createMedicines?.message !== null
     ) {
       // ToastPopUp(response?.data?.data?.createMedicines?.message);
-    } else if (Array.isArray(response?.data?.errors) && response.data.errors.length > 0) {
+    } else if (
+      Array.isArray(response?.data?.errors) &&
+      response.data.errors.length > 0
+    ) {
       // Show error message from the response
       const errorMessage: any = response?.data?.errors[0]?.message;
       if (typeof errorMessage === 'string') {

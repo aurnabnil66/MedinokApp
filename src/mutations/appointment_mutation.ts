@@ -1,10 +1,13 @@
 /* eslint-disable */
 
-import { BASE_URL } from '@/utils/environment';
-import ToastPopUp from '@/utils/Toast.android';
+import {BASE_URL} from '../utils/environment';
+import ToastPopUp from '../utils/Toast.android';
 import axios from 'axios';
 
-export const APPOINTMENT_MUTATION = async (medicineDetailsId: string, appointmentData: any) => {
+export const APPOINTMENT_MUTATION = async (
+  medicineDetailsId: string,
+  appointmentData: any,
+) => {
   const mutation = `
     mutation{
       appointment(
@@ -27,15 +30,15 @@ export const APPOINTMENT_MUTATION = async (medicineDetailsId: string, appointmen
       {
         query: mutation,
         variables: {
-          medicineDetailsExtraId: medicineDetailsId
-        }
+          medicineDetailsExtraId: medicineDetailsId,
+        },
       },
       {
         headers: {
           Authorization: `Bearer ${appointmentData.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      }
+          'Content-Type': 'application/json',
+        },
+      },
     );
 
     if (
@@ -43,7 +46,10 @@ export const APPOINTMENT_MUTATION = async (medicineDetailsId: string, appointmen
       response.data.data.appointment.message !== null
     ) {
       ToastPopUp(response.data.data.appointment.message);
-    } else if (Array.isArray(response?.data?.errors) && response.data.errors.length > 0) {
+    } else if (
+      Array.isArray(response?.data?.errors) &&
+      response.data.errors.length > 0
+    ) {
       // Show error message from the response
       const errorMessage: any = response?.data?.errors[0]?.message;
       if (typeof errorMessage === 'string') {

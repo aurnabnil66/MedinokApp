@@ -1,41 +1,46 @@
-import React, { type FC, useState } from 'react';
-import { Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { launchImageLibrary } from 'react-native-image-picker';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {type FC, useState} from 'react';
+import {Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { setPrescriptionAction } from '@/store/slices/features/prescription/slice';
-import { type ImageFile as ImageFiles } from '@/store/slices/features/prescription/types';
+import {setPrescriptionAction} from '../../store/slices/features/prescription/slice';
+import {type ImageFile as ImageFiles} from '../../store/slices/features/prescription/types';
 
 import UploadPrescriptionLogo from '../../assets/upload-prescription';
 import Header from '../../Components/Header/Header';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import styles from './style';
-import { colors } from '@/theme/colors';
-import CustomButton from '@/Components/CustomButton/CustomButton';
+import {colors} from '../../theme/colors';
+import CustomButton from '../../Components/CustomButton/CustomButton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { RootState } from '@/store';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {RootState} from '../../store';
 
 const AddPrescription: FC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const route = useRoute();
-  const { prevRoute } = route.params as { prevRoute: string };
+  const {prevRoute} = route.params as {prevRoute: string};
 
-  const [selectedImage, setSelectedImage] = useState<{ uri: string; name: string } | null>(null);
+  const [selectedImage, setSelectedImage] = useState<{
+    uri: string;
+    name: string;
+  } | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number>(0); // Track upload progress
   const [isUploading, setIsUploading] = useState<boolean>(false); // Track if uploading
 
-  const uploadedImage = useSelector((state: RootState) => state.prescription.ImageFile);
+  const uploadedImage = useSelector(
+    (state: RootState) => state.prescription.ImageFile,
+  );
 
   console.log(uploadedImage, 'uploadedImage');
 
   const handleChoosePhoto = async (): Promise<void> => {
     try {
-      const response = await launchImageLibrary({ mediaType: 'photo' });
+      const response = await launchImageLibrary({mediaType: 'photo'});
 
       if (response.assets !== undefined) {
         const imageFile: ImageFiles[] = response.assets.map(asset => ({
@@ -45,13 +50,13 @@ const AddPrescription: FC = () => {
           width: asset.width ?? 0,
           fileName: asset.fileName ?? 'Unnamed',
           fileSize: asset.fileSize ?? 0,
-          uri: asset.uri ?? ''
+          uri: asset.uri ?? '',
         }));
 
         // Store the first image's URI and file name
         setSelectedImage({
           uri: imageFile[0]?.uri ?? '',
-          name: imageFile[0]?.fileName ?? 'Unnamed'
+          name: imageFile[0]?.fileName ?? 'Unnamed',
         });
 
         // Simulate the upload process
@@ -92,14 +97,15 @@ const AddPrescription: FC = () => {
     // Dispatch to Redux store when upload completes
     dispatch(
       setPrescriptionAction({
-        assets: [image] // Pass the image array
-      })
+        assets: [image], // Pass the image array
+      }),
     );
   };
 
   const handleNext: any = () => {
     setSelectedImage(null);
-    navigation.navigate(`${prevRoute}` as never);
+    // navigation.navigate(`${prevRoute}` as never);
+    navigation.goBack();
   };
 
   return (
@@ -140,9 +146,13 @@ const AddPrescription: FC = () => {
               {selectedImage != null ? ( // Use explicit null check
                 <>
                   <View style={styles.imagePreviewContainer}>
-                    <Text style={styles.imageNameStyle}>{selectedImage?.name}</Text>
+                    <Text style={styles.imageNameStyle}>
+                      {selectedImage?.name}
+                    </Text>
                     {isUploading && (
-                      <Text style={styles.uploadProgressText}>{uploadProgress}%</Text>
+                      <Text style={styles.uploadProgressText}>
+                        {uploadProgress}%
+                      </Text>
                     )}
 
                     {/* Remove or disselect image */}
@@ -160,7 +170,12 @@ const AddPrescription: FC = () => {
               {isUploading && (
                 <View style={styles.uploadProgressContainer}>
                   <View style={styles.progressBarBackground}>
-                    <View style={[styles.progressBarFill, { width: `${uploadProgress}%` }]} />
+                    <View
+                      style={[
+                        styles.progressBarFill,
+                        {width: `${uploadProgress}%`},
+                      ]}
+                    />
                   </View>
                 </View>
               )}
@@ -168,7 +183,13 @@ const AddPrescription: FC = () => {
                 <View style={styles.SavebuttonPosition}>
                   <CustomButton
                     onPress={handleNext}
-                    icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+                    icon={
+                      <AntDesign
+                        name="arrowright"
+                        size={30}
+                        color={colors.white}
+                      />
+                    }
                     text="Save"
                   />
                 </View>

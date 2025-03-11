@@ -1,34 +1,35 @@
 /* eslint-disable */
 
-import React, { type FC, useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {type FC, useEffect} from 'react';
+import {StyleSheet, Text, View, Alert} from 'react-native';
 import {
   Camera,
   Code,
   useCameraDevice,
   useCameraPermission,
-  useCodeScanner
+  useCodeScanner,
 } from 'react-native-vision-camera';
 import styles from './style';
-import { useNavigation } from '@react-navigation/native';
-import { type AppStackParamList } from '@/models/routePageModel';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setMedicineName,
-  setQrCodeToScanData
-} from '@/store/slices/features/medicineDetails/slice';
-import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import { RootState } from '@/store';
+import {useNavigation} from '@react-navigation/native';
+import {type AppStackParamList} from '../../models/routePageModel';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useDispatch, useSelector} from 'react-redux';
+import {setQrCodeToScanData} from '../../store/slices/features/medicineDetails/slice';
+import {RootState} from '../../store';
 
-type CameraScannerNavigationProp = StackNavigationProp<AppStackParamList, 'CameraScanner'>;
+type CameraScannerNavigationProp = StackNavigationProp<
+  AppStackParamList,
+  'CameraScanner'
+>;
 
 const CameraScanner: FC = () => {
   const navigation = useNavigation<CameraScannerNavigationProp>();
   const dispatch = useDispatch();
-  const { hasPermission, requestPermission } = useCameraPermission();
+  const {hasPermission, requestPermission} = useCameraPermission();
   const device = useCameraDevice('back');
-  const authStatus = useSelector((state: RootState) => state.users.user.loginStatus);
+  const authStatus = useSelector(
+    (state: RootState) => state.users.user.loginStatus,
+  );
 
   useEffect(() => {
     if (hasPermission !== true) requestPermission();
@@ -44,20 +45,20 @@ const CameraScanner: FC = () => {
 
           //
           dispatch(setQrCodeToScanData(scannedData));
-          navigation.navigate('MedicineDetails', { scannedData: value });
+          navigation.navigate('MedicineDetails', {scannedData: value});
         } catch (error) {
           console.log('Errroooorrrr', error);
-          alert('Invalid QR Code');
+          Alert.alert('Invalid QR Code');
           if (authStatus === true) {
-            alert('Invalid QR Code');
+            Alert.alert('Invalid QR Code');
             navigation.navigate('UserDrawer' as never);
           } else {
-            alert('Invalid QR Code');
+            Alert.alert('Invalid QR Code');
             navigation.goBack();
           }
         }
       }
-    }
+    },
   });
 
   if (device == null) {

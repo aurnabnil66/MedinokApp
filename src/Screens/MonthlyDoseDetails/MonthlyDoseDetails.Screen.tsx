@@ -1,75 +1,90 @@
 /* eslint-disable */
 
-import React, { type FC, useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useEffect, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import * as Progress from 'react-native-progress';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import MedicineLogo from '../../assets/medicine-logo';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import DoseInputModal from '../../Components/DoseInputModal/DoseInputModal';
 import MoreSettings from '../../Components/MoreSettingsComponent/MoreSettingsComponent';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store';
-import { IMonthlyDoseTime } from '@/store/slices/features/medicineDetails/types';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../store';
+import {IMonthlyDoseTime} from '../../store/slices/features/medicineDetails/types';
 import {
   addscheduleList,
   setDoseList,
   setMonthlyDoseTime,
-  setWeeklyStoreData
-} from '@/store/slices/features/medicineDetails/slice';
+} from '../../store/slices/features/medicineDetails/slice';
 import moment from 'moment';
-import { createMothyMutation } from '@/mutations/createMonthly';
-import { createMedicineData } from '@/mutations/createMedicine';
-import { localSchedule } from '@/helper/notify';
-import { INSTRUCTION_MUTATION } from '@/mutations/instruction_mutation';
-import { TREATMENT_DURATION_MUTATION } from '@/mutations/treatmentDuration_mutation';
-import { MEDICINE_REMINDER_MUTATION } from '@/mutations/medicineReminder_mutation';
-import ToastPopUp from '@/utils/Toast.android';
+import {createMedicineData} from '../../mutations/createMedicine';
+import {localSchedule} from '../../helper/notify';
+
 import {
   getMothyDates,
   getWeekDates,
   setWeeklyDateDoseTimes,
-  WeeklyDateEntry
+  WeeklyDateEntry,
 } from '../WeeklyDoseDetails/extramethod';
-import { multiScheduleMaker } from '../OnceAdayDose/extrafunctions';
+import {multiScheduleMaker} from '../OnceAdayDose/extrafunctions';
 
 const MonthlyDoseDetails: FC = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const timeInterval = useSelector((state: RootState) => state.medicineDetails.timeInterval);
-  const medicineLocalId = useSelector((state: RootState) => state.medicineDetails.medicineLocalId);
-  const monthlyDoseTime = useSelector((state: RootState) => state.medicineDetails.monthlyDoseTime);
-  const medicineName = useSelector((state: RootState) => state.medicineDetails.medicineName);
-  const loginStatus = useSelector((state: RootState) => state.users.user.loginStatus);
-  const takeStatus = useSelector((state: RootState) => state.medicineDetails.takeStatus);
-  const typeMed = useSelector((state: RootState) => state.medicineDetails.typeMed);
-  const unitMed = useSelector((state: RootState) => state.medicineDetails.unitMed);
-  const strengthMed = useSelector((state: RootState) => state.medicineDetails.strengthMed);
-  const accessToken = useSelector((state: RootState) => state.users.user?.data?.accessToken);
+  const timeInterval = useSelector(
+    (state: RootState) => state.medicineDetails.timeInterval,
+  );
+  const medicineLocalId = useSelector(
+    (state: RootState) => state.medicineDetails.medicineLocalId,
+  );
+  const monthlyDoseTime = useSelector(
+    (state: RootState) => state.medicineDetails.monthlyDoseTime,
+  );
+  const medicineName = useSelector(
+    (state: RootState) => state.medicineDetails.medicineName,
+  );
+  const loginStatus = useSelector(
+    (state: RootState) => state.users.user.loginStatus,
+  );
+  const takeStatus = useSelector(
+    (state: RootState) => state.medicineDetails.takeStatus,
+  );
+  const typeMed = useSelector(
+    (state: RootState) => state.medicineDetails.typeMed,
+  );
+  const unitMed = useSelector(
+    (state: RootState) => state.medicineDetails.unitMed,
+  );
+  const strengthMed = useSelector(
+    (state: RootState) => state.medicineDetails.strengthMed,
+  );
+  const accessToken = useSelector(
+    (state: RootState) => state.users.user?.data?.accessToken,
+  );
 
   const selectedDateTime = useSelector(
-    (state: RootState) => state.medicineDetails.selectedDateTime
+    (state: RootState) => state.medicineDetails.selectedDateTime,
   );
 
   // State for time and dose for each intake
   const [times, setTimes] = useState<string[]>(
-    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill('')
+    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill(''),
   );
   const [doses, setDoses] = useState<number[]>(
-    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill(0)
+    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill(0),
   );
 
   const [doseDates, setDoseDates] = useState<Date[]>(
-    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill(new Date())
+    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill(new Date()),
   );
 
   const [open, setOpen] = useState(false); // for time picker
@@ -80,23 +95,26 @@ const MonthlyDoseDetails: FC = () => {
   const [disable, setDisable] = useState(false);
 
   const storedMedicineMonthlyList = useSelector(
-    (state: RootState) => state.medicineDetails.storedMedicineMonthlyList
+    (state: RootState) => state.medicineDetails.storedMedicineMonthlyList,
   );
 
   const storedMedicineList = useSelector(
-    (state: RootState) => state.medicineDetails.storedMedicineList
+    (state: RootState) => state.medicineDetails.storedMedicineList,
   );
 
   const storedInstructionList = useSelector(
-    (state: RootState) => state.medicineDetailsExtraSetting.storeInstrucTionList
+    (state: RootState) =>
+      state.medicineDetailsExtraSetting.storeInstrucTionList,
   );
 
   const storedTreatmentDurationList = useSelector(
-    (state: RootState) => state.medicineDetailsExtraSetting.storeTreatmentDuration
+    (state: RootState) =>
+      state.medicineDetailsExtraSetting.storeTreatmentDuration,
   );
 
   const storedReminderList = useSelector(
-    (state: RootState) => state.medicineDetailsExtraSetting.storeMedicineReminder
+    (state: RootState) =>
+      state.medicineDetailsExtraSetting.storeMedicineReminder,
   );
 
   // Function to fetch instruction data from list
@@ -104,7 +122,7 @@ const MonthlyDoseDetails: FC = () => {
     if (storedInstructionList.length === 0) return '';
 
     const instructionName = storedInstructionList.find(
-      (item: any) => item.medicineLocalId === medicineId
+      (item: any) => item.medicineLocalId === medicineId,
     );
     return instructionName?.instrucTion;
   };
@@ -115,24 +133,33 @@ const MonthlyDoseDetails: FC = () => {
       return {
         medicineTakeEachDay: '',
         treatmentDurationEndTime: '',
-        treatmentDurationStartTime: ''
+        treatmentDurationStartTime: '',
       };
 
     const treatmentDurationName = storedTreatmentDurationList.find(
-      (item: any) => item.medicineLocalId === medicineId
+      (item: any) => item.medicineLocalId === medicineId,
     );
 
     return treatmentDurationName
       ? {
           medicineTakeEachDay: treatmentDurationName.medicineTakeEachDay,
-          treatmentDurationEndTime: treatmentDurationName.treatmentDurationEndTime,
-          treatmentDurationStartTime: treatmentDurationName.treatmentDurationStartTime
+          treatmentDurationEndTime:
+            treatmentDurationName.treatmentDurationEndTime,
+          treatmentDurationStartTime:
+            treatmentDurationName.treatmentDurationStartTime,
         }
-      : { medicineTakeEachDay: '', treatmentDurationEndTime: '', treatmentDurationStartTime: '' };
+      : {
+          medicineTakeEachDay: '',
+          treatmentDurationEndTime: '',
+          treatmentDurationStartTime: '',
+        };
   };
 
-  const { medicineTakeEachDay, treatmentDurationEndTime, treatmentDurationStartTime } =
-    getTreatmentDurationData(medicineLocalId);
+  const {
+    medicineTakeEachDay,
+    treatmentDurationEndTime,
+    treatmentDurationStartTime,
+  } = getTreatmentDurationData(medicineLocalId);
 
   // Function to fetch medicine reminder data from list
   const getReminderData = (medicineId: string) => {
@@ -140,28 +167,33 @@ const MonthlyDoseDetails: FC = () => {
       return {
         medicineReminderCurrentStock: '',
         medicineReminderRemindToLeft: '',
-        medicineReminderTotalReq: ''
+        medicineReminderTotalReq: '',
       };
 
     const reminderQuantity = storedReminderList.find(
-      (item: any) => item.medicineLocalId === medicineId
+      (item: any) => item.medicineLocalId === medicineId,
     );
 
     return reminderQuantity
       ? {
-          medicineReminderCurrentStock: reminderQuantity.medicineReminderCurrentStock,
-          medicineReminderRemindToLeft: reminderQuantity.medicineReminderRemindToLeft,
-          medicineReminderTotalReq: reminderQuantity.medicineReminderTotalReq
+          medicineReminderCurrentStock:
+            reminderQuantity.medicineReminderCurrentStock,
+          medicineReminderRemindToLeft:
+            reminderQuantity.medicineReminderRemindToLeft,
+          medicineReminderTotalReq: reminderQuantity.medicineReminderTotalReq,
         }
       : {
           medicineReminderCurrentStock: '',
           medicineReminderRemindToLeft: '',
-          medicineReminderTotalReq: ''
+          medicineReminderTotalReq: '',
         };
   };
 
-  const { medicineReminderCurrentStock, medicineReminderRemindToLeft, medicineReminderTotalReq } =
-    getReminderData(medicineLocalId);
+  const {
+    medicineReminderCurrentStock,
+    medicineReminderRemindToLeft,
+    medicineReminderTotalReq,
+  } = getReminderData(medicineLocalId);
 
   const handleSelectTime: any = (index: number) => {
     setSelectedChip(index);
@@ -214,7 +246,8 @@ const MonthlyDoseDetails: FC = () => {
     });
 
     let filterArrayMonthly = storedMedicineMonthlyList.filter(e => {
-      if (e.medicineLocalId.medicineLocalId.toString() === medicineLocalId) return e;
+      if (e.medicineLocalId.medicineLocalId.toString() === medicineLocalId)
+        return e;
     });
 
     const customToday = new Date();
@@ -246,14 +279,14 @@ const MonthlyDoseDetails: FC = () => {
           medicineId: '',
           medicineLocalId: e.medicineLocalId,
           createdDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-          selectedDateTime: e.doseDate
+          selectedDateTime: e.doseDate,
         };
       });
 
       // Create data for the new instruction
       let instructionData = {
         medicineLocalId: medicineLocalId,
-        instrucTion: getInstructionData(medicineLocalId) || ''
+        instrucTion: getInstructionData(medicineLocalId) || '',
       };
 
       // create treatment duration data
@@ -261,7 +294,7 @@ const MonthlyDoseDetails: FC = () => {
         medicineLocalId: medicineLocalId,
         medicineTakeEachDay: medicineTakeEachDay,
         treatmentDurationEndTime: treatmentDurationEndTime,
-        treatmentDurationStartTime: treatmentDurationStartTime
+        treatmentDurationStartTime: treatmentDurationStartTime,
       };
 
       // Create data for the new reminder
@@ -269,7 +302,7 @@ const MonthlyDoseDetails: FC = () => {
         medicineLocalId: medicineLocalId,
         medicineReminderCurrentStock: medicineReminderCurrentStock,
         medicineReminderRemindToLeft: medicineReminderRemindToLeft,
-        medicineReminderTotalReq: medicineReminderTotalReq
+        medicineReminderTotalReq: medicineReminderTotalReq,
       };
 
       const dataArray = multiScheduleMaker(
@@ -277,7 +310,7 @@ const MonthlyDoseDetails: FC = () => {
         treatmentDurationStartTime,
         treatmentDurationEndTime,
         0,
-        'monthly'
+        'monthly',
       );
       console.log('object', dataArray);
       // Add the new data to the copied array
@@ -312,7 +345,7 @@ const MonthlyDoseDetails: FC = () => {
           doseTime: time,
           doseQuantity: doses[index].toString(),
           medicineLocalId,
-          doseDate: doseDates[index]
+          doseDate: doseDates[index],
         }))
         .filter(dose => dose.doseTime !== '' && dose.doseQuantity !== '0'); // Optional: filter out empty values
 
@@ -322,20 +355,29 @@ const MonthlyDoseDetails: FC = () => {
 
   return (
     <View style={styles.container}>
-      <Progress.Bar color="#A6BDF8" progress={0.4} width={380} style={styles.progressBarPosition} />
+      <Progress.Bar
+        color="#A6BDF8"
+        progress={0.4}
+        width={380}
+        style={styles.progressBarPosition}
+      />
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={styles.imagePosition}>
           <MedicineLogo />
         </View>
         <View style={styles.headingPosition}>
-          <Text style={styles.headingText}>When do you need to take the dose?</Text>
+          <Text style={styles.headingText}>
+            When do you need to take the dose?
+          </Text>
         </View>
 
         {/* Time and Dose Chips */}
         <View>
           {times.map((_, index) => (
             <React.Fragment key={index}>
-              <Text style={styles.intakeNumberText}>{`Intake ${index + 1}`}</Text>
+              <Text style={styles.intakeNumberText}>{`Intake ${
+                index + 1
+              }`}</Text>
 
               <View style={styles.chipPosition}>
                 {/* Time Chip */}
@@ -343,8 +385,13 @@ const MonthlyDoseDetails: FC = () => {
                   <View style={styles.chipProperties}>
                     <View style={styles.chipContentProperties}>
                       {times[index] !== '' && (
-                        <TouchableOpacity onPress={() => clearTimeSelection(index)}>
-                          <FontAwesome name="minus-circle" size={30} color={'red'} />
+                        <TouchableOpacity
+                          onPress={() => clearTimeSelection(index)}>
+                          <FontAwesome
+                            name="minus-circle"
+                            size={30}
+                            color={'red'}
+                          />
                         </TouchableOpacity>
                       )}
                       <Text style={styles.chipText}>Time</Text>
@@ -364,8 +411,13 @@ const MonthlyDoseDetails: FC = () => {
                   <View style={styles.chipProperties}>
                     <View style={styles.chipContentProperties}>
                       {doses[index] !== 0 && (
-                        <TouchableOpacity onPress={() => clearDoseSelection(index)}>
-                          <FontAwesome name="minus-circle" size={30} color={'red'} />
+                        <TouchableOpacity
+                          onPress={() => clearDoseSelection(index)}>
+                          <FontAwesome
+                            name="minus-circle"
+                            size={30}
+                            color={'red'}
+                          />
                         </TouchableOpacity>
                       )}
                       <Text style={styles.chipText}>Dose</Text>
@@ -385,18 +437,19 @@ const MonthlyDoseDetails: FC = () => {
         </View>
 
         {/* Add More Settings */}
-        {times.every(time => time !== '') && doses.every(dose => dose !== 0) && (
-          <View>
-            <View style={styles.addMoreSettingsHeaderPosition}>
-              <Text style={styles.addMoreSettingsHeaderText}>
-                Would you like to add more settings?
-              </Text>
+        {times.every(time => time !== '') &&
+          doses.every(dose => dose !== 0) && (
+            <View>
+              <View style={styles.addMoreSettingsHeaderPosition}>
+                <Text style={styles.addMoreSettingsHeaderText}>
+                  Would you like to add more settings?
+                </Text>
+              </View>
+              <View style={styles.addMoresettingsContainer}>
+                <MoreSettings />
+              </View>
             </View>
-            <View style={styles.addMoresettingsContainer}>
-              <MoreSettings />
-            </View>
-          </View>
-        )}
+          )}
 
         {/* Time Picker Modal */}
         {open && (
@@ -412,7 +465,7 @@ const MonthlyDoseDetails: FC = () => {
               const timeStr = new Intl.DateTimeFormat('en-US', {
                 hour: 'numeric',
                 minute: '2-digit',
-                hour12: true
+                hour12: true,
               }).format(new Date(date));
               if (selectedChip !== null) {
                 setTimes(prevTimes => {
@@ -452,7 +505,9 @@ const MonthlyDoseDetails: FC = () => {
           <CustomButton
             onPress={handleNext}
             disabled={disable}
-            icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+            icon={
+              <AntDesign name="arrowright" size={30} color={colors.white} />
+            }
             text="Next"
           />
         </View>

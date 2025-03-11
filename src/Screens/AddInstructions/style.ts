@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
-import { scale, verticalScale } from 'react-native-size-matters';
+import {StyleSheet} from 'react-native';
+import {scale, verticalScale} from 'react-native-size-matters';
 
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 const styles = StyleSheet.create({
   NextbuttonPosition: {
     alignItems: 'center',
-    marginTop: verticalScale(318)
+    top: verticalScale(218),
   },
   chip: {
     backgroundColor: colors.textInput,
@@ -14,38 +14,38 @@ const styles = StyleSheet.create({
     height: verticalScale(35),
     justifyContent: 'center',
     marginTop: verticalScale(5),
-    width: scale(330)
+    width: scale(330),
   },
   chipContentProperties: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginLeft: 20
+    marginLeft: 20,
   },
   chipPosition: {
     alignItems: 'center',
-    marginTop: verticalScale(10)
+    marginTop: verticalScale(10),
   },
   chipProperties: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   chipText: {
     alignSelf: 'center',
     color: colors.header,
     fontFamily: 'WorkSansMedium',
-    marginLeft: scale(10)
+    marginLeft: scale(10),
   },
   container: {
     backgroundColor: colors.white,
-    flex: 1
+    flex: 1,
   },
   headingPosition: {
     alignItems: 'center',
-    top: verticalScale(30)
+    top: verticalScale(30),
   },
   imagePosition: {
     alignItems: 'center',
-    top: verticalScale(30)
+    top: verticalScale(30),
   },
   selectButton: {
     alignItems: 'center',
@@ -55,16 +55,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
     right: scale(20),
-    width: scale(100)
+    width: scale(100),
   },
   selectButtonText: {
     color: colors.buttonBg,
-    fontFamily: 'WorkSansMedium'
+    fontFamily: 'WorkSansMedium',
   },
   subHeadingPosition: {
     left: scale(10),
-    marginTop: verticalScale(30)
-  }
+    marginTop: verticalScale(30),
+  },
 });
 
 export default styles;

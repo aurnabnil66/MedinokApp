@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import {StyleSheet} from 'react-native';
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 const styles = StyleSheet.create({
   NextbuttonPosition: {
     alignItems: 'center',
-    marginTop: verticalScale(180)
+    marginTop: verticalScale(180),
   },
   chip: {
     backgroundColor: colors.textInput,
@@ -14,41 +14,41 @@ const styles = StyleSheet.create({
     height: verticalScale(40),
     justifyContent: 'center',
     marginTop: verticalScale(5),
-    width: scale(330)
+    width: scale(330),
   },
   chipContentProperties: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginLeft: 20
+    marginLeft: 20,
   },
   chipPosition: {
     alignItems: 'center',
-    marginTop: verticalScale(10)
+    marginTop: verticalScale(10),
   },
   chipProperties: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   chipText: {
     alignSelf: 'center',
     color: colors.header,
-    fontFamily: 'WorkSansMedium'
+    fontFamily: 'WorkSansMedium',
   },
   container: {
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   currentStockInputPosition: {
     flexDirection: 'row',
     gap: scale(10),
-    marginLeft: scale(45)
+    marginLeft: scale(45),
   },
   headingPosition: {
     alignItems: 'center',
-    top: verticalScale(30)
+    top: verticalScale(30),
   },
   imagePosition: {
     alignItems: 'center',
-    top: verticalScale(30)
+    top: verticalScale(30),
   },
   medicineInput: {
     borderRadius: scale(2),
@@ -58,28 +58,33 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(14),
     height: scale(34),
     textAlign: 'center',
-    width: scale(80)
+    width: scale(80),
   },
   medicineText: {
     alignSelf: 'center',
     color: colors.buttonBg,
     fontFamily: 'WorkSansMedium',
-    fontSize: moderateScale(14)
+    fontSize: moderateScale(14),
   },
   remindLeftInputPosition: {
     flexDirection: 'row',
     gap: scale(10),
-    marginLeft: scale(15)
+    marginLeft: scale(15),
   },
   subHeadingPosition: {
     left: scale(10),
-    marginTop: verticalScale(30)
+    marginTop: verticalScale(30),
   },
   totalRequiredInputPosition: {
     flexDirection: 'row',
     gap: scale(10),
-    marginLeft: scale(41)
-  }
+    marginLeft: scale(41),
+  },
+  errorTxt: {
+    color: colors.error,
+    fontFamily: 'WorkSansMedium',
+    marginBottom: 6,
+  },
 });
 
 export default styles;

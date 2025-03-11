@@ -1,10 +1,10 @@
-import React, { type FC } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import React, {type FC} from 'react';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import * as Progress from 'react-native-progress';
-import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
-import { setTakeStatus } from '@/store/slices/features/medicineDetails/slice';
+import {setTakeStatus} from '../../store/slices/features/medicineDetails/slice';
 
 import DailyDoseLogo from '../../assets/medicine-daily-dose';
 import medicineDailyDoseItems from '../../utils/medicineDailyDoseItems';
@@ -19,10 +19,10 @@ interface timePeriodItemProps {
 const MedicineDailyDoses: FC = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const RenderItems: React.FC<timePeriodItemProps> = ({ item, index }) => {
+  const RenderItems: React.FC<timePeriodItemProps> = ({item, index}) => {
     const handlePress: any = () => {
       if (index === 0) {
-        dispatch(setTakeStatus({ takeStatus: item }));
+        dispatch(setTakeStatus({takeStatus: item}));
         navigation.navigate('OnceAdayDose' as never);
       } else if (index === 1) {
         navigation.navigate('TwiceAdayDose' as never);
@@ -36,7 +36,9 @@ const MedicineDailyDoses: FC = () => {
     };
     return (
       <View style={styles.medicineDoseItemsPosition}>
-        <TouchableOpacity style={styles.medicineDoseItemsProperties} onPress={handlePress}>
+        <TouchableOpacity
+          style={styles.medicineDoseItemsProperties}
+          onPress={handlePress}>
           <Text style={styles.medicineDoseItemsText}>{item}</Text>
         </TouchableOpacity>
       </View>
@@ -45,7 +47,12 @@ const MedicineDailyDoses: FC = () => {
 
   return (
     <View style={styles.container}>
-      <Progress.Bar color="#A6BDF8" progress={0.4} width={380} style={styles.progressBarPosition} />
+      <Progress.Bar
+        color="#A6BDF8"
+        progress={0.4}
+        width={380}
+        style={styles.progressBarPosition}
+      />
       <View style={styles.imagePosition}>
         <DailyDoseLogo />
       </View>
@@ -56,7 +63,7 @@ const MedicineDailyDoses: FC = () => {
       <FlatList
         style={styles.medicineDoseListContainer}
         data={medicineDailyDoseItems}
-        renderItem={({ item, index }) => (
+        renderItem={({item, index}) => (
           <RenderItems item={item} index={index} key={index.toString()} />
         )}
       />

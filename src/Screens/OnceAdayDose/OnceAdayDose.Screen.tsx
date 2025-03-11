@@ -247,11 +247,7 @@ const OnceAdayDose: FC = () => {
       setModalVisible(false);
     }
   };
-  console.log(
-    'startDate end date',
-    treatmentDurationStartTime,
-    treatmentDurationEndTime,
-  );
+
   // Function to handle next button press
   const handleNext: any = async () => {
     setDisable(true);

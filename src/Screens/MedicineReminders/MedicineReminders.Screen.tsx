@@ -1,17 +1,14 @@
-import React, { type FC, useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import React, {type FC, useState} from 'react';
+import {Text, TextInput, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation, useRoute } from '@react-navigation/native';
-
-import { type RootState } from '@/store';
-import { setExtraMedicineReminder } from '@/store/slices/features/medicineDetailsExtraSetting/slice';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {type RootState} from '../../store';
+import {setExtraMedicineReminder} from '../../store/slices/features/medicineDetailsExtraSetting/slice';
 import MedicineReminderLogo from '../../assets/medicine-reminder';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import Header from '../../Components/Header/Header';
-import { colors } from '../../theme/colors';
-
+import {colors} from '../../theme/colors';
 import styles from './style';
 
 const MedicineReminders: FC = () => {
@@ -19,13 +16,17 @@ const MedicineReminders: FC = () => {
   const dispatch = useDispatch();
 
   const route = useRoute();
-  const { prevRoute } = route.params as { prevRoute: string };
+  const {prevRoute} = route.params as {prevRoute: string};
 
   const [medicineReminderTotalReq, setMedicineReminderTotalReq] = useState('');
-  const [medicineReminderCurrentStock, setMedicineReminderCurrentStock] = useState('');
-  const [medicineReminderRemindToLeft, setMedicineReminderRemindToLeft] = useState('');
+  const [medicineReminderCurrentStock, setMedicineReminderCurrentStock] =
+    useState('');
+  const [medicineReminderRemindToLeft, setMedicineReminderRemindToLeft] =
+    useState('');
 
-  const medicineLocalId = useSelector((state: RootState) => state.medicineDetails.medicineLocalId);
+  const medicineLocalId = useSelector(
+    (state: RootState) => state.medicineDetails.medicineLocalId,
+  );
 
   const handleNext: any = () => {
     setMedicineReminderTotalReq('');
@@ -38,11 +39,13 @@ const MedicineReminders: FC = () => {
           medicineReminderTotalReq,
           medicineReminderCurrentStock,
           medicineReminderRemindToLeft,
-          medicineLocalId
-        }
-      ])
+          medicineLocalId,
+        },
+      ]),
     );
-    navigation.navigate(`${prevRoute}` as never);
+    //navigation.navigate(`${prevRoute}` as never);
+
+    navigation.goBack();
   };
   return (
     <View style={styles.container}>
@@ -114,12 +117,20 @@ const MedicineReminders: FC = () => {
       </View>
 
       {medicineReminderTotalReq.trim() !== '' &&
+        medicineReminderTotalReq !== '0' &&
+        parseFloat(medicineReminderTotalReq) > 0 && // Prevents negative numbers (ensures the number is greater than 0)
         medicineReminderCurrentStock.trim() !== '' &&
-        medicineReminderRemindToLeft.trim() !== '' && (
+        medicineReminderCurrentStock !== '0' &&
+        parseFloat(medicineReminderCurrentStock) > 0 && // Prevents negative numbers (ensures the number is greater than 0)
+        medicineReminderRemindToLeft.trim() !== '' &&
+        medicineReminderRemindToLeft !== '0' &&
+        parseFloat(medicineReminderRemindToLeft) > 0 && ( // Prevents negative numbers (ensures the number is greater than 0)
           <View style={styles.NextbuttonPosition}>
             <CustomButton
               onPress={handleNext}
-              icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+              icon={
+                <AntDesign name="arrowright" size={30} color={colors.white} />
+              }
               text="Next"
             />
           </View>

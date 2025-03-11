@@ -1,20 +1,20 @@
-import React, { type FC, useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
-import { DayPicker } from 'react-native-picker-weekday';
+import React, {type FC, useState} from 'react';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {DayPicker} from 'react-native-picker-weekday';
 import * as Progress from 'react-native-progress';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
-import { type RootState } from '@/store';
-import { setWeekly } from '@/store/slices/features/medicineDetails/slice';
-import { type IStoredWeekly } from '@/store/slices/features/medicineDetails/types';
+import {type RootState} from '../../store';
+import {setWeekly} from '../../store/slices/features/medicineDetails/slice';
+import {type IStoredWeekly} from '../../store/slices/features/medicineDetails/types';
 
 import DailyDoseLogo from '../../assets/medicine-daily-dose';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import CustomNumberPickerModal from '../../Components/CustomNumberPickerModal/CustomNumberPickerModal';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
 
@@ -26,7 +26,7 @@ const dayNames: Record<number, string> = {
   4: 'Wed',
   5: 'Thu',
   6: 'Fri',
-  7: 'Sat'
+  7: 'Sat',
 };
 
 const WeeklyDose: FC = () => {
@@ -34,10 +34,14 @@ const WeeklyDose: FC = () => {
   const dispatch = useDispatch();
   const [selectedNumber, setSelectedNumber] = useState('');
 
-  const medicineLocalId = useSelector((state: RootState) => state.medicineDetails.medicineLocalId);
+  const medicineLocalId = useSelector(
+    (state: RootState) => state.medicineDetails.medicineLocalId,
+  );
 
   const [weekdays, setWeekdays] = useState<number[]>([]);
-  const [selectedDay, setSelectedDay] = useState<Record<number, { selected: boolean }>>({});
+  const [selectedDay, setSelectedDay] = useState<
+    Record<number, {selected: boolean}>
+  >({});
   const [open, setOpen] = useState(false);
 
   const handleSelectNumber: any = () => {
@@ -55,16 +59,16 @@ const WeeklyDose: FC = () => {
       medicineLocalId: {
         weeklyTime: selectedDayNames, // Use selectedDayNames here
         timeInterval: selectedNumber,
-        medicineLocalId
-      }
+        medicineLocalId,
+      },
     };
 
     dispatch(
       setWeekly({
         weeklyTime: selectedDayNames,
         timeInterval: selectedNumber,
-        IStoredWeekly: data
-      })
+        IStoredWeekly: data,
+      }),
     );
 
     setSelectedNumber('');
@@ -94,15 +98,14 @@ const WeeklyDose: FC = () => {
     //console.log(newWeekdays, 'newWeekdays');
 
     // Updating the selectedDay state
-    const newSelectedDays = newWeekdays.reduce<Record<number, { selected: boolean }>>(
-      (acc, day) => {
-        acc[day] = { selected: true };
-        console.log(dayNames[day], 'dayNames[day]');
-        console.log(day, 'day');
-        return acc;
-      },
-      {}
-    );
+    const newSelectedDays = newWeekdays.reduce<
+      Record<number, {selected: boolean}>
+    >((acc, day) => {
+      acc[day] = {selected: true};
+      console.log(dayNames[day], 'dayNames[day]');
+      console.log(day, 'day');
+      return acc;
+    }, {});
 
     setSelectedDay(newSelectedDays);
 
@@ -111,7 +114,12 @@ const WeeklyDose: FC = () => {
 
   return (
     <View style={styles.container}>
-      <Progress.Bar color="#A6BDF8" progress={0.2} width={380} style={styles.progressBarPosition} />
+      <Progress.Bar
+        color="#A6BDF8"
+        progress={0.2}
+        width={380}
+        style={styles.progressBarPosition}
+      />
       <View style={styles.imagePosition}>
         <DailyDoseLogo />
       </View>
@@ -138,7 +146,7 @@ const WeeklyDose: FC = () => {
       <FlatList
         data={Object.keys(selectedDay)}
         keyExtractor={item => item}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <Text style={styles.selectedDaysText}>
             {dayNames[Number(item)]}
             {weekdays.length > 1 ? ',' : ''}
@@ -161,7 +169,9 @@ const WeeklyDose: FC = () => {
               )}
               <Text style={styles.chipText}>Time Interval</Text>
             </View>
-            <TouchableOpacity style={styles.selectButton} onPress={handleSelectNumber}>
+            <TouchableOpacity
+              style={styles.selectButton}
+              onPress={handleSelectNumber}>
               <Text style={styles.selectButtonText}>
                 {selectedNumber === '' ? 'Select' : selectedNumber}
               </Text>
@@ -188,7 +198,9 @@ const WeeklyDose: FC = () => {
           <View style={styles.buttonPosition}>
             <CustomButton
               onPress={handleNext}
-              icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+              icon={
+                <AntDesign name="arrowright" size={30} color={colors.white} />
+              }
               text="Next"
             />
           </View>

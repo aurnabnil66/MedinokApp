@@ -1,47 +1,47 @@
-import { StyleSheet } from 'react-native';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import {StyleSheet} from 'react-native';
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 const styles = StyleSheet.create({
   calendarShape: {
     borderRadius: scale(6),
-    height: verticalScale(260),
-    width: scale(270)
+    height: verticalScale(380),
+    width: scale(290),
   },
   horizontalLine: {
     backgroundColor: colors.buttonBg,
     height: verticalScale(1),
     marginTop: verticalScale(10),
-    width: scale(242)
+    width: scale(242),
   },
   modalContainer: {
     alignItems: 'center',
     backgroundColor: colors.modalBackground,
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   scrollViewContainer: {
     maxHeight: '27%',
-    width: '90%'
+    width: '90%',
   },
   selectedDaysContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: scale(1),
-    marginTop: '5%'
+    marginTop: '5%',
   },
   selectedDaysHeaderText: {
     color: colors.buttonBg,
     fontFamily: 'WorkSansMedium',
-    fontSize: moderateScale(16)
+    fontSize: moderateScale(16),
   },
   selectedDaysText: {
     color: colors.header,
     fontFamily: 'WorkSansMedium',
     fontSize: moderateScale(16),
-    textAlign: 'justify'
-  }
+    textAlign: 'justify',
+  },
 });
 
 export default styles;

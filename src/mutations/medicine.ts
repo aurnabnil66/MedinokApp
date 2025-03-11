@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { BASE_URL } from '@/utils/environment';
+import {BASE_URL} from '../utils/environment';
 import axios from 'axios';
 
 interface Medicine {
@@ -47,13 +47,13 @@ export const fetchMedicines = async (token: string): Promise<Medicine[]> => {
   try {
     const response: GetMedicinesByUserResponse = await axios.post(
       BASE_URL,
-      { query: query },
+      {query: query},
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      }
+          'Content-Type': 'application/json',
+        },
+      },
     );
 
     // Check if the response contains data

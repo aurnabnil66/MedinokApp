@@ -1,16 +1,16 @@
 /* eslint-disable */
 
-import React, { FC } from 'react';
-import { Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import React, {FC} from 'react';
+import {Text, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import Header from '../../Components/Header/Header';
 import styles from './style';
-import { RootState } from '@/store';
-import filterDuplicateMedicines from '@/utils/filterDuplicateMedicine';
+import {RootState} from '../../store';
+import filterDuplicateMedicines from '../../utils/filterDuplicateMedicine';
 
 // Define the type for the medicine data
 interface Medicine {
@@ -24,11 +24,11 @@ const MedicineHistory: FC = () => {
   const navigation = useNavigation();
 
   const medicineHistoryData: Medicine[] = useSelector(
-    (state: RootState) => state.medicineDetails.storedMedicineList
+    (state: RootState) => state.medicineDetails.storedMedicineList,
   );
 
   const storedMedicineList = useSelector(
-    (state: RootState) => state.medicineDetails.storedMedicineList
+    (state: RootState) => state.medicineDetails.storedMedicineList,
   );
 
   const getDoseTime = (medicineId: string) => {
@@ -66,35 +66,32 @@ const MedicineHistory: FC = () => {
   // };
 
   const groupByDate = (data: Medicine[]): Record<string, Medicine[]> => {
-    const groupedData = data.reduce(
-      (acc, curr) => {
-        // Check if createdDate exists and is valid
-        if (!curr.createdDate) {
-          console.warn('Skipping medicine record with missing createdDate:', curr);
-          return acc;
-        }
-
-        const date = curr.createdDate.split(' ')[0]; // Extract date only (YYYY-MM-DD)
-
-        if (!acc[date]) {
-          acc[date] = [];
-        }
-        acc[date].push(curr);
+    const groupedData = data.reduce((acc, curr) => {
+      // Check if createdDate exists and is valid
+      if (!curr.createdDate) {
+        console.warn(
+          'Skipping medicine record with missing createdDate:',
+          curr,
+        );
         return acc;
-      },
-      {} as Record<string, Medicine[]>
-    );
+      }
+
+      const date = curr.createdDate.split(' ')[0]; // Extract date only (YYYY-MM-DD)
+
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(curr);
+      return acc;
+    }, {} as Record<string, Medicine[]>);
 
     // Sort the keys (dates) in descending order
     return Object.keys(groupedData)
       .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
-      .reduce(
-        (sortedAcc, date) => {
-          sortedAcc[date] = groupedData[date];
-          return sortedAcc;
-        },
-        {} as Record<string, Medicine[]>
-      );
+      .reduce((sortedAcc, date) => {
+        sortedAcc[date] = groupedData[date];
+        return sortedAcc;
+      }, {} as Record<string, Medicine[]>);
   };
 
   const groupedMedicines = groupByDate(medicineHistoryData);
@@ -114,15 +111,23 @@ const MedicineHistory: FC = () => {
           <View style={styles.chipPosition}>
             {Object.keys(groupedMedicines).map(date => (
               <View key={date}>
-                <Text style={styles.medicineHistoryHeading}>{date === today ? 'Today' : date}</Text>
-                {filterDuplicateMedicines(groupedMedicines[date] as any).map(medicine => (
-                  <View key={medicine.medicineLocalId} style={styles.chip}>
-                    <View style={styles.chipContentProperties}>
-                      <Text style={styles.medicineNameText}>{medicine.medicineName}</Text>
-                      <Text style={styles.doseTimeText}>{medicine.doseTime}</Text>
+                <Text style={styles.medicineHistoryHeading}>
+                  {date === today ? 'Today' : date}
+                </Text>
+                {filterDuplicateMedicines(groupedMedicines[date] as any).map(
+                  medicine => (
+                    <View key={medicine.medicineLocalId} style={styles.chip}>
+                      <View style={styles.chipContentProperties}>
+                        <Text style={styles.medicineNameText}>
+                          {medicine.medicineName}
+                        </Text>
+                        <Text style={styles.doseTimeText}>
+                          {medicine.doseTime}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-                ))}
+                  ),
+                )}
               </View>
             ))}
           </View>

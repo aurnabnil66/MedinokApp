@@ -1,26 +1,24 @@
 /* eslint-disable */
 
-import React, { type FC, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useState} from 'react';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 
-import { BASE_URL } from '../../utils/environment';
-import ToastPopUp from '@/utils/Toast.android';
+import {BASE_URL} from '../../utils/environment';
+import ToastPopUp from '../../utils/Toast.android';
 import RNPickerSelect from 'react-native-picker-select';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import CustomTextInput from '../../Components/CustomTextInput/CustomTextInput';
-import Header from '../../Components/Header/Header';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { createAccountFormValidation } from '../../utils/formValidation';
+import {Controller, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {createAccountFormValidation} from '../../utils/formValidation';
 import DatePicker from 'react-native-date-picker';
 
 const CreateAccount: FC = () => {
@@ -54,7 +52,7 @@ const CreateAccount: FC = () => {
     control,
     handleSubmit,
     setValue,
-    formState: { errors }
+    formState: {errors},
   } = useForm<ICreateAccountDataProps>({
     resolver: yupResolver(createAccountFormValidation),
     defaultValues: {
@@ -64,8 +62,8 @@ const CreateAccount: FC = () => {
       password: '',
       gender: '',
       birthDate: '',
-      confirmPassword: ''
-    }
+      confirmPassword: '',
+    },
   });
 
   const handleSelectDate: any = () => {
@@ -81,7 +79,7 @@ const CreateAccount: FC = () => {
       weekday: 'short',
       month: 'long',
       day: '2-digit',
-      year: 'numeric'
+      year: 'numeric',
     };
     const dateStr = new Intl.DateTimeFormat('en-US', options).format(date);
 
@@ -98,7 +96,7 @@ const CreateAccount: FC = () => {
       email: data.email,
       gender: data.gender,
       birthday: data.birthDate,
-      password: data.password
+      password: data.password,
     };
 
     try {
@@ -116,16 +114,21 @@ const CreateAccount: FC = () => {
               message
             }
           }
-        `
+        `,
       });
 
       if (response?.data?.data?.register?.message) {
         ToastPopUp(response.data.data.register.message);
         setDisable(false);
         navigation.navigate('Login' as never);
-      } else if (Array.isArray(response?.data?.errors) && response.data.errors.length > 0) {
+      } else if (
+        Array.isArray(response?.data?.errors) &&
+        response.data.errors.length > 0
+      ) {
         const errorMessage: any = response.data.errors[0].message;
-        ToastPopUp(typeof errorMessage === 'string' ? errorMessage : 'Error occurred');
+        ToastPopUp(
+          typeof errorMessage === 'string' ? errorMessage : 'Error occurred',
+        );
         setDisable(false);
       } else {
         ToastPopUp('Something went wrong! Please try again later.');
@@ -153,7 +156,7 @@ const CreateAccount: FC = () => {
             <Controller
               control={control}
               name="fullName"
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <CustomTextInput
                   type="email"
                   value={value}
@@ -161,7 +164,9 @@ const CreateAccount: FC = () => {
                   placeholder="Enter your full name..."
                   inputStyle={styles.inputText}
                   isError={Boolean(errors.fullName)}
-                  leftIcon={<AntDesign name="user" size={25} color={'#888888'} />} // Left icon
+                  leftIcon={
+                    <AntDesign name="user" size={25} color={'#888888'} />
+                  } // Left icon
                 />
               )}
             />
@@ -175,7 +180,7 @@ const CreateAccount: FC = () => {
             <Controller
               control={control}
               name="mobile"
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <CustomTextInput
                   type="mobile"
                   value={value}
@@ -183,11 +188,15 @@ const CreateAccount: FC = () => {
                   placeholder="Enter your mobile number..."
                   inputStyle={styles.inputText}
                   isError={Boolean(errors.mobile)}
-                  leftIcon={<Feather name="smartphone" size={25} color={'#888888'} />}
+                  leftIcon={
+                    <Feather name="smartphone" size={25} color={'#888888'} />
+                  }
                 />
               )}
             />
-            {errors.mobile != null && <Text style={styles.errorTxt}>{errors.mobile.message}</Text>}
+            {errors.mobile != null && (
+              <Text style={styles.errorTxt}>{errors.mobile.message}</Text>
+            )}
           </View>
 
           <View style={styles.textInputComponentProperties}>
@@ -195,7 +204,7 @@ const CreateAccount: FC = () => {
             <Controller
               control={control}
               name="email"
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <CustomTextInput
                   type="email"
                   value={value}
@@ -204,12 +213,18 @@ const CreateAccount: FC = () => {
                   inputStyle={styles.inputText}
                   isError={Boolean(errors.email)}
                   leftIcon={
-                    <MaterialCommunityIcons name="email-outline" size={28} color={'#888888'} />
+                    <MaterialCommunityIcons
+                      name="email-outline"
+                      size={28}
+                      color={'#888888'}
+                    />
                   }
                 />
               )}
             />
-            {errors.email != null && <Text style={styles.errorTxt}>{errors.email.message}</Text>}
+            {errors.email != null && (
+              <Text style={styles.errorTxt}>{errors.email.message}</Text>
+            )}
           </View>
 
           <View style={styles.textInputComponentProperties}>
@@ -217,7 +232,7 @@ const CreateAccount: FC = () => {
             <Controller
               control={control}
               name="password"
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <CustomTextInput
                   type="password"
                   value={value}
@@ -227,7 +242,11 @@ const CreateAccount: FC = () => {
                   isPassword
                   isError={Boolean(errors.password)}
                   leftIcon={
-                    <MaterialCommunityIcons name="lock-outline" size={25} color="#888888" />
+                    <MaterialCommunityIcons
+                      name="lock-outline"
+                      size={25}
+                      color="#888888"
+                    />
                   }
                 />
               )}
@@ -242,7 +261,7 @@ const CreateAccount: FC = () => {
             <Controller
               control={control}
               name="confirmPassword"
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <CustomTextInput
                   type="password"
                   value={value}
@@ -252,51 +271,63 @@ const CreateAccount: FC = () => {
                   isPassword
                   isError={Boolean(errors.confirmPassword)}
                   leftIcon={
-                    <MaterialCommunityIcons name="lock-outline" size={25} color="#888888" />
+                    <MaterialCommunityIcons
+                      name="lock-outline"
+                      size={25}
+                      color="#888888"
+                    />
                   }
                 />
               )}
             />
             {errors.confirmPassword != null && (
-              <Text style={styles.errorTxt}>{errors.confirmPassword.message}</Text>
+              <Text style={styles.errorTxt}>
+                {errors.confirmPassword.message}
+              </Text>
             )}
           </View>
 
           {/* Gender Drop down picker Here */}
-          <Text style={[styles.inputHeader, styles.genderHeaderStyle]}>Gender</Text>
+          <Text style={[styles.inputHeader, styles.genderHeaderStyle]}>
+            Gender
+          </Text>
           <View style={styles.genderInputView}>
             <Controller
               control={control}
               name="gender"
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <View style={styles.genderInputContainer}>
-                  <MaterialCommunityIcons name="gender-male" size={27} color="#888888" />
+                  <MaterialCommunityIcons
+                    name="gender-male"
+                    size={27}
+                    color="#888888"
+                  />
                   <RNPickerSelect
                     onValueChange={gender => onChange(gender)}
                     value={value || null} // Handle initial value correctly
                     placeholder={{
                       label: 'Select Your Gender...',
-                      value: null
+                      value: null,
                     }}
                     items={[
-                      { label: ' Male', value: 'male' },
-                      { label: 'Female', value: 'female' }
+                      {label: ' Male', value: 'male'},
+                      {label: 'Female', value: 'female'},
                     ]}
                     style={{
                       inputAndroid: {
                         color: value ? 'black' : '#888888', // Placeholder vs. selected value color on Android
                         fontSize: 16,
-                        paddingHorizontal: 10
+                        paddingHorizontal: 10,
                       },
                       inputIOS: {
                         color: value ? 'black' : '#888888', // Placeholder vs. selected value color on iOS
                         fontSize: 16,
-                        paddingHorizontal: 10
+                        paddingHorizontal: 10,
                       },
                       placeholder: {
                         color: '#888888', // Ensure placeholder text color shows on both platforms
-                        fontFamily: 'WorkSansMedium'
-                      }
+                        fontFamily: 'WorkSansMedium',
+                      },
                     }}
                     useNativeAndroidPickerStyle={false} // Use custom styling on Android
                   />
@@ -305,7 +336,9 @@ const CreateAccount: FC = () => {
             />
           </View>
           <View style={styles.genderErrorTextPosition}>
-            {errors.gender && <Text style={styles.errorTxt}>{errors.gender.message}</Text>}
+            {errors.gender && (
+              <Text style={styles.errorTxt}>{errors.gender.message}</Text>
+            )}
           </View>
 
           <View style={styles.textInputComponentProperties}>
@@ -313,8 +346,10 @@ const CreateAccount: FC = () => {
             <Controller
               control={control}
               name="birthDate"
-              render={({ field: { onChange, value } }) => (
-                <TouchableOpacity style={styles.birthdayInputcontainer} onPress={handleSelectDate}>
+              render={({field: {onChange, value}}) => (
+                <TouchableOpacity
+                  style={styles.birthdayInputcontainer}
+                  onPress={handleSelectDate}>
                   <View style={styles.textInput}>
                     <View style={styles.birthdayInputPlaceholderStyle}>
                       <AntDesign name="calendar" size={25} color={'#888888'} />
@@ -354,7 +389,9 @@ const CreateAccount: FC = () => {
           <CustomButton
             onPress={handleSubmit(handleSignUp)}
             disabled={disable}
-            icon={<AntDesign name="arrowright" size={25} color={colors.white} />}
+            icon={
+              <AntDesign name="arrowright" size={25} color={colors.white} />
+            }
             text="Sign Up"
           />
         </View>
@@ -385,7 +422,9 @@ const CreateAccount: FC = () => {
         </View> */}
 
         <View style={styles.askAboutAccount}>
-          <Text style={styles.askAboutAccountText}>Already have an account? {'  '}</Text>
+          <Text style={styles.askAboutAccountText}>
+            Already have an account? {'  '}
+          </Text>
           <TouchableOpacity onPress={handleSignIn}>
             <Text style={styles.signUpText}>Sign In</Text>
           </TouchableOpacity>
