@@ -1,14 +1,14 @@
-import React, { type FC } from 'react';
-import { Text, View } from 'react-native';
+import React, {type FC} from 'react';
+import {Text, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import AddWithQrCode from '../../assets/add-with-qr-code';
 import Hand from '../../assets/hand';
 import TinyQrCodeImage from '../../assets/tiny-qr-code-image';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import Header from '../../Components/Header/Header';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
 
@@ -29,7 +29,9 @@ const MedicineAddingMethod: FC = () => {
         <Hand />
       </View>
       <View style={styles.subHeaderPosition}>
-        <Text style={styles.subHeader}>How do you want to add your medicine?</Text>
+        <Text style={styles.subHeader}>
+          How do you want to add your medicine?
+        </Text>
       </View>
 
       <View style={styles.tinyQrCodeIconPosition}>

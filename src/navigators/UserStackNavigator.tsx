@@ -13,9 +13,7 @@ import {
   AskHourInterval,
   AskTimeInterval,
   CameraScanner,
-  CreateAccount,
   DoctorAppointments,
-  EnterOtp,
   EveryXdaysDose,
   EveryXdaysDoseDetails,
   EveryXhoursDose,
@@ -23,9 +21,7 @@ import {
   EveryXmonthsDoseDetails,
   EveryXweeksDose,
   EveryXweeksDoseDetails,
-  ForgotPassword,
   FourTimesAdayDose,
-  Login,
   MedicineAddingMethod,
   MedicineDailyDoses,
   MedicineDetails,
@@ -35,8 +31,6 @@ import {
   MonthlyDose,
   MonthlyDoseDetails,
   OnceAdayDose,
-  PasswordChanged,
-  ResetPassword,
   SetTreatmentDuration,
   ThreeTimesAdayDose,
   TwiceAdayDose,
@@ -48,8 +42,6 @@ import {colors} from '../theme/colors';
 
 import styles from './Styles';
 import UserDrawerNavigator from './UserDrawerNavigator';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store';
 
 const Stack = createNativeStackNavigator();
 
@@ -183,13 +175,10 @@ const UserStackNavigator: FC = () => {
     {name: 'UserDrawer', component: UserDrawerNavigator, headerShown: false},
   ];
 
-  const headerLeft = (): React.ReactNode => {
+  const HeaderLeft: React.FC = (): React.ReactNode => {
+    const navigation = useNavigation();
     return (
-      <TouchableOpacity
-        onPress={() => {
-          const navigation = useNavigation();
-          navigation.goBack();
-        }}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <View style={styles.backNavigationProperties}>
           <Ionicons name="chevron-back" size={28} color={colors.buttonBg} />
           <Text style={styles.backNavigationText}>Back</Text>
@@ -198,13 +187,11 @@ const UserStackNavigator: FC = () => {
     );
   };
 
-  const headerRight = (): React.ReactNode => {
+  const HeaderRight: React.FC = (): React.ReactNode => {
+    const navigation = useNavigation();
     return (
       <TouchableOpacity
-        onPress={() => {
-          const navigation = useNavigation();
-          navigation.navigate('UserDrawer' as never);
-        }}>
+        onPress={() => navigation.navigate('UserDrawer' as never)}>
         <View style={styles.backNavigationProperties}>
           <Text style={styles.backNavigationText}>Cancel</Text>
         </View>
@@ -219,8 +206,8 @@ const UserStackNavigator: FC = () => {
       backgroundColor: colors.white,
     },
     headerTitleStyle: {fontSize: 14, fontFamily: 'WorkSansSemiBold'},
-    headerLeft,
-    headerRight,
+    headerLeft: HeaderLeft,
+    headerRight: HeaderRight,
   };
 
   //const firstScanMedName = useSelector((state: RootState) => state.medicineDetails.medicineName);
