@@ -1,6 +1,5 @@
 import React, {type FC} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {moderateScale} from 'react-native-size-matters';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -219,7 +218,7 @@ const UserStackNavigator: FC = () => {
     headerStyle: {
       backgroundColor: colors.white,
     },
-    headerTitleStyle: {fontSize: moderateScale(14)},
+    headerTitleStyle: {fontSize: 14, fontFamily: 'WorkSansSemiBold'},
     headerLeft,
     headerRight,
   };

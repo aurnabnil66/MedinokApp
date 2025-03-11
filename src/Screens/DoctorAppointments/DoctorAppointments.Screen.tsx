@@ -1,38 +1,38 @@
 /* eslint-disable */
-import React, { type FC, useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useState} from 'react';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { format } from 'date-fns';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {format} from 'date-fns';
 
-import { type RootState } from '@/store';
-import { setAppointment } from '@/store/slices/features/appointment/slice';
+import {type RootState} from '@/store';
+import {setAppointment} from '@/store/slices/features/appointment/slice';
 
 import DoctorAppointmentsLogo from '../../assets/doctor-appointments';
 import CalendarModal from '../../Components/CalendarModal/CalenderModal';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import Header from '../../Components/Header/Header';
 import SetReminderModal from '../../Components/SetReminderModal/SetReminderModal';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
 import moment from 'moment';
-import { appointmentSchedule } from '@/helper/appointmentSchedule';
+import {appointmentSchedule} from '@/helper/appointmentSchedule';
 
 const DoctorAppointments: FC = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const route = useRoute();
-  const { prevRoute } = route.params as { prevRoute: string };
+  const {prevRoute} = route.params as {prevRoute: string};
 
   const selectedDateTime = useSelector(
-    (state: RootState) => state.medicineDetails.selectedDateTime
+    (state: RootState) => state.medicineDetails.selectedDateTime,
   );
 
   const [dateModalOpen, setDateModalOpen] = useState(false);
@@ -62,9 +62,10 @@ const DoctorAppointments: FC = () => {
           doctorName,
           location,
           setReminder: reminder,
-          medicineLocalId: 'RANDOM' + Math.random().toString(36)
-        }
-      ])
+          medicineLocalId:
+            'RANDOM' + Math.floor(Math.random() * 1000000).toString(36),
+        },
+      ]),
     );
 
     const appointmentsDATA = [
@@ -73,8 +74,8 @@ const DoctorAppointments: FC = () => {
         time: selectedTime, // Example time
         reminder: reminder,
         location: location,
-        doctorName: doctorName
-      }
+        doctorName: doctorName,
+      },
     ];
 
     await appointmentSchedule(appointmentsDATA);
@@ -132,7 +133,9 @@ const DoctorAppointments: FC = () => {
                 <TouchableOpacity
                   style={styles.selectButton}
                   onPress={() => handleStartDateSelectInstruction()}>
-                  <Text style={styles.selectButtonText}>{date !== '' ? date : 'Select'}</Text>
+                  <Text style={styles.selectButtonText}>
+                    {date !== '' ? date : 'Select'}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -140,7 +143,11 @@ const DoctorAppointments: FC = () => {
           <View style={styles.chip}>
             <View style={styles.chipProperties}>
               <View style={styles.chipContentProperties}>
-                <AntDesign name="clockcircleo" size={22} color={colors.header} />
+                <AntDesign
+                  name="clockcircleo"
+                  size={22}
+                  color={colors.header}
+                />
                 <Text style={styles.chipText}>Time</Text>
               </View>
               <View style={styles.selectButtonPosition}>
@@ -157,7 +164,11 @@ const DoctorAppointments: FC = () => {
           <View style={styles.chip}>
             <View style={styles.chipProperties}>
               <View style={styles.chipContentProperties}>
-                <FontAwesome6 name="user-doctor" size={22} color={colors.header} />
+                <FontAwesome6
+                  name="user-doctor"
+                  size={22}
+                  color={colors.header}
+                />
                 <Text style={styles.chipText}>Doctor’s Name</Text>
               </View>
               <View style={styles.inputPosition}>
@@ -200,7 +211,9 @@ const DoctorAppointments: FC = () => {
                 <TouchableOpacity
                   style={styles.reminderSelectButton}
                   onPress={() => handleSelectReminder()}>
-                  <Text style={styles.selectButtonText}>{reminder !== '' ? reminder : 'Set'}</Text>
+                  <Text style={styles.selectButtonText}>
+                    {reminder !== '' ? reminder : 'Set'}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -238,7 +251,7 @@ const DoctorAppointments: FC = () => {
               const timeStr = new Intl.DateTimeFormat('en-US', {
                 hour: 'numeric',
                 minute: '2-digit',
-                hour12: true
+                hour12: true,
               }).format(new Date(date));
               setSelectedTime(timeStr);
             }}
@@ -258,7 +271,9 @@ const DoctorAppointments: FC = () => {
           <View style={styles.NextbuttonPosition}>
             <CustomButton
               onPress={handleNext}
-              icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+              icon={
+                <AntDesign name="arrowright" size={30} color={colors.white} />
+              }
               text="Save"
             />
           </View>

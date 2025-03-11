@@ -270,7 +270,10 @@ const AuthStackNav: any = () => {
     headerStyle: {
       backgroundColor: colors.white,
     },
-    headerTitleStyle: {fontSize: moderateScale(14)},
+    headerTitleStyle: {
+      fontSize: 14,
+      fontFamily: 'WorkSansSemiBold',
+    },
     headerLeft: HeaderLeft,
     headerRight: HeaderRight,
   };

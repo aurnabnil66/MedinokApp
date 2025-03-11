@@ -1,17 +1,17 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit';
 
-import { MEDICINE_DETAILS_EXTRA_SETTING } from './constants';
+import {MEDICINE_DETAILS_EXTRA_SETTING} from './constants';
 import {
   type IMedicineDetailsExtraSettingType,
   type IMedicineReminder,
   type InstrucTion,
-  type ITreatmentDuration
+  type ITreatmentDuration,
 } from './types';
 
 const medicineDetailsExtraSettingData: IMedicineDetailsExtraSettingType = {
   storeInstrucTionList: [],
   storeTreatmentDuration: [],
-  storeMedicineReminder: []
+  storeMedicineReminder: [],
 };
 
 export const medicineDetailsExtraSettingSlice = createSlice({
@@ -25,30 +25,32 @@ export const medicineDetailsExtraSettingSlice = createSlice({
     //   state.storeInstrucTionList = [...state.storeInstrucTionList, ...payload.payload];
     // },
     setExtraInstrucTion: (
-  state: IMedicineDetailsExtraSettingType,
-  payload: PayloadAction<InstrucTion[]>
-) => {
-  // Create a map to ensure unique instructions by `medicineLocalId`
-  const updatedMap = new Map(
-    state.storeInstrucTionList.map(item => [item.medicineLocalId, item])
-  );
+      state: IMedicineDetailsExtraSettingType,
+      payload: PayloadAction<InstrucTion[]>,
+    ) => {
+      // Create a map to ensure unique instructions by `medicineLocalId`
+      const updatedMap = new Map(
+        state.storeInstrucTionList.map(item => [item.medicineLocalId, item]),
+      );
 
-  // Update the map with new instructions, replacing duplicates
-  payload.payload.forEach(newItem => {
-    updatedMap.set(newItem.medicineLocalId, newItem);
-  });
+      // Update the map with new instructions, replacing duplicates
+      payload.payload.forEach(newItem => {
+        updatedMap.set(newItem.medicineLocalId, newItem);
+      });
 
-  // Convert the map back to an array and update the state
-  state.storeInstrucTionList = Array.from(updatedMap.values());
-},
+      // Convert the map back to an array and update the state
+      state.storeInstrucTionList = Array.from(updatedMap.values());
+    },
 
     setExtraTreatmentDuration: (
       state: IMedicineDetailsExtraSettingType,
-      payload: PayloadAction<ITreatmentDuration[]>
+      payload: PayloadAction<ITreatmentDuration[]>,
     ) => {
-      state.storeTreatmentDuration = [...state.storeTreatmentDuration, ...payload.payload];
+      state.storeTreatmentDuration = [
+        ...state.storeTreatmentDuration,
+        ...payload.payload,
+      ];
     },
-
 
     // setExtraTreatmentDuration: (
     //   state: IMedicineDetailsExtraSettingType,
@@ -64,50 +66,69 @@ export const medicineDetailsExtraSettingSlice = createSlice({
     // },
     setExtraMedicineReminder: (
       state: IMedicineDetailsExtraSettingType,
-      payload: PayloadAction<IMedicineReminder[]>
+      payload: PayloadAction<IMedicineReminder[]>,
     ) => {
-      state.storeMedicineReminder = [...state.storeMedicineReminder, ...payload.payload];
+      state.storeMedicineReminder = [
+        ...state.storeMedicineReminder,
+        ...payload.payload,
+      ];
     },
 
     setTakeMedicine: (
       state: IMedicineDetailsExtraSettingType,
-      action: PayloadAction<{ medicineLocalId: string; doseQuantity: number }>
+      action: PayloadAction<{medicineLocalId: string; doseQuantity: number}>,
     ) => {
-      const { medicineLocalId, doseQuantity } = action.payload;
-    
+      const {medicineLocalId, doseQuantity} = action.payload;
+
       const medicineIndex = state.storeMedicineReminder.findIndex(
-        item => item.medicineLocalId === medicineLocalId
+        item => item.medicineLocalId === medicineLocalId,
       );
-    
+
       if (medicineIndex !== -1) {
-        const currentStock = Number(state.storeMedicineReminder[medicineIndex].medicineReminderCurrentStock) || 0;
-    
-        state.storeMedicineReminder[medicineIndex].medicineReminderCurrentStock = Math.max(
-          currentStock - doseQuantity,
-          0
+        const currentStock =
+          Number(
+            state.storeMedicineReminder[medicineIndex]
+              .medicineReminderCurrentStock,
+          ) || 0;
+
+        state.storeMedicineReminder[
+          medicineIndex
+        ].medicineReminderCurrentStock = Math.floor(
+          Math.max(currentStock - doseQuantity, 0),
         ).toString();
       }
     },
 
     setRefilMedicine: (
       state: IMedicineDetailsExtraSettingType,
-      action: PayloadAction<{ medicineLocalId: string; refilAmount: number , reminderAmount:string}>
+      action: PayloadAction<{
+        medicineLocalId: string;
+        refilAmount: number;
+        reminderAmount: string;
+      }>,
     ) => {
-      const { medicineLocalId, refilAmount ,reminderAmount} = action.payload;
-    
-      const medicineIndex = state.storeMedicineReminder.findIndex(
-        item => item.medicineLocalId === medicineLocalId
-      );
-    
-      if (medicineIndex !== -1) {
-        const currentStock = Number(state.storeMedicineReminder[medicineIndex].medicineReminderCurrentStock) || 0;
-    
-        state.storeMedicineReminder[medicineIndex].medicineReminderCurrentStock = Math.max(
-          currentStock + refilAmount,
-          0
-        ).toString();
-        state.storeMedicineReminder[medicineIndex].medicineReminderRemindToLeft= reminderAmount
+      const {medicineLocalId, refilAmount, reminderAmount} = action.payload;
 
+      const medicineIndex = state.storeMedicineReminder.findIndex(
+        item => item.medicineLocalId === medicineLocalId,
+      );
+
+      if (medicineIndex !== -1) {
+        const currentStock =
+          Number(
+            state.storeMedicineReminder[medicineIndex]
+              .medicineReminderCurrentStock,
+          ) || 0;
+
+        state.storeMedicineReminder[
+          medicineIndex
+        ].medicineReminderCurrentStock = Math.floor(
+          Math.max(currentStock + refilAmount, 0),
+        ).toString();
+
+        state.storeMedicineReminder[
+          medicineIndex
+        ].medicineReminderRemindToLeft = reminderAmount;
       }
     },
 
@@ -115,8 +136,8 @@ export const medicineDetailsExtraSettingSlice = createSlice({
       state.storeInstrucTionList = [];
       state.storeMedicineReminder = [];
       state.storeTreatmentDuration = [];
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -125,7 +146,8 @@ export const {
   setExtraMedicineReminder,
   setTakeMedicine,
   setRefilMedicine,
-  clearExtraMedicineDetails
+  clearExtraMedicineDetails,
 } = medicineDetailsExtraSettingSlice.actions;
 
-export const medicineDetailsExtraSettingReducer = medicineDetailsExtraSettingSlice.reducer;
+export const medicineDetailsExtraSettingReducer =
+  medicineDetailsExtraSettingSlice.reducer;
