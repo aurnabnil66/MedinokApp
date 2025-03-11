@@ -1,17 +1,17 @@
-import React, { type FC, useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, {type FC, useEffect, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import * as Progress from 'react-native-progress';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import MedicineLogo from '../../assets/medicine-logo';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import DoseInputModal from '../../Components/DoseInputModal/DoseInputModal';
 import MoreSettings from '../../Components/MoreSettingsComponent/MoreSettingsComponent';
-import { colors } from '../../theme/colors';
+import {colors} from '../../theme/colors';
 
 import styles from './style';
 
@@ -19,34 +19,37 @@ import {
   addscheduleList,
   setDoseQuantity,
   setXtimesAdayDoseTime,
-  setXtimesAdayStoreData
-} from '@/store/slices/features/medicineDetails/slice';
-import { RootState } from '@/store';
-import ToastPopUp from '@/utils/Toast.android';
-import { useDispatch, useSelector } from 'react-redux';
+  setXtimesAdayStoreData,
+} from '../../store/slices/features/medicineDetails/slice';
+import {RootState} from '../../store';
+import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
-import { localSchedule } from '@/helper/notify';
-import { createMedicineData } from '@/mutations/createMedicine';
-import { INSTRUCTION_MUTATION } from '@/mutations/instruction_mutation';
-import { TREATMENT_DURATION_MUTATION } from '@/mutations/treatmentDuration_mutation';
-import { MEDICINE_REMINDER_MUTATION } from '@/mutations/medicineReminder_mutation';
-import { IXTimesAdayDoseTime } from '@/store/slices/features/medicineDetails/types';
-import { multiScheduleMaker } from '../OnceAdayDose/extrafunctions';
+import {localSchedule} from '../../helper/notify';
+import {createMedicineData} from '../../mutations/createMedicine';
+import {INSTRUCTION_MUTATION} from '../../mutations/instruction_mutation';
+import {TREATMENT_DURATION_MUTATION} from '../../mutations/treatmentDuration_mutation';
+import {MEDICINE_REMINDER_MUTATION} from '../../mutations/medicineReminder_mutation';
+import {IXTimesAdayDoseTime} from '../../store/slices/features/medicineDetails/types';
+import {multiScheduleMaker} from '../OnceAdayDose/extrafunctions';
 
 const XtimesAdayDose: FC = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
-  const timeInterval = useSelector((state: RootState) => state.medicineDetails.timeInterval);
-  const medicineLocalId = useSelector((state: RootState) => state.medicineDetails.medicineLocalId);
+  const timeInterval = useSelector(
+    (state: RootState) => state.medicineDetails.timeInterval,
+  );
+  const medicineLocalId = useSelector(
+    (state: RootState) => state.medicineDetails.medicineLocalId,
+  );
 
   // State for time and dose for each intake
   const [times, setTimes] = useState<string[]>(
-    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill('')
+    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill(''),
   );
   const [doses, setDoses] = useState<number[]>(
-    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill(0)
+    Array(timeInterval !== '' ? parseInt(timeInterval) : 0).fill(0),
   );
 
   const [open, setOpen] = useState(false); // for time picker
@@ -56,25 +59,36 @@ const XtimesAdayDose: FC = () => {
 
   const [disable, setDisable] = useState(false);
 
-  const doseTime = useSelector((state: RootState) => state.medicineDetails.doseTime);
-  const doseQuantity = useSelector((state: RootState) => state.medicineDetails.doseQuantity);
-  const medicineName = useSelector((state: RootState) => state.medicineDetails.medicineName);
-  const medicineStatus = useSelector((state: RootState) => state.medicineDetails.medicineStatus);
+  const doseTime = useSelector(
+    (state: RootState) => state.medicineDetails.doseTime,
+  );
+  const doseQuantity = useSelector(
+    (state: RootState) => state.medicineDetails.doseQuantity,
+  );
+  const medicineName = useSelector(
+    (state: RootState) => state.medicineDetails.medicineName,
+  );
+  const medicineStatus = useSelector(
+    (state: RootState) => state.medicineDetails.medicineStatus,
+  );
 
   const storedMedicineList = useSelector(
-    (state: RootState) => state.medicineDetails.storedMedicineList
+    (state: RootState) => state.medicineDetails.storedMedicineList,
   );
 
   const storedInstructionList = useSelector(
-    (state: RootState) => state.medicineDetailsExtraSetting.storeInstrucTionList
+    (state: RootState) =>
+      state.medicineDetailsExtraSetting.storeInstrucTionList,
   );
 
   const storedTreatmentDurationList = useSelector(
-    (state: RootState) => state.medicineDetailsExtraSetting.storeTreatmentDuration
+    (state: RootState) =>
+      state.medicineDetailsExtraSetting.storeTreatmentDuration,
   );
 
   const storedReminderList = useSelector(
-    (state: RootState) => state.medicineDetailsExtraSetting.storeMedicineReminder
+    (state: RootState) =>
+      state.medicineDetailsExtraSetting.storeMedicineReminder,
   );
 
   // Function to fetch instruction data from list
@@ -82,7 +96,7 @@ const XtimesAdayDose: FC = () => {
     if (storedInstructionList.length === 0) return '';
 
     const instructionName = storedInstructionList.find(
-      (item: any) => item.medicineLocalId === medicineId
+      (item: any) => item.medicineLocalId === medicineId,
     );
     return instructionName?.instrucTion;
   };
@@ -93,24 +107,33 @@ const XtimesAdayDose: FC = () => {
       return {
         medicineTakeEachDay: '',
         treatmentDurationEndTime: '',
-        treatmentDurationStartTime: ''
+        treatmentDurationStartTime: '',
       };
 
     const treatmentDurationName = storedTreatmentDurationList.find(
-      (item: any) => item.medicineLocalId === medicineId
+      (item: any) => item.medicineLocalId === medicineId,
     );
 
     return treatmentDurationName
       ? {
           medicineTakeEachDay: treatmentDurationName.medicineTakeEachDay,
-          treatmentDurationEndTime: treatmentDurationName.treatmentDurationEndTime,
-          treatmentDurationStartTime: treatmentDurationName.treatmentDurationStartTime
+          treatmentDurationEndTime:
+            treatmentDurationName.treatmentDurationEndTime,
+          treatmentDurationStartTime:
+            treatmentDurationName.treatmentDurationStartTime,
         }
-      : { medicineTakeEachDay: '', treatmentDurationEndTime: '', treatmentDurationStartTime: '' };
+      : {
+          medicineTakeEachDay: '',
+          treatmentDurationEndTime: '',
+          treatmentDurationStartTime: '',
+        };
   };
 
-  const { medicineTakeEachDay, treatmentDurationEndTime, treatmentDurationStartTime } =
-    getTreatmentDurationData(medicineLocalId);
+  const {
+    medicineTakeEachDay,
+    treatmentDurationEndTime,
+    treatmentDurationStartTime,
+  } = getTreatmentDurationData(medicineLocalId);
 
   // Function to fetch medicine reminder data from list
   const getReminderData = (medicineId: string) => {
@@ -118,34 +141,49 @@ const XtimesAdayDose: FC = () => {
       return {
         medicineReminderCurrentStock: '',
         medicineReminderRemindToLeft: '',
-        medicineReminderTotalReq: ''
+        medicineReminderTotalReq: '',
       };
 
     const reminderQuantity = storedReminderList.find(
-      (item: any) => item.medicineLocalId === medicineId
+      (item: any) => item.medicineLocalId === medicineId,
     );
 
     return reminderQuantity
       ? {
-          medicineReminderCurrentStock: reminderQuantity.medicineReminderCurrentStock,
-          medicineReminderRemindToLeft: reminderQuantity.medicineReminderRemindToLeft,
-          medicineReminderTotalReq: reminderQuantity.medicineReminderTotalReq
+          medicineReminderCurrentStock:
+            reminderQuantity.medicineReminderCurrentStock,
+          medicineReminderRemindToLeft:
+            reminderQuantity.medicineReminderRemindToLeft,
+          medicineReminderTotalReq: reminderQuantity.medicineReminderTotalReq,
         }
       : {
           medicineReminderCurrentStock: '',
           medicineReminderRemindToLeft: '',
-          medicineReminderTotalReq: ''
+          medicineReminderTotalReq: '',
         };
   };
 
-  const { medicineReminderCurrentStock, medicineReminderRemindToLeft, medicineReminderTotalReq } =
-    getReminderData(medicineLocalId);
+  const {
+    medicineReminderCurrentStock,
+    medicineReminderRemindToLeft,
+    medicineReminderTotalReq,
+  } = getReminderData(medicineLocalId);
 
-  const typeMed = useSelector((state: RootState) => state.medicineDetails.typeMed);
-  const unitMed = useSelector((state: RootState) => state.medicineDetails.unitMed);
-  const takeStatus = useSelector((state: RootState) => state.medicineDetails.takeStatus);
-  const accessToken = useSelector((state: RootState) => state.users.user?.data?.accessToken);
-  const strengthMed = useSelector((state: RootState) => state.medicineDetails.strengthMed);
+  const typeMed = useSelector(
+    (state: RootState) => state.medicineDetails.typeMed,
+  );
+  const unitMed = useSelector(
+    (state: RootState) => state.medicineDetails.unitMed,
+  );
+  const takeStatus = useSelector(
+    (state: RootState) => state.medicineDetails.takeStatus,
+  );
+  const accessToken = useSelector(
+    (state: RootState) => state.users.user?.data?.accessToken,
+  );
+  const strengthMed = useSelector(
+    (state: RootState) => state.medicineDetails.strengthMed,
+  );
 
   const handleSelectTime: any = (index: number) => {
     setSelectedChip(index);
@@ -175,7 +213,7 @@ const XtimesAdayDose: FC = () => {
 
   const handleSubmit: any = (inputValue: number) => {
     if (selectedChip !== null) {
-      dispatch(setDoseQuantity({ doseQuantity: inputValue.toString() }));
+      dispatch(setDoseQuantity({doseQuantity: inputValue.toString()}));
 
       // setDoseQuantity
       setDoses(prevDoses => {
@@ -192,14 +230,16 @@ const XtimesAdayDose: FC = () => {
     setTimes(times.map(() => ''));
   };
 
-  const loginStatus = useSelector((state: RootState) => state.users?.user?.loginStatus);
+  const loginStatus = useSelector(
+    (state: RootState) => state.users?.user?.loginStatus,
+  );
 
   const selectedDateTime = useSelector(
-    (state: RootState) => state.medicineDetails.selectedDateTime
+    (state: RootState) => state.medicineDetails.selectedDateTime,
   );
 
   const XtimesAdayDoseTime = useSelector(
-    (state: RootState) => state.medicineDetails.xTimesAdayDoseTime
+    (state: RootState) => state.medicineDetails.xTimesAdayDoseTime,
   );
   const parseTodayWithTime = (timeString: string) => {
     const today = moment().format('YYYY-MM-DD'); // Get today's date in 'YYYY-MM-DD' format
@@ -227,7 +267,7 @@ const XtimesAdayDose: FC = () => {
           medicineId: '',
           medicineLocalId: e.medicineLocalId,
           createdDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-          selectedDateTime: selectedtimeobj.format()
+          selectedDateTime: selectedtimeobj.format(),
         };
       });
 
@@ -242,7 +282,7 @@ const XtimesAdayDose: FC = () => {
         // Create data for the new instruction
         let instructionData = {
           medicineLocalId: medicineLocalId,
-          instrucTion: getInstructionData(medicineLocalId) || ''
+          instrucTion: getInstructionData(medicineLocalId) || '',
         };
 
         // create treatment duration data
@@ -250,7 +290,7 @@ const XtimesAdayDose: FC = () => {
           medicineLocalId: medicineLocalId,
           medicineTakeEachDay: medicineTakeEachDay,
           treatmentDurationEndTime: treatmentDurationEndTime,
-          treatmentDurationStartTime: treatmentDurationStartTime
+          treatmentDurationStartTime: treatmentDurationStartTime,
         };
 
         // Create data for the new reminder
@@ -258,14 +298,14 @@ const XtimesAdayDose: FC = () => {
           medicineLocalId: medicineLocalId,
           medicineReminderCurrentStock: medicineReminderCurrentStock,
           medicineReminderRemindToLeft: medicineReminderRemindToLeft,
-          medicineReminderTotalReq: medicineReminderTotalReq
+          medicineReminderTotalReq: medicineReminderTotalReq,
         };
 
         const dataArray = multiScheduleMaker(
           tempStore,
           treatmentDurationStartTime,
           treatmentDurationEndTime,
-          0
+          0,
         );
 
         console.log(' array', dataArray);
@@ -278,19 +318,31 @@ const XtimesAdayDose: FC = () => {
         // Required Mutations
         if (accessToken !== undefined) {
           await createMedicineData(dataArray, accessToken);
-          await INSTRUCTION_MUTATION(updatedInstructionList, accessToken, medicineLocalId);
+          await INSTRUCTION_MUTATION(
+            updatedInstructionList,
+            accessToken,
+            medicineLocalId,
+          );
           await TREATMENT_DURATION_MUTATION(
             updatedTreatmentDurationList,
             accessToken,
-            medicineLocalId
+            medicineLocalId,
           );
-          await MEDICINE_REMINDER_MUTATION(updatedReminderList, accessToken, medicineLocalId);
+          await MEDICINE_REMINDER_MUTATION(
+            updatedReminderList,
+            accessToken,
+            medicineLocalId,
+          );
         } else {
           // Handle the case where accessToken is undefined
           console.error('AccessToken is undefined');
         }
 
-        let scheduleList = await localSchedule(dataArray, 'day', medicineLocalId);
+        let scheduleList = await localSchedule(
+          dataArray,
+          'day',
+          medicineLocalId,
+        );
 
         dispatch(addscheduleList(scheduleList));
 
@@ -313,7 +365,7 @@ const XtimesAdayDose: FC = () => {
         // Create data for the new instruction
         let instructionData = {
           medicineLocalId: medicineLocalId,
-          instrucTion: getInstructionData(medicineLocalId) || ''
+          instrucTion: getInstructionData(medicineLocalId) || '',
         };
 
         // create treatment duration data
@@ -321,7 +373,7 @@ const XtimesAdayDose: FC = () => {
           medicineLocalId: medicineLocalId,
           medicineTakeEachDay: medicineTakeEachDay,
           treatmentDurationEndTime: treatmentDurationEndTime,
-          treatmentDurationStartTime: treatmentDurationStartTime
+          treatmentDurationStartTime: treatmentDurationStartTime,
         };
 
         // Create data for the new reminder
@@ -329,14 +381,14 @@ const XtimesAdayDose: FC = () => {
           medicineLocalId: medicineLocalId,
           medicineReminderCurrentStock: medicineReminderCurrentStock,
           medicineReminderRemindToLeft: medicineReminderRemindToLeft,
-          medicineReminderTotalReq: medicineReminderTotalReq
+          medicineReminderTotalReq: medicineReminderTotalReq,
         };
 
         const dataArray = multiScheduleMaker(
           tempStore,
           treatmentDurationStartTime,
           treatmentDurationEndTime,
-          0
+          0,
         );
 
         console.log(' array', dataArray);
@@ -346,7 +398,11 @@ const XtimesAdayDose: FC = () => {
         updatedTreatmentDurationList.push(treatmentDurationData);
         updatedReminderList.push(reminderData);
 
-        let scheduleList = await localSchedule(dataArray, 'day', medicineLocalId);
+        let scheduleList = await localSchedule(
+          dataArray,
+          'day',
+          medicineLocalId,
+        );
 
         dispatch(addscheduleList(scheduleList));
 
@@ -369,7 +425,7 @@ const XtimesAdayDose: FC = () => {
         .map((time, index) => ({
           doseTime: time,
           doseQuantity: doses[index].toString(),
-          medicineLocalId
+          medicineLocalId,
         }))
         .filter(dose => dose.doseTime !== '' && dose.doseQuantity !== '0'); // Optional: filter out empty values
 
@@ -379,20 +435,29 @@ const XtimesAdayDose: FC = () => {
 
   return (
     <View style={styles.container}>
-      <Progress.Bar color="#A6BDF8" progress={0.4} width={380} style={styles.progressBarPosition} />
+      <Progress.Bar
+        color="#A6BDF8"
+        progress={0.4}
+        width={380}
+        style={styles.progressBarPosition}
+      />
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={styles.imagePosition}>
           <MedicineLogo />
         </View>
         <View style={styles.headingPosition}>
-          <Text style={styles.headingText}>When do you need to take the dose?</Text>
+          <Text style={styles.headingText}>
+            When do you need to take the dose?
+          </Text>
         </View>
 
         {/* Time and Dose Chips */}
         <View>
           {times.map((_, index) => (
             <React.Fragment key={index}>
-              <Text style={styles.intakeNumberText}>{`Intake ${index + 1}`}</Text>
+              <Text style={styles.intakeNumberText}>{`Intake ${
+                index + 1
+              }`}</Text>
 
               <View style={styles.chipPosition}>
                 {/* Time Chip */}
@@ -400,8 +465,13 @@ const XtimesAdayDose: FC = () => {
                   <View style={styles.chipProperties}>
                     <View style={styles.chipContentProperties}>
                       {times[index] !== '' && (
-                        <TouchableOpacity onPress={() => clearTimeSelection(index)}>
-                          <FontAwesome name="minus-circle" size={30} color={'red'} />
+                        <TouchableOpacity
+                          onPress={() => clearTimeSelection(index)}>
+                          <FontAwesome
+                            name="minus-circle"
+                            size={30}
+                            color={'red'}
+                          />
                         </TouchableOpacity>
                       )}
                       <Text style={styles.chipText}>Time</Text>
@@ -421,8 +491,13 @@ const XtimesAdayDose: FC = () => {
                   <View style={styles.chipProperties}>
                     <View style={styles.chipContentProperties}>
                       {doses[index] !== 0 && (
-                        <TouchableOpacity onPress={() => clearDoseSelection(index)}>
-                          <FontAwesome name="minus-circle" size={30} color={'red'} />
+                        <TouchableOpacity
+                          onPress={() => clearDoseSelection(index)}>
+                          <FontAwesome
+                            name="minus-circle"
+                            size={30}
+                            color={'red'}
+                          />
                         </TouchableOpacity>
                       )}
                       <Text style={styles.chipText}>Dose</Text>
@@ -442,18 +517,19 @@ const XtimesAdayDose: FC = () => {
         </View>
 
         {/* Add More Settings */}
-        {times.every(time => time !== '') && doses.every(dose => dose !== 0) && (
-          <View>
-            <View style={styles.addMoreSettingsHeaderPosition}>
-              <Text style={styles.addMoreSettingsHeaderText}>
-                Would you like to add more settings?
-              </Text>
+        {times.every(time => time !== '') &&
+          doses.every(dose => dose !== 0) && (
+            <View>
+              <View style={styles.addMoreSettingsHeaderPosition}>
+                <Text style={styles.addMoreSettingsHeaderText}>
+                  Would you like to add more settings?
+                </Text>
+              </View>
+              <View style={styles.addMoresettingsContainer}>
+                <MoreSettings />
+              </View>
             </View>
-            <View style={styles.addMoresettingsContainer}>
-              <MoreSettings />
-            </View>
-          </View>
-        )}
+          )}
 
         {/* Time Picker Modal */}
         {open && (
@@ -469,7 +545,7 @@ const XtimesAdayDose: FC = () => {
               const timeStr = new Intl.DateTimeFormat('en-US', {
                 hour: 'numeric',
                 minute: '2-digit',
-                hour12: true
+                hour12: true,
               }).format(new Date(date));
               if (selectedChip !== null) {
                 setTimes(prevTimes => {
@@ -503,7 +579,9 @@ const XtimesAdayDose: FC = () => {
           <CustomButton
             onPress={handleNext}
             disabled={disable}
-            icon={<AntDesign name="arrowright" size={30} color={colors.white} />}
+            icon={
+              <AntDesign name="arrowright" size={30} color={colors.white} />
+            }
             text="Next"
           />
         </View>

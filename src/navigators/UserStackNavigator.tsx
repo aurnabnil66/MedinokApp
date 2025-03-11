@@ -191,7 +191,7 @@ const UserStackNavigator: FC = () => {
     const navigation = useNavigation();
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('UserDrawer' as never)}>
+        onPress={() => navigation.popToTop('UserDrawer' as never)}>
         <View style={styles.backNavigationProperties}>
           <Text style={styles.backNavigationText}>Cancel</Text>
         </View>

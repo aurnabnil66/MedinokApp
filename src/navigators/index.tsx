@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React, {FC, useEffect} from 'react';
-import Spinner from 'react-native-loading-spinner-overlay';
 import {useDispatch, useSelector} from 'react-redux';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {CameraScanner, MedicineDetails} from '../Screens';
@@ -9,7 +8,6 @@ import {checkingLoader} from '../store/slices/features/settings/slice';
 import AuthStackNav from './AuthStackNavigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import UserDrawerNavigator from './UserDrawerNavigator';
 import UserStackNavigator from './UserStackNavigator';
 import {TouchableOpacity, View, Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -96,7 +94,7 @@ const Navigator: FC = () => {
 
   return (
     <GestureHandlerRootView>
-      <NavigationContainer>
+      <NavigationContainer navigationInChildEnabled={true}>
         <UserStack />
       </NavigationContainer>
     </GestureHandlerRootView>
