@@ -95,9 +95,11 @@ const Navigator: FC = () => {
   };
 
   return (
-    <NavigationContainer>
-      <UserStack />
-    </NavigationContainer>
+    <GestureHandlerRootView>
+      <NavigationContainer>
+        <UserStack />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 

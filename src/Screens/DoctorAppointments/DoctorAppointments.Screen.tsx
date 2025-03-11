@@ -10,8 +10,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {format} from 'date-fns';
 
-import {type RootState} from '@/store';
-import {setAppointment} from '@/store/slices/features/appointment/slice';
+import {type RootState} from '../../store';
+import {setAppointment} from '../../store/slices/features/appointment/slice';
 
 import DoctorAppointmentsLogo from '../../assets/doctor-appointments';
 import CalendarModal from '../../Components/CalendarModal/CalenderModal';
@@ -22,7 +22,7 @@ import {colors} from '../../theme/colors';
 
 import styles from './style';
 import moment from 'moment';
-import {appointmentSchedule} from '@/helper/appointmentSchedule';
+import {appointmentSchedule} from '../../helper/appointmentSchedule';
 
 const DoctorAppointments: FC = () => {
   const navigation = useNavigation();
