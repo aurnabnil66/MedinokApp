@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ImageBackground, View, Text, TouchableOpacity } from 'react-native';
+import { ImageBackground, View, Text, TouchableOpacity,NativeModules } from 'react-native';
 import styles from './style';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -11,7 +11,22 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { colors } from '@/theme/colors';
 import moment from 'moment';
 
+
+interface AlarmDetails {
+  uid: string;
+  title: string;
+  description: string;
+  hour: number;
+  minutes: number;
+  snoozeInterval: number;
+  repeating: boolean;
+  active: boolean;
+  days: number[];
+}
+
+
 const AlarmScreen = () => {
+  const { AlarmModule } = NativeModules;
   const userName = useSelector((state: RootState) => state.users?.user?.data?.user?.fullName);
 
   const storedMedicineList = useSelector(
@@ -57,7 +72,40 @@ const AlarmScreen = () => {
     const med = filteredMedicineList.find(med => medicineId === med.medicineLocalId);
     return med ? med.doseQuantity : '';
   };
+  const setAlarm = async () => {
+    try {
+      // Get the current time
+      const now = new Date();
+  
+      // Calculate the time 2 minutes later
+      const twoMinutesLater = new Date(now.getTime() + 2 * 60 * 1000); // 2 minutes in milliseconds
+  
+      // Extract hours and minutes
+      const hour = twoMinutesLater.getHours();
+      const minutes = twoMinutesLater.getMinutes();
+  
+      // Set the alarm details
+      const alarmDetails: AlarmDetails = {
+        uid: 'alarm1', // Unique ID for the alarm
+        title: 'Test Alarm',
+        description: 'This is a test alarm set 2 minutes later.',
+        hour: hour,
+        minutes: minutes,
+        snoozeInterval: 5, // Snooze interval in minutes
+        repeating: false, // Set to true if you want the alarm to repeat
+        active: true, // Set the alarm as active
+        days: [], // Empty array for non-repeating alarms
+      };
+  
+      // Call the native module to set the alarm
+      await AlarmModule.set(alarmDetails);
+      console.log('Alarm set successfully for:', twoMinutesLater.toLocaleTimeString());
+      console.log('Alarm set successfully kfor:', twoMinutesLater.toLocaleTimeString());
 
+    } catch (error) {
+      console.error('Failed to set alarm:', error);
+    }
+  };
   return (
     <>
       <ImageBackground
@@ -109,11 +157,12 @@ const AlarmScreen = () => {
             <View style={styles.btnPosition}>
               <View style={styles.btnProperties}>
                 <View>
-                  <TouchableOpacity style={styles.btnBackground}>
+                  <TouchableOpacity style={styles.btnBackground} onPress={setAlarm}>
                     <Entypo name="cross" size={25} color={colors.black} />
                   </TouchableOpacity>
                   <Text style={styles.actionText}>Skip</Text>
                 </View>
+
                 <View>
                   <TouchableOpacity style={styles.btnBackground}>
                     <AntDesign name="check" size={28} color={colors.buttonBg} />
