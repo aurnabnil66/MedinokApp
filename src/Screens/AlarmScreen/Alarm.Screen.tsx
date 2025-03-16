@@ -106,6 +106,25 @@ const AlarmScreen = () => {
       console.error('Failed to set alarm:', error);
     }
   };
+
+  const getAllAlarms = async () => {
+    try {
+      const alarms = await AlarmModule.getAll();
+      console.log('All alarms:', alarms);
+    } catch (error) {
+      console.error('Failed to get alarms:', error);
+    }
+  };
+  
+  // Example: Stop the active alarm
+  const stopAlarm = async () => {
+    try {
+      await AlarmModule.stop();
+      console.log('Alarm stopped successfully');
+    } catch (error) {
+      console.error('Failed to stop alarm:', error);
+    }
+  };
   return (
     <>
       <ImageBackground
@@ -164,7 +183,7 @@ const AlarmScreen = () => {
                 </View>
 
                 <View>
-                  <TouchableOpacity style={styles.btnBackground}>
+                  <TouchableOpacity style={styles.btnBackground} onPress={getAllAlarms}>
                     <AntDesign name="check" size={28} color={colors.buttonBg} />
                   </TouchableOpacity>
                   <Text style={styles.takenText}>Taken</Text>

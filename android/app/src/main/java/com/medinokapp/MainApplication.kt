@@ -14,6 +14,10 @@ import com.facebook.soloader.SoLoader
 import com.alarm.Package as AlarmPackage
 
 import com.oblador.vectoricons.VectorIconsPackage;
+import android.content.Intent
+import android.net.Uri
+import android.os.PowerManager
+import android.provider.Settings
 
 class MainApplication : Application(), ReactApplication {
 
@@ -46,4 +50,12 @@ class MainApplication : Application(), ReactApplication {
       load()
     }
   }
+  fun checkBatteryOptimization(context: Context) {
+    val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+    if (!powerManager.isIgnoringBatteryOptimizations(context.packageName)) {
+        val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+        intent.data = Uri.parse("package:${context.packageName}")
+        context.startActivity(intent)
+    }
+}
 }

@@ -60,7 +60,9 @@ export const localSchedule = async (listOfItem: any[], name: string, medicineId:
             vibrate: true,
             invokeApp: false,
             repeatType: 'time', // Repeat at custom interval
-            repeatTime: 30000 // Repeat every 1 minute (60000 ms)
+            repeatTime: 30000, // Repeat every 1 minute (60000 ms)
+            // invokeApp: true, // Launch the app when clicked
+            fullScreenIntent: true, // Use full-screen intent
           });
           // Schedule alarm using AlarmClock
           const alarmDate = new Date(fireDate);

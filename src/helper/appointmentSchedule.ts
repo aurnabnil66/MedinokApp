@@ -89,7 +89,9 @@ export const appointmentSchedule = async (appointments: any[]) => {
             allowWhileIdle: true,
             invokeApp: false,
             repeatType: 'time', // Repeat at custom interval
-            repeatTime: 30000
+            repeatTime: 30000,
+            // invokeApp: true, // Launch the app when clicked
+            fullScreenIntent: true, // Use full-screen intent
           });
         })
       );

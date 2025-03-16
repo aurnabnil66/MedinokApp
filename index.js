@@ -65,6 +65,8 @@ const handleSnooze = notification => {
     playSound: true,
     importance: Importance.HIGH,
     allowWhileIdle: true,
+    invokeApp: true, // Launch the app when clicked
+    fullScreenIntent: true, // Use full-screen intent
   });
 };
 
