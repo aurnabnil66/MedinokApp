@@ -90,6 +90,7 @@ import java.util.List;
 class Storage {
 
     private static final String ALARMS_KEY = "alarms_list"; // Key for storing all alarms
+    private static final String DATES_KEY = "alarm_dates"; // Key for storing alarm dates
 
     // Save all alarms
     static void saveAlarm(Context context, Alarm alarm) {
@@ -105,7 +106,8 @@ class Storage {
         if (json == null) {
             return new ArrayList<>(); // Return an empty list if no alarms are saved
         }
-        Type type = new TypeToken<List<Alarm>>() {}.getType();
+        Type type = new TypeToken<List<Alarm>>() {
+        }.getType();
         return new Gson().fromJson(json, type);
     }
 
@@ -142,5 +144,30 @@ class Storage {
 
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences("alarms_prefs", Context.MODE_PRIVATE);
+    }
+
+    // Save alarm dates
+    static void saveDates(Context context, AlarmDates dates) {
+        SharedPreferences.Editor editor = getEditor(context);
+        String json = new Gson().toJson(dates);
+        editor.putString(DATES_KEY + dates.alarmUid, json);
+        editor.apply();
+    }
+
+    // Get alarm dates by UID
+    static AlarmDates getDates(Context context, String alarmUid) {
+        SharedPreferences preferences = getSharedPreferences(context);
+        String json = preferences.getString(DATES_KEY + alarmUid, null);
+        if (json == null) {
+            return null; // No dates found for this alarm
+        }
+        return new Gson().fromJson(json, AlarmDates.class);
+    }
+
+    // Remove alarm dates by UID
+    static void removeDates(Context context, String alarmUid) {
+        SharedPreferences.Editor editor = getEditor(context);
+        editor.remove(DATES_KEY + alarmUid);
+        editor.apply();
     }
 }

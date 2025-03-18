@@ -1,5 +1,7 @@
 package com.alarm;
 
+import java.util.List;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -25,7 +27,8 @@ public class Manager {
     }
 
     public static void reschedule(Context context) {
-        Alarm[] alarms = Storage.getAllAlarms(context);
+        List<Alarm> alarmList = Storage.getAllAlarms(context);
+        Alarm[] alarms = alarmList.toArray(new Alarm[0]);
         for (Alarm alarm : alarms) {
             Storage.removeDates(context, alarm.uid);
             AlarmDates dates = alarm.getAlarmDates();
@@ -45,14 +48,16 @@ public class Manager {
         }
         Storage.saveAlarm(context, alarm);
         Storage.saveDates(context, dates);
-        if (prevDates == null) return;
+        if (prevDates == null)
+            return;
         for (Date date : prevDates.getDates()) {
             Helper.cancelAlarm(context, dates.getNotificationId(date));
         }
     }
 
     static void removeAll(Context context) {
-        Alarm[] alarms = Storage.getAllAlarms(context);
+        List<Alarm> alarmList = Storage.getAllAlarms(context);
+        Alarm[] alarms = alarmList.toArray(new Alarm[0]);
         for (Alarm alarm : alarms) {
             remove(context, alarm.uid);
         }
@@ -66,7 +71,8 @@ public class Manager {
         AlarmDates dates = Storage.getDates(context, alarm.uid);
         Storage.removeAlarm(context, alarm.uid);
         Storage.removeDates(context, alarm.uid);
-        if (dates == null) return;
+        if (dates == null)
+            return;
         for (Date date : dates.getDates()) {
             int notificationID = dates.getNotificationId(date);
             Helper.cancelAlarm(context, notificationID);
