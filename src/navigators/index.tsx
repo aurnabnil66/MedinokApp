@@ -1,7 +1,11 @@
 /* eslint-disable */
 import React, {FC, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {
+  createNavigationContainerRef,
+  NavigationContainer,
+  useNavigation,
+} from '@react-navigation/native';
 import {CameraScanner, MedicineDetails} from '../Screens';
 import {RootState} from '../store';
 import {checkingLoader} from '../store/slices/features/settings/slice';
@@ -14,6 +18,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors} from '../theme/colors';
 import styles from './Styles';
 import {moderateScale} from 'react-native-size-matters';
+
+export const NavigationRef = createNavigationContainerRef();
+
+export function navigateToSceeen(name: string, params?: any) {
+  console.log({name});
+  if (NavigationRef.isReady()) {
+    NavigationRef.navigate({name, params} as never);
+  }
+}
 
 const Navigator: FC = () => {
   const authStatus = useSelector(
@@ -94,7 +107,7 @@ const Navigator: FC = () => {
 
   return (
     <GestureHandlerRootView>
-      <NavigationContainer navigationInChildEnabled={true}>
+      <NavigationContainer navigationInChildEnabled={true} ref={NavigationRef}>
         <UserStack />
       </NavigationContainer>
     </GestureHandlerRootView>

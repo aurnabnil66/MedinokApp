@@ -1,12 +1,13 @@
-import React, { type FC } from 'react';
-import { Text } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import React, {type FC} from 'react';
+import {Text} from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import { CustomGuestDrawer, PreviewDoseDetails } from '../Screens';
-import { colors } from '../theme/colors';
+import {CustomGuestDrawer, PreviewDoseDetails} from '../Screens';
+import {colors} from '../theme/colors';
 
 import GuestBottomTabNavigator from './GuestBottomTabNavigator';
 import styles from './Styles';
+import {AlarmScreen} from '../Screens/AlarmScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,17 +40,22 @@ const GuestDrawerNavigator: FC = () => {
             <Text style={styles.greetingsText}>{greetings}</Text>
           </>
         ),
-        headerTintColor: colors.buttonBg
+        headerTintColor: colors.buttonBg,
       }}>
       <Drawer.Screen
         name="GuestBottomTab"
         component={GuestBottomTabNavigator}
-        options={{ title: '' }}
+        options={{title: ''}}
       />
       <Drawer.Screen
         name="PreviewDoseDetails"
         component={PreviewDoseDetails}
-        options={{ title: '' }}
+        options={{title: ''}}
+      />
+      <Drawer.Screen
+        name="AlarmScreen"
+        component={AlarmScreen}
+        options={{headerShown: false}}
       />
     </Drawer.Navigator>
   );

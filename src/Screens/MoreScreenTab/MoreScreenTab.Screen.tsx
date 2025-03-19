@@ -163,7 +163,7 @@ const MoreScreenTab: FC = () => {
                                     Refil
                                   </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                   onPress={() =>
                                     dispatch(
                                       setTakeMedicine({
@@ -178,7 +178,7 @@ const MoreScreenTab: FC = () => {
                                   <Text style={{color: 'red', fontSize: 16}}>
                                     Click
                                   </Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                               </View>
                             </View>
 

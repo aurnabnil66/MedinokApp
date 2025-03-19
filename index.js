@@ -4,6 +4,7 @@ import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import {Platform} from 'react-native';
+import {navigateToSceeen, NavigationRef} from './src/navigators';
 
 PushNotification.configure({
   onRegister: function (token) {
@@ -16,6 +17,17 @@ PushNotification.configure({
       handleStopAlarm(notification);
     } else if (notification.action === 'Snooze') {
       handleSnooze(notification);
+    }
+
+    if (notification.userInteraction) {
+      const screen = notification.data?.screen; // Get the screen from the payload
+      const params = notification.data?.params
+        ? JSON.parse(notification.data.params)
+        : {}; // Parse params if present
+
+      if (screen) {
+        navigateToSceeen(screen, params); // Navigate to the screen
+      }
     }
   },
 
