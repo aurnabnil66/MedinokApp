@@ -10,6 +10,7 @@ import styles from './Styles';
 import UserBottomTabNavigator from './UserBottomTabNavigator';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
+import {AlarmScreen} from '../Screens/AlarmScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -58,14 +59,11 @@ const UserDrawerNavigator: FC = () => {
         options={{title: ''}}
       />
 
-      {/* {screensListForComponent.map((e,index) => (
-        <Drawer.Screen
-        key={index}
-          name={e.name}
-          component={e.component}
-          options={{ title: e.title, headerShown: false }}
-        />
-      ))} */}
+      <Drawer.Screen
+        name="AlarmScreen"
+        component={AlarmScreen}
+        options={{headerShown: false}}
+      />
     </Drawer.Navigator>
   );
 };

@@ -1,14 +1,18 @@
 /* eslint-disable */
 
 import moment from 'moment';
-import PushNotification, { Importance } from 'react-native-push-notification';
+import PushNotification, {Importance} from 'react-native-push-notification';
 import AlarmClock from 'react-native-alarm-clock';
 
 function generateRandomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export const localSchedule = async (listOfItem: any[], name: string, medicineId: string) => {
+export const localSchedule = async (
+  listOfItem: any[],
+  name: string,
+  medicineId: string,
+) => {
   try {
     // Filter items based on the provided condition
     const alarmData = listOfItem.filter(e => e.medicineLocalId === medicineId);
@@ -40,7 +44,9 @@ export const localSchedule = async (listOfItem: any[], name: string, medicineId:
             color: 'red',
             tag: 'medication_reminder',
             fire_date: fireDate,
-            date: { value: moment(e.selectedDateTime).format('YYYY-MM-DD HH:mm:ss') }
+            date: {
+              value: moment(e.selectedDateTime).format('YYYY-MM-DD HH:mm:ss'),
+            },
           };
 
           // Schedule the new notification
@@ -60,19 +66,22 @@ export const localSchedule = async (listOfItem: any[], name: string, medicineId:
             vibrate: true,
             invokeApp: false,
             repeatType: 'time', // Repeat at custom interval
-            repeatTime: 30000 // Repeat every 1 minute (60000 ms)
+            repeatTime: 30000, // Repeat every 1 minute (60000 ms)
           });
           // Schedule alarm using AlarmClock
           const alarmDate = new Date(fireDate);
-          AlarmClock.createAlarm(alarmDate.toISOString(), `Medication Reminder: ${e.medicineName}`);
+          AlarmClock.createAlarm(
+            alarmDate.toISOString(),
+            `Medication Reminder: ${e.medicineName}`,
+          );
 
           console.log(`Scheduled alarm for medication: ${alarmNotifData.id}`);
           dataList.push({
             medicineName: e.medicineName,
             medicineId: e.medicineLocalId,
-            notificationId: alarmNotifData.id
+            notificationId: alarmNotifData.id,
           });
-        })
+        }),
       );
     } else {
       console.warn('No alarms matched the criteria to schedule.');
@@ -90,14 +99,16 @@ export const deleteSchedule = async (notificationID: number) => {
 
     // console.log(`Deleting schedule for medication: ${e.medicineName}`);
     // Cancel the scheduled notification by its ID
-    PushNotification.cancelLocalNotifications({ id: `${notificationId}` });
+    PushNotification.cancelLocalNotifications({id: `${notificationId}`});
 
     // Remove the associated alarm
     // Note: AlarmClock does not have direct methods for removing alarms.
     // You may need to track and manage custom alarm removal logic if required.
     console.log(`Cancelled alarm for medication: ${notificationId}`);
 
-    console.log(`Successfully deleted schedules for medicineId: ${notificationId}`);
+    console.log(
+      `Successfully deleted schedules for medicineId: ${notificationId}`,
+    );
   } catch (err) {
     console.error('Failed to delete schedules due to error:', err);
   }
