@@ -1,23 +1,24 @@
-import React, { type FC, useState, useEffect } from 'react';
-import { Modal, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {type FC, useState, useEffect} from 'react';
+import {Modal, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
-import type IRefilModalProps from '@/Interfaces/IRefilModalProps';
-import { RootState } from '@/store';
+import type IRefilModalProps from '../../Interfaces/IRefilModalProps';
+import {RootState} from '../../store';
 import styles from './style';
-import { setRefilMedicine } from '@/store/slices/features/medicineDetailsExtraSetting/slice';
+import {setRefilMedicine} from '../../store/slices/features/medicineDetailsExtraSetting/slice';
 
 const RefilMedicineModal: FC<IRefilModalProps> = ({
   visible,
   onClose,
   onSubmit,
   numKeybaordType,
-  medlocId
+  medlocId,
 }) => {
   const dispatch = useDispatch();
 
   const medReminderList = useSelector(
-    (state: RootState) => state.medicineDetailsExtraSetting.storeMedicineReminder
+    (state: RootState) =>
+      state.medicineDetailsExtraSetting.storeMedicineReminder,
   );
 
   const [addQuantity, setAddQuantity] = useState<string>('');
@@ -25,8 +26,12 @@ const RefilMedicineModal: FC<IRefilModalProps> = ({
 
   // Function to get the remaining medicine count
   const getRemaining = (medId: string): string => {
-    const foundMedicine = medReminderList.find((med) => med.medicineLocalId === medId);
-    return foundMedicine ? String(foundMedicine.medicineReminderRemindToLeft) : '5'; // Default to 5 if not found
+    const foundMedicine = medReminderList.find(
+      med => med.medicineLocalId === medId,
+    );
+    return foundMedicine
+      ? String(foundMedicine.medicineReminderRemindToLeft)
+      : '5'; // Default to 5 if not found
   };
 
   // Set initial value when modal opens or medlocId changes
@@ -45,8 +50,8 @@ const RefilMedicineModal: FC<IRefilModalProps> = ({
       setRefilMedicine({
         medicineLocalId: medlocId,
         refilAmount: addValue,
-        reminderAmount:remindQuantity
-      })
+        reminderAmount: remindQuantity,
+      }),
     );
 
     onSubmit(addValue, remindValue);
@@ -61,7 +66,11 @@ const RefilMedicineModal: FC<IRefilModalProps> = ({
   };
 
   return (
-    <Modal transparent animationType="slide" visible={visible} onRequestClose={onClose}>
+    <Modal
+      transparent
+      animationType="slide"
+      visible={visible}
+      onRequestClose={onClose}>
       <View style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>Refill your medicine</Text>
@@ -79,7 +88,7 @@ const RefilMedicineModal: FC<IRefilModalProps> = ({
           </View>
 
           <View style={styles.inputContainer}>
-            <View style={{ flexDirection: 'column' }}>
+            <View style={{flexDirection: 'column'}}>
               <Text style={styles.remindMedLabel}>Remind</Text>
               <Text style={styles.remindMedLabel}>When Left:</Text>
             </View>
@@ -94,7 +103,9 @@ const RefilMedicineModal: FC<IRefilModalProps> = ({
           </View>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.cancelButton} onPress={handleCancelPress}>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={handleCancelPress}>
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.okButton} onPress={handleOkPress}>

@@ -43,7 +43,6 @@ const MedicineReminders: FC = () => {
         },
       ]),
     );
-    //navigation.navigate(`${prevRoute}` as never);
 
     navigation.goBack();
   };

@@ -68,8 +68,8 @@ export const localSchedule = async (
             repeatType: 'time', // Repeat at custom interval
             repeatTime: 30000, // Repeat every 1 minute (60000 ms)
             data: {
-              screen: 'AlarmScreen', // 👈 Add this
-              params: JSON.stringify({medicineId: e.medicineLocalId}), // 👈 Pass any necessary params
+              screen: 'AlarmScreen',
+              params: JSON.stringify({medicineId: e.medicineLocalId}),
             },
           });
           // Schedule alarm using AlarmClock

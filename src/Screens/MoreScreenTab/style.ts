@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
   },
   medicineNameAndPillsLeft: {
     flexDirection: 'row',
-    gap: scale(170),
+    gap: scale(138),
+    justifyContent: 'space-between',
   },
   container: {
     backgroundColor: colors.white,
@@ -157,6 +158,14 @@ const styles = StyleSheet.create({
     color: colors.typedText,
     fontFamily: 'WorkSansMedium',
     fontSize: moderateScale(14),
+  },
+  requiredValueEmptyText: {
+    color: colors.error,
+    fontFamily: 'WorkSansMedium',
+    fontSize: moderateScale(12),
+  },
+  requiredEmptyTextPosition: {
+    left: 5,
   },
 });
 

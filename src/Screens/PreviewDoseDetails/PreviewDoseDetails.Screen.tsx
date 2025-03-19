@@ -17,11 +17,11 @@ const PreviewDoseDetails: FC = () => {
   const route = useRoute(); // Access the route prop
 
   const {medicine} = route.params as {medicine: any}; // Extract medicineId from route params
-  console.log(medicine, 'medicine');
+  //console.log(medicine, 'medicine');
 
-  const weeklyTime = useSelector(
-    (state: RootState) => state.medicineDetails.weeklyTime,
-  );
+  // const weeklyTime = useSelector(
+  //   (state: RootState) => state.medicineDetails.weeklyTime,
+  // );
 
   const navigation = useNavigation();
 

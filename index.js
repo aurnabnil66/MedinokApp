@@ -4,7 +4,7 @@ import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import {Platform} from 'react-native';
-import {navigateToSceeen, NavigationRef} from './src/navigators';
+import {navigateToSceeen} from './src/navigators';
 
 PushNotification.configure({
   onRegister: function (token) {
@@ -28,6 +28,11 @@ PushNotification.configure({
       if (screen) {
         navigateToSceeen(screen, params); // Navigate to the screen
       }
+    }
+
+    // Clear notification after tapping
+    if (notification.id) {
+      PushNotification.cancelLocalNotification(notification.id.toString());
     }
   },
 
@@ -63,20 +68,28 @@ const handleStopAlarm = notification => {
 
 const handleSnooze = notification => {
   const snoozeTime = 5 * 60 * 1000; // 5 minutes
+  const newFireDate = new Date(Date.now() + snoozeTime);
 
-  const newFireDate = new Date(Date.now() + snoozeTime); // New time for snoozed notification
+  // Ensure the notification is not already scheduled before creating a new one
+  PushNotification.getScheduledLocalNotifications(scheduledNotifications => {
+    const alreadyScheduled = scheduledNotifications.some(
+      n => n.id === notification.id.toString(),
+    );
 
-  PushNotification.localNotificationSchedule({
-    channelId: notification.channelId,
-    title: notification.title,
-    message: notification.message,
-    date: newFireDate,
-    id: notification.id,
-    soundName: notification.soundName,
-    actions: ['Snooze', 'Stop Alarm'],
-    playSound: true,
-    importance: Importance.HIGH,
-    allowWhileIdle: true,
+    if (!alreadyScheduled) {
+      PushNotification.localNotificationSchedule({
+        channelId: notification.channelId,
+        title: notification.title,
+        message: notification.message,
+        date: newFireDate,
+        id: notification.id,
+        soundName: notification.soundName,
+        // actions: ['Snooze', 'Stop Alarm'],
+        playSound: true,
+        importance: Importance.HIGH,
+        allowWhileIdle: true,
+      });
+    }
   });
 };
 

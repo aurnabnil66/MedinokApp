@@ -19,7 +19,6 @@ const easing = Easing.bezier(0.25, -0.5, 0.25, 1);
 const SplashScreen: FC = () => {
   const sv = useSharedValue(0);
   const scale = useSharedValue(0.4);
-  console.log('scale', scale.value);
 
   //const targetScale = Math.max(0.1, Math.min(1.2, scale.value * 3));
 

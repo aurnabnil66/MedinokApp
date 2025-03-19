@@ -1,5 +1,11 @@
 import React, {useEffect} from 'react';
-import {ImageBackground, View, Text, TouchableOpacity} from 'react-native';
+import {
+  ImageBackground,
+  View,
+  Text,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 import styles from './style';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
@@ -11,9 +17,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {colors} from '../../theme/colors';
 import moment from 'moment';
 import {setTakeMedicine} from '../../store/slices/features/medicineDetailsExtraSetting/slice';
+import {useRoute} from '@react-navigation/native';
 
 const AlarmScreen = () => {
   const dispatch = useDispatch();
+  const route = useRoute(); // Get route params
+  const {medicineId} = route.params as {medicineId: string}; // Extract medicineId
 
   const userName = useSelector(
     (state: RootState) => state.users?.user?.data?.user?.fullName,
@@ -22,9 +31,7 @@ const AlarmScreen = () => {
   const storedMedicineList = useSelector(
     (state: RootState) => state.medicineDetails.storedMedicineList,
   );
-  const storedScheduleList = useSelector(
-    (state: RootState) => state.medicineDetails.scheduleList,
-  );
+
   const selectedDate = useSelector(
     (state: RootState) => state.medicineDetails.selectedDates,
   );
@@ -39,47 +46,10 @@ const AlarmScreen = () => {
     return medicineDateString === formattedDate;
   });
 
-  const getMedicineName = (medicineId: string) => {
-    const med = filteredMedicineList.find(
-      med => medicineId === med.medicineLocalId,
-    );
-    return med ? med.medicineName : '';
-  };
-
-  const getScheduleTime = (medicineId: string) => {
-    const med = filteredMedicineList.find(
-      med => medicineId === med.medicineLocalId,
-    );
-    return med ? med.doseTime : '';
-  };
-
-  const getTakeStatus = (medicineId: string) => {
-    const med = filteredMedicineList.find(
-      med => medicineId === med.medicineLocalId,
-    );
-    return med ? med.takeStatus : '';
-  };
-
-  const getStrength = (medicineId: string) => {
-    const med = filteredMedicineList.find(
-      med => medicineId === med.medicineLocalId,
-    );
-    return med ? med.strengthMed : '';
-  };
-
-  const getUnit = (medicineId: string) => {
-    const med = filteredMedicineList.find(
-      med => medicineId === med.medicineLocalId,
-    );
-    return med ? med.unitMed : '';
-  };
-
-  const getQuantity = (medicineId: string) => {
-    const med = filteredMedicineList.find(
-      med => medicineId === med.medicineLocalId,
-    );
-    return med ? med.doseQuantity : '';
-  };
+  // Filter medicine based on the ID received from the notification
+  const medicine = filteredMedicineList.find(
+    med => med.medicineLocalId === medicineId,
+  );
 
   return (
     <>
@@ -89,9 +59,12 @@ const AlarmScreen = () => {
         resizeMode="cover">
         <View style={styles.userNameProperties}>
           <FontAwesome5 name="user-circle" size={30} color={colors.black} />
-          <Text style={styles.userNameText}>
-            Hello {userName}, It’s time to take your meds.
-          </Text>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={styles.userNameText}>Hello {userName},</Text>
+            <Text style={styles.userNameText}>
+              It’s time to take your meds.
+            </Text>
+          </View>
         </View>
 
         <View style={styles.actionBoxPosition}>
@@ -102,25 +75,17 @@ const AlarmScreen = () => {
                 size={30}
                 color={colors.buttonBg}
               />
-              {filteredMedicineList.map(e => {
-                return (
-                  <Text style={styles.medicineNameText}>
-                    {getMedicineName(e.medicineLocalId)}
-                  </Text>
-                );
-              })}
+              <Text style={styles.medicineNameText}>
+                {medicine?.medicineName}
+              </Text>
             </View>
             <View style={styles.doseDetailsProperties}>
               <View style={styles.scheduleAndDoseProperties}>
                 <Fontisto name="date" size={20} color={colors.typedText} />
-                {filteredMedicineList.map(e => {
-                  return (
-                    <Text style={styles.scheduleAndDoseText}>
-                      Scheduled for {getTakeStatus(e.medicineLocalId)},{' '}
-                      {getScheduleTime(e.medicineLocalId)}
-                    </Text>
-                  );
-                })}
+
+                <Text style={styles.scheduleAndDoseText}>
+                  Scheduled for {medicine?.takeStatus}
+                </Text>
               </View>
               <View style={styles.scheduleAndDoseProperties}>
                 <MaterialCommunityIcons
@@ -128,21 +93,19 @@ const AlarmScreen = () => {
                   size={20}
                   color={colors.typedText}
                 />
-                {filteredMedicineList.map(e => {
-                  return (
-                    <Text style={styles.scheduleAndDoseText}>
-                      {getStrength(e.medicineLocalId)}{' '}
-                      {getUnit(e.medicineLocalId)}, take{' '}
-                      {getQuantity(e.doseQuantity)} pill(s)
-                    </Text>
-                  );
-                })}
+
+                <Text style={styles.scheduleAndDoseText}>
+                  {medicine?.strengthMed}
+                  {medicine?.unitMed}, take {medicine?.doseQuantity} pill(s)
+                </Text>
               </View>
             </View>
             <View style={styles.btnPosition}>
               <View style={styles.btnProperties}>
                 <View>
-                  <TouchableOpacity style={styles.btnBackground}>
+                  <TouchableOpacity
+                    style={styles.btnBackground}
+                    onPress={() => BackHandler.exitApp()}>
                     <Entypo name="cross" size={25} color={colors.black} />
                   </TouchableOpacity>
                   <Text style={styles.actionText}>Skip</Text>
@@ -150,7 +113,22 @@ const AlarmScreen = () => {
                 <View>
                   <TouchableOpacity
                     style={styles.btnBackground}
-                    onPress={dispatch(setTakeMedicine())}>
+                    onPress={() => {
+                      if (medicine?.medicineLocalId) {
+                        dispatch(
+                          setTakeMedicine({
+                            medicineLocalId: medicine.medicineLocalId,
+                            doseQuantity: parseInt(medicine.doseQuantity),
+                          }),
+                        );
+                        // console.log(
+                        //   'Dispatched:',
+                        //   medicine.medicineLocalId,
+                        //   medicine.doseQuantity,
+                        // );
+                        BackHandler.exitApp();
+                      }
+                    }}>
                     <AntDesign name="check" size={28} color={colors.buttonBg} />
                   </TouchableOpacity>
                   <Text style={styles.takenText}>Taken</Text>

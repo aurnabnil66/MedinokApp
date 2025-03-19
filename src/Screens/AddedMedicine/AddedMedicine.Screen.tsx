@@ -34,14 +34,6 @@ const AddedMedicine: FC = () => {
     (state: RootState) => state.users.user.loginStatus,
   );
 
-  const medicineName = useSelector(
-    (state: RootState) => state.medicineDetails.medicineName,
-  );
-
-  const storedMedicineList = useSelector(
-    (state: RootState) => state.medicineDetails.storedMedicineList,
-  );
-
   const scaleStyles = useAnimatedStyle(() => ({
     transform: [{scale: scale.value}],
   }));
@@ -79,9 +71,7 @@ const AddedMedicine: FC = () => {
       <Animated.Text
         entering={FadeInUp.delay(1300)}
         exiting={FadeOut}
-        style={styles.subText}>
-        {medicineName}
-      </Animated.Text>
+        style={styles.subText}></Animated.Text>
       <Animated.View
         entering={FadeInUp.delay(1800)}
         exiting={FadeOut}

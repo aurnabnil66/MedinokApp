@@ -71,11 +71,6 @@ const UserBottomTabNavigator: FC = () => {
         component={UserProfile}
         options={{headerShown: false}}
       />
-      <Tab.Screen
-        name="Test"
-        component={AlarmScreen}
-        options={{headerShown: false}}
-      />
     </Tab.Navigator>
   );
 };

@@ -11,10 +11,6 @@ import filterDuplicateMedicines from '../../utils/filterDuplicateMedicine';
 import Feather from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 import RefilMedicineModal from '../../Components/RefilMedicineModal/RefilMedicineModal';
-import {
-  setRefilMedicine,
-  setTakeMedicine,
-} from '../../store/slices/features/medicineDetailsExtraSetting/slice';
 
 const MoreScreenTab: FC = () => {
   const navigation = useNavigation();
@@ -71,7 +67,7 @@ const MoreScreenTab: FC = () => {
     const med = medReminderList.find(
       medicine => medicine.medicineLocalId === medId,
     );
-    console.log('med', med);
+    //console.log('med', med);
     return med ? med.medicineReminderCurrentStock : '0';
   };
 
@@ -79,7 +75,7 @@ const MoreScreenTab: FC = () => {
     const med = medReminderList.find(
       medicine => medicine.medicineLocalId === medId,
     );
-    console.log('require', med?.medicineReminderTotalReq);
+    //console.log('require', med?.medicineReminderTotalReq);
     return med ? med.medicineReminderTotalReq : '0';
   };
 
@@ -149,36 +145,32 @@ const MoreScreenTab: FC = () => {
                                 </Text>
                               </View>
                               <View style={styles.refilButtonPosition}>
-                                <TouchableOpacity
-                                  style={styles.refilButton}
-                                  onPress={() =>
-                                    handleRefillModal(medicine.medicineLocalId)
-                                  }>
-                                  <Feather
-                                    name="clipboard"
-                                    size={16}
-                                    color={'#fff'}
-                                  />
-                                  <Text style={styles.refilButtonText}>
-                                    Refil
-                                  </Text>
-                                </TouchableOpacity>
-                                {/* <TouchableOpacity
-                                  onPress={() =>
-                                    dispatch(
-                                      setTakeMedicine({
-                                        medicineLocalId:
-                                          medicine.medicineLocalId,
-                                        doseQuantity: Number(
-                                          medicine.doseQuantity,
-                                        ),
-                                      }),
-                                    )
-                                  }>
-                                  <Text style={{color: 'red', fontSize: 16}}>
-                                    Click
-                                  </Text>
-                                </TouchableOpacity> */}
+                                {getRequiredValue(medicine.medicineLocalId) !==
+                                '0' ? (
+                                  <TouchableOpacity
+                                    style={styles.refilButton}
+                                    onPress={() =>
+                                      handleRefillModal(
+                                        medicine.medicineLocalId,
+                                      )
+                                    }>
+                                    <Feather
+                                      name="clipboard"
+                                      size={16}
+                                      color={'#fff'}
+                                    />
+                                    <Text style={styles.refilButtonText}>
+                                      Refill
+                                    </Text>
+                                  </TouchableOpacity>
+                                ) : (
+                                  <View
+                                    style={styles.requiredEmptyTextPosition}>
+                                    <Text style={styles.requiredValueEmptyText}>
+                                      Required is 0
+                                    </Text>
+                                  </View>
+                                )}
                               </View>
                             </View>
 
