@@ -16,6 +16,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {useDispatch, useSelector} from 'react-redux';
 import {setQrCodeToScanData} from '../../store/slices/features/medicineDetails/slice';
 import {RootState} from '../../store';
+import {fetchScannedMedicines} from '../../mutations/scanData';
 
 type CameraScannerNavigationProp = StackNavigationProp<
   AppStackParamList,
@@ -32,28 +33,36 @@ const CameraScanner: FC = () => {
   );
 
   useEffect(() => {
-    if (hasPermission !== true) requestPermission();
+    if (!hasPermission) requestPermission();
   }, [hasPermission]);
 
   const codeScanner = useCodeScanner({
-    codeTypes: ['qr', 'ean-13'],
-    onCodeScanned: (codes: Code[]) => {
-      const value = codes[0].value ?? string;
-      if (value) {
+    codeTypes: ['qr'],
+    onCodeScanned: async (codes: Code[]) => {
+      const scannedValue = codes[0]?.value; // QR code contains only the id
+      if (scannedValue) {
         try {
-          const scannedData = JSON.parse(value);
+          const medicineId = parseInt(scannedValue, 10);
+          if (isNaN(medicineId)) {
+            throw new Error('Invalid Medicine ID');
+          }
 
-          //
-          dispatch(setQrCodeToScanData(scannedData));
-          navigation.navigate('MedicineDetails', {scannedData: value});
+          const medicineData = await fetchScannedMedicines(medicineId);
+          console.log('Fetched Medicine Data:', medicineData);
+
+          if (medicineData) {
+            dispatch(setQrCodeToScanData(medicineData));
+            navigation.navigate('MedicineDetails', {medicineData});
+          } else {
+            throw new Error('No medicine data found');
+          }
         } catch (error) {
-          console.log('Errroooorrrr', error);
-          Alert.alert('Invalid QR Code');
-          if (authStatus === true) {
-            Alert.alert('Invalid QR Code');
+          console.error('Error fetching medicine data:', error);
+          Alert.alert('Error', 'Invalid QR Code. Please scan again.');
+
+          if (authStatus) {
             navigation.navigate('UserDrawer' as never);
           } else {
-            Alert.alert('Invalid QR Code');
             navigation.goBack();
           }
         }
@@ -61,9 +70,9 @@ const CameraScanner: FC = () => {
     },
   });
 
-  if (device == null) {
+  if (!device) {
     return (
-      <View>
+      <View style={styles.container}>
         <Text>Device Not Found</Text>
       </View>
     );
@@ -82,4 +91,5 @@ const CameraScanner: FC = () => {
     </View>
   );
 };
+
 export default CameraScanner;

@@ -1,12 +1,12 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import {combineReducers} from '@reduxjs/toolkit';
 
 import {
   appointmentReducer,
   medicineDetailsReducer,
   medicineDetailsExtraSettingReducer,
-  prescriptionReducer, 
-  usersReducer, 
-  settingsReducer
+  prescriptionReducer,
+  usersReducer,
+  settingsReducer,
 } from '../store/slices/features/index';
 
 const rootReducers = combineReducers({
@@ -15,7 +15,7 @@ const rootReducers = combineReducers({
   medicineDetails: medicineDetailsReducer,
   medicineDetailsExtraSetting: medicineDetailsExtraSettingReducer,
   appointment: appointmentReducer,
-  prescription: prescriptionReducer
+  prescription: prescriptionReducer,
 });
 
 export default rootReducers;

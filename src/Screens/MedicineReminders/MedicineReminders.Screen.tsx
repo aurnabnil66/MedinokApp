@@ -95,7 +95,7 @@ const MedicineReminders: FC = () => {
             </View>
           </View>
         </View>
-        <View style={styles.chip}>
+        {/* <View style={styles.chip}>
           <View style={styles.chipProperties}>
             <View style={styles.chipContentProperties}>
               <Text style={styles.chipText}>Remind When Left :</Text>
@@ -112,7 +112,7 @@ const MedicineReminders: FC = () => {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
       </View>
 
       {medicineReminderTotalReq.trim() !== '' &&
@@ -120,10 +120,7 @@ const MedicineReminders: FC = () => {
         parseFloat(medicineReminderTotalReq) > 0 && // Prevents negative numbers (ensures the number is greater than 0)
         medicineReminderCurrentStock.trim() !== '' &&
         medicineReminderCurrentStock !== '0' &&
-        parseFloat(medicineReminderCurrentStock) > 0 && // Prevents negative numbers (ensures the number is greater than 0)
-        medicineReminderRemindToLeft.trim() !== '' &&
-        medicineReminderRemindToLeft !== '0' &&
-        parseFloat(medicineReminderRemindToLeft) > 0 && ( // Prevents negative numbers (ensures the number is greater than 0)
+        parseFloat(medicineReminderCurrentStock) > 0 && ( // Prevents negative numbers (ensures the number is greater than 0) // Prevents negative numbers (ensures the number is greater than 0)
           <View style={styles.NextbuttonPosition}>
             <CustomButton
               onPress={handleNext}

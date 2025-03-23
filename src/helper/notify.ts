@@ -64,7 +64,7 @@ export const localSchedule = async (
             playSound: true,
             allowWhileIdle: true,
             vibrate: true,
-            invokeApp: false,
+            invokeApp: true,
             repeatType: 'time', // Repeat at custom interval
             repeatTime: 30000, // Repeat every 1 minute (60000 ms)
             data: {

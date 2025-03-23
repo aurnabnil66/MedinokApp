@@ -87,7 +87,7 @@ const RefilMedicineModal: FC<IRefilModalProps> = ({
             <Text style={styles.medLabel}>Med(s)</Text>
           </View>
 
-          <View style={styles.inputContainer}>
+          {/* <View style={styles.inputContainer}>
             <View style={{flexDirection: 'column'}}>
               <Text style={styles.remindMedLabel}>Remind</Text>
               <Text style={styles.remindMedLabel}>When Left:</Text>
@@ -100,17 +100,19 @@ const RefilMedicineModal: FC<IRefilModalProps> = ({
               keyboardType={numKeybaordType ? 'numeric' : 'email-address'}
             />
             <Text style={styles.medLabel}>Med(s)</Text>
-          </View>
+          </View> */}
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={handleCancelPress}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.okButton} onPress={handleOkPress}>
-              <Text style={styles.buttonText}>OK</Text>
-            </TouchableOpacity>
+          <View style={styles.cancelAndOkButtonPosition}>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={handleCancelPress}>
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.okButton} onPress={handleOkPress}>
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>

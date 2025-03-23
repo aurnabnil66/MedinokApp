@@ -24,6 +24,7 @@ export const NavigationRef = createNavigationContainerRef();
 export function navigateToSceeen(name: string, params?: any) {
   console.log({name});
   if (NavigationRef.isReady()) {
+    console.log('Navigating');
     NavigationRef.navigate({name, params} as never);
   }
 }

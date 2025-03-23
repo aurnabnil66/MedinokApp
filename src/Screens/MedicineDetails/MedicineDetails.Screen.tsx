@@ -1,11 +1,11 @@
-import React, {type FC} from 'react';
+import React, {useEffect, type FC} from 'react';
 import {Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 
 import {type RootState} from '../../store';
 
@@ -14,11 +14,23 @@ import CustomButton from '../../Components/CustomButton/CustomButton';
 import {colors} from '../../theme/colors';
 
 import styles from './style';
+import {AppStackParamList} from '../../models/routePageModel';
+import {setQrCodeToScanData} from '../../store/slices/features/medicineDetails/slice';
 
-const MedicineDetails: FC = () => {
+type MedicineDetailsRouteProp = RouteProp<AppStackParamList, 'MedicineDetails'>;
+
+const MedicineDetails: FC<{route: MedicineDetailsRouteProp}> = ({route}) => {
   const navigation = useNavigation();
 
+  const {scannedData} = route.params;
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (scannedData) {
+      dispatch(setQrCodeToScanData(scannedData));
+    }
+  }, [scannedData, dispatch]);
 
   const authStatus = useSelector(
     (state: RootState) => state.users.user.loginStatus,
@@ -39,22 +51,31 @@ const MedicineDetails: FC = () => {
   const medicineStrength = useSelector(
     (state: RootState) => state.medicineDetails.strengthMed,
   );
-  const description = useSelector(
-    (state: RootState) => state.medicineDetails.description,
+
+  const manufacturer = useSelector(
+    (state: RootState) => state.medicineDetails.manufacturer,
   );
 
-  const person1 = useSelector(
-    (state: RootState) => state.medicineDetails.person1,
-  );
-  const person2 = useSelector(
-    (state: RootState) => state.medicineDetails.person2,
-  );
-  const person3 = useSelector(
-    (state: RootState) => state.medicineDetails.person3,
+  const brandName = useSelector(
+    (state: RootState) => state.medicineDetails.brandName,
   );
 
-  const appLoadFirstTime = useSelector(
-    (state: RootState) => state.settings.appLoadFirstTime,
+  const dosageFromStrength = useSelector(
+    (state: RootState) => state.medicineDetails.dosageFromStrength,
+  );
+
+  const indication = useSelector(
+    (state: RootState) => state.medicineDetails.indication,
+  );
+
+  const sideEffects = useSelector(
+    (state: RootState) => state.medicineDetails.sideEffects,
+  );
+
+  const dose = useSelector((state: RootState) => state.medicineDetails.dose);
+
+  const contraindication = useSelector(
+    (state: RootState) => state.medicineDetails.contraindication,
   );
 
   const handlePress: any = () => {
@@ -76,12 +97,12 @@ const MedicineDetails: FC = () => {
 
         <View style={styles.medicineNameAndBrandPosition}>
           <View style={styles.medicineNameTypeProperties}>
-            <Text style={styles.medicineNameText}>{medicineName}</Text>
+            <Text style={styles.medicineNameText}>{manufacturer}</Text>
             <View style={styles.medicineTypePosition}>
-              <Text style={styles.medicineTypeText}>{genericName}</Text>
+              <Text style={styles.medicineTypeText}>{brandName}</Text>
             </View>
           </View>
-          <Text style={styles.brandNameText}>{manufacturerName}</Text>
+          <Text style={styles.brandNameText}>{dosageFromStrength}</Text>
         </View>
 
         <View style={styles.medicineTypeAndQuantityPosition}>
@@ -95,7 +116,7 @@ const MedicineDetails: FC = () => {
                 />
               </View>
               <Text style={styles.medicineTypeAndQuantityText}>
-                {medicineForm}
+                {indication}
               </Text>
             </View>
           </View>
@@ -105,7 +126,7 @@ const MedicineDetails: FC = () => {
                 <SimpleLineIcons name="drop" size={16} color={colors.header} />
               </View>
               <Text style={styles.medicineTypeAndQuantityText}>
-                {medicineStrength}
+                {sideEffects}
               </Text>
             </View>
           </View>
@@ -116,33 +137,16 @@ const MedicineDetails: FC = () => {
             <Text style={styles.inputHeader}>Product Details</Text>
             <View style={styles.medicineDetailscontainer}>
               <View style={styles.textPosition}>
-                <Text style={styles.scannedText}>{description}</Text>
+                <Text style={styles.scannedText}>{dose}</Text>
               </View>
             </View>
           </View>
-          <View style={styles.medicineDetailsComponentProperties}>
-            <Text style={styles.inputHeader}>Dosage & Administration</Text>
-            <View style={styles.medicineDetailscontainer}>
-              <View style={styles.textPosition}>
-                <View style={styles.scannedHeaderAndTextStyle}>
-                  <Text style={styles.scannedTextHeader}>
-                    Adults & adolescents (12 years of age and over):
-                  </Text>
-                  <Text style={styles.scannedText}>{person1}</Text>
-                </View>
-                <Text></Text>
-                <View style={styles.scannedHeaderAndTextStyle}>
-                  <Text style={styles.scannedTextHeader}>
-                    Children between 2 to 11 years:
-                  </Text>
-                  <Text style={styles.scannedText}>{person2}</Text>
-                </View>
-                <Text></Text>
-                <View style={styles.scannedHeaderAndTextStyle}>
-                  <Text style={styles.scannedTextHeader}>
-                    Children under 2 years:
-                  </Text>
-                  <Text style={styles.scannedText}>{person3}</Text>
+          <View>
+            <View style={styles.medicineDetailsComponentProperties}>
+              <Text style={styles.inputHeader}>Product Details</Text>
+              <View style={styles.medicineDetailscontainer}>
+                <View style={styles.textPosition}>
+                  <Text style={styles.scannedText}>{contraindication}</Text>
                 </View>
               </View>
             </View>

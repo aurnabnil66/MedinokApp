@@ -79,6 +79,14 @@ const MoreScreenTab: FC = () => {
     return med ? med.medicineReminderTotalReq : '0';
   };
 
+  const getRemindValue = (medId: string) => {
+    const med = medReminderList.find(
+      medicine => medicine.medicineLocalId === medId,
+    );
+    //console.log('remind', med?.medicineReminderRemindToLeft);
+    return med ? med.medicineReminderRemindToLeft : '0';
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headingPosition}>
@@ -175,9 +183,23 @@ const MoreScreenTab: FC = () => {
                             </View>
 
                             <View style={styles.remindLeftTextPosition}>
-                              <Text style={styles.remindLeftText}>
-                                Reminder: When 5 Meds Remaining
-                              </Text>
+                              {getMedLeftValue(medicine.medicineLocalId) <=
+                                '5' &&
+                              getRemindValue(medicine.medicineLocalId) !==
+                                '0' ? (
+                                <Text style={styles.remindLeftText}>
+                                  Refill Now! Only 5 medicines are left
+                                </Text>
+                              ) : getRequiredValue(medicine.medicineLocalId) ===
+                                '0' ? (
+                                <Text style={styles.noStockValueText}>
+                                  Reminder: No stock value found
+                                </Text>
+                              ) : (
+                                <Text style={styles.noStockValueText}>
+                                  Reminder: When 5 medicines are left
+                                </Text>
+                              )}
                             </View>
                           </View>
                         </View>

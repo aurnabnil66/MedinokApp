@@ -31,12 +31,17 @@ export interface IMedicineDetailsType {
   xMonthDoseTime: IXMonthlyDoseTime[];
   xMonthTakeDoseTime: IWeeklyDoseTime[];
   selectedDates: string;
-  description: string;
-  person1: string;
-  person2: string;
-  person3: string;
   selectedDateTime: Date | null;
   scheduleList: MedicationScheduleList[];
+
+  id: number;
+  manufacturer: string;
+  brandName: string;
+  dosageFromStrength: string;
+  indication: string;
+  sideEffects: string;
+  dose: string;
+  contraindication: string;
 }
 
 export interface MedicationScheduleList {
@@ -193,21 +198,13 @@ export interface IMedicineLocalId {
   medicineLocalId: string;
 }
 
-export interface IProductDetails {
-  description: string;
-}
-
-export interface IAdministration {
-  person1: string;
-  person2: string;
-  person3: string;
-}
-
-export interface IDosageAndAdministration {
-  administration: IAdministration;
-}
-
-export interface IMedicineInfo {
-  product_details: IProductDetails;
-  dosage_and_administration: IDosageAndAdministration;
+export interface IMedicineScanData {
+  id: number;
+  manufacturer: string;
+  brandName: string;
+  dosageFromStrength: string;
+  indication: string;
+  sideEffects: string;
+  dose: string;
+  contraindication: string;
 }

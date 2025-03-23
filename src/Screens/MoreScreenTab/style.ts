@@ -102,6 +102,11 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(12),
   },
   remindLeftText: {
+    color: colors.error,
+    fontFamily: 'WorkSansMedium',
+    fontSize: moderateScale(12),
+  },
+  noStockValueText: {
     color: colors.typedText,
     fontFamily: 'WorkSansMedium',
     fontSize: moderateScale(12),
