@@ -32,26 +32,6 @@ const MedicineDetails: FC<{route: MedicineDetailsRouteProp}> = ({route}) => {
     }
   }, [scannedData, dispatch]);
 
-  const authStatus = useSelector(
-    (state: RootState) => state.users.user.loginStatus,
-  );
-
-  const medicineName = useSelector(
-    (state: RootState) => state.medicineDetails.medicineName,
-  );
-  const genericName = useSelector(
-    (state: RootState) => state.medicineDetails.medicineGenericName,
-  );
-  const manufacturerName = useSelector(
-    (state: RootState) => state.medicineDetails.medicineManufacturer,
-  );
-  const medicineForm = useSelector(
-    (state: RootState) => state.medicineDetails.typeMed,
-  );
-  const medicineStrength = useSelector(
-    (state: RootState) => state.medicineDetails.strengthMed,
-  );
-
   const manufacturer = useSelector(
     (state: RootState) => state.medicineDetails.manufacturer,
   );

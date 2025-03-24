@@ -37,17 +37,49 @@ export const fetchScannedMedicines = async (
     }
   `;
 
+  console.log(`Attempting to fetch medicine with ID: ${id}`);
+
   try {
-    const response: GetMedicinesResponse = await axios.post(QR_CODE_URL, {
-      query: query,
-      variables: {id},
-    });
+    const response = await axios.post(
+      QR_CODE_URL,
+      {
+        query: query,
+        variables: {id: parseFloat(id.toString())},
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
 
-    console.log('Response: ', response);
+    // Log the raw response to see the exact structure
+    console.log('Raw response:', JSON.stringify(response.data, null, 2));
 
-    return response?.data?.getMedicineData || null;
+    // Check if there are GraphQL errors
+    if (response.data.errors) {
+      console.error('GraphQL errors:', response.data.errors);
+      return null;
+    }
+
+    // Check the correct path for data
+    if (!response.data.data?.getMedicineData) {
+      console.error('No medicine data in response:', response.data);
+      return null;
+    }
+
+    return response.data.data.getMedicineData;
   } catch (error) {
-    console.error('Error fetching scanned medicine data:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Network error details:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message,
+      });
+    } else {
+      console.error('Error fetching scanned medicine data:', error);
+    }
     return null;
   }
 };

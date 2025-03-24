@@ -25,6 +25,7 @@ import {
   type StrengthUnit,
   type TakeStatus,
   MedicationScheduleList,
+  IMedicineScanData,
 } from './types';
 
 const medicineDetailsInitialData: IMedicineDetailsType = {
@@ -453,23 +454,17 @@ export const medicineDetailsSlice = createSlice({
 
     // for QR Code Scan
     setQrCodeToScanData: (
-      state: IMedicineDetailsType,
+      state: IMedicineScanData,
       payload: PayloadAction<any>,
     ) => {
-      state.id =
-        payload.payload?.medicine.id || parseInt(payload.payload.toString());
-      // state.manufacturer = payload.payload?.medicine.manufacturer || 'na';
-      // state.brandName = payload.payload?.medicine.brandName || 'na';
-      // state.medicineManufacturer =
-      //   payload.payload?.medicine.manufacturer || 'na';
-      // state.dosageFromStrength =
-      //   payload.payload?.medicine.dosageFromStrength || 'na';
-      // state.strengthMed = payload.payload?.medicine.strength || 'na';
-      // state.indication = payload.payload?.medicine.indication || 'na';
-      // state.sideEffects = payload.payload?.medicine.sideEffects || 'na';
-      // state.dose = payload.payload?.medicine.dose || 'na';
-      // state.contraindication =
-      //   payload.payload?.medicine.contraindication || 'na';
+      state.id = payload.payload?.id;
+      state.manufacturer = payload.payload?.manufacturer;
+      state.brandName = payload.payload?.brandName;
+      state.dosageFromStrength = payload.payload?.dosageFromStrength;
+      state.indication = payload.payload?.indication;
+      state.sideEffects = payload.payload?.sideEffects;
+      state.dose = payload.payload?.dose;
+      state.contraindication = payload.payload?.contraindication;
     },
     clearStoreMedicine: (state: IMedicineDetailsType) => {
       state.medicineLocalId = '';
