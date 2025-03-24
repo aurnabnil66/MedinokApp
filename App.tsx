@@ -11,15 +11,6 @@ import {persistor, store} from './src/store';
 import {ApolloProvider} from '@apollo/client';
 import client from './src/utils/apolloClient';
 import PushNotification from 'react-native-push-notification';
-// import TestApp from "./src/utils/TestApp"
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: 'tomato',
-    secondary: 'yellow',
-  },
-};
 
 Sentry.init({
   dsn: 'https://c2a97730d96c05c0a4a86ac98197deab@o4506316960038912.ingest.us.sentry.io/4507920948527104',
@@ -38,7 +29,7 @@ const App: FC = () => {
         channelId: 'team-pharmaceuticals',
         channelName: 'Team Pharmaceuticals',
         playSound: true,
-        soundName: 'alarm',
+        soundName: 'ringtone',
         importance: 4, // Set the importance level
         vibrate: true,
       },

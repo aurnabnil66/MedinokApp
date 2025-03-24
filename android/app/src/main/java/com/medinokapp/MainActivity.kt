@@ -57,7 +57,7 @@ class MainActivity : ReactActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = "team-pharmaceuticals" // Channel ID
             val channelName = "Team Pharmaceuticals Notifications" // Channel Name
-            val soundFileName = "iphone_best_alarm" // Sound file name without extension
+            val soundFileName = "ringtone" // Sound file name without extension
 
             // Create a NotificationChannel
             val notificationChannel = NotificationChannel(
@@ -67,7 +67,7 @@ class MainActivity : ReactActivity() {
             )
 
             // Construct the URI for the sound
-          val soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/raw/iphone_best_alarm")
+          val soundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/raw/ringtone")
 
             // Set custom sound and audio attributes
             val audioAttributes = AudioAttributes.Builder()
