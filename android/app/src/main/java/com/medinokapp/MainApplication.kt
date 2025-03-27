@@ -14,15 +14,18 @@ import com.facebook.soloader.SoLoader
 
 import com.oblador.vectoricons.VectorIconsPackage;
 
+import com.medinokapp.AlarmPackage
+
 class MainApplication : Application(), ReactApplication {
 
   override val reactNativeHost: ReactNativeHost =
       object : DefaultReactNativeHost(this) {
         override fun getPackages(): List<ReactPackage> =
-            PackageList(this).packages.apply {
+            PackageList(this).packages.toMutableList().apply {
               // Packages that cannot be autolinked yet can be added manually here, for example:
-              // add(MyReactNativePackage())
-              VectorIconsPackage()
+              //add(MyReactNativePackage())
+              add(VectorIconsPackage())
+              add(AlarmPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"

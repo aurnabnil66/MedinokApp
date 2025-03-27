@@ -69,6 +69,8 @@
         <receiver 
             android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher"
             android:exported="true" />
+            
+        <receiver android:name=".AlarmReceiver" />
         <!-- <receiver 
             android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver"
             android:exported="true">

@@ -1,4 +1,4 @@
-import React, {useState, type FC} from 'react';
+import React, {useEffect, useState, type FC} from 'react';
 import type {SubmitHandler} from 'react-hook-form';
 import {Controller, useForm} from 'react-hook-form';
 import {
@@ -35,6 +35,11 @@ import {BASE_URL} from '../../utils/environment';
 import {mobileSignInFormValidation} from '../../utils/formValidation';
 import styles from './style';
 
+import {NativeModules} from 'react-native';
+//const {AlarmModule} = NativeModules;
+
+// alarm in 1 minute
+
 interface ISignInFormDataProps {
   mobile: string;
   password: string;
@@ -53,7 +58,9 @@ const Login: FC = () => {
       password: '',
     },
   });
-
+  useEffect(() => {
+    NativeModules.AlarmModule.setAlarm('Meeting reminder!', 10);
+  }, [1]);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {isInternetReachable, isCellularConnection} = useNetworkStatus();
