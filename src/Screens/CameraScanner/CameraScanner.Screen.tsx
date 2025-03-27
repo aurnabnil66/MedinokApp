@@ -53,7 +53,7 @@ const CameraScanner: FC = () => {
     setIsActive(false);
 
     try {
-      console.log(`QR code scanned with value: "${scannedValue}"`);
+      //console.log(`QR code scanned with value: "${scannedValue}"`);
 
       const medicineId = parseInt(scannedValue, 10);
       // if (isNaN(medicineId)) {
@@ -62,14 +62,14 @@ const CameraScanner: FC = () => {
       //   );
       // }
 
-      console.log(`Converted QR code to medicine ID: ${medicineId}`);
+      //console.log(`Converted QR code to medicine ID: ${medicineId}`);
 
       const medicineData = await fetchScannedMedicines(medicineId);
 
       if (!medicineData) {
         throw new Error(`No medicine found with ID: ${medicineId}`);
       } else {
-        console.log('Successfully fetched medicine data:', medicineData);
+        //console.log('Successfully fetched medicine data:', medicineData);
         dispatch(setQrCodeToScanData(medicineData));
         navigation.navigate('MedicineDetails', {medicineData});
       }

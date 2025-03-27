@@ -76,13 +76,13 @@ const MedicineDetails: FC<{route: MedicineDetailsRouteProp}> = ({route}) => {
         </View>
 
         <View style={styles.medicineNameAndBrandPosition}>
-          <View style={styles.medicineNameTypeProperties}>
-            <Text style={styles.medicineNameText}>{manufacturer}</Text>
-            <View style={styles.medicineTypePosition}>
-              <Text style={styles.medicineTypeText}>{brandName}</Text>
+          <View style={styles.brandAndManufacturerProperties}>
+            <Text style={styles.brandNameText}>{brandName}</Text>
+            <View style={styles.manufacturerNamePosition}>
+              <Text style={styles.manufacturerNameText}>{manufacturer}</Text>
             </View>
           </View>
-          <Text style={styles.brandNameText}>{dosageFromStrength}</Text>
+          <Text style={styles.manufacturerNameText}>{dosageFromStrength}</Text>
         </View>
 
         <View style={styles.medicineTypeAndQuantityPosition}>
@@ -114,7 +114,29 @@ const MedicineDetails: FC<{route: MedicineDetailsRouteProp}> = ({route}) => {
 
         <View style={styles.medicineDetailsComponentPosition}>
           <View style={styles.medicineDetailsComponentProperties}>
-            <Text style={styles.inputHeader}>Product Details</Text>
+            <Text style={styles.inputHeader}>Indication</Text>
+            <View style={styles.medicineDetailscontainer}>
+              <View style={styles.textPosition}>
+                <Text style={styles.scannedText}>{indication}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.medicineDetailsComponentPosition}>
+          <View style={styles.medicineDetailsComponentProperties}>
+            <Text style={styles.inputHeader}>Side Effects</Text>
+            <View style={styles.medicineDetailscontainer}>
+              <View style={styles.textPosition}>
+                <Text style={styles.scannedText}>{sideEffects}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.medicineDetailsComponentPosition}>
+          <View style={styles.medicineDetailsComponentProperties}>
+            <Text style={styles.inputHeader}>Dose</Text>
             <View style={styles.medicineDetailscontainer}>
               <View style={styles.textPosition}>
                 <Text style={styles.scannedText}>{dose}</Text>
@@ -123,7 +145,7 @@ const MedicineDetails: FC<{route: MedicineDetailsRouteProp}> = ({route}) => {
           </View>
           <View>
             <View style={styles.medicineDetailsComponentProperties}>
-              <Text style={styles.inputHeader}>Product Details</Text>
+              <Text style={styles.inputHeader}>Contraindication</Text>
               <View style={styles.medicineDetailscontainer}>
                 <View style={styles.textPosition}>
                   <Text style={styles.scannedText}>{contraindication}</Text>

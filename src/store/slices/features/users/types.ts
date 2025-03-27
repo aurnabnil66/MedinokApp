@@ -1,4 +1,4 @@
-import { type AccessTokenInfo } from '@/store/types/types';
+import {type AccessTokenInfo} from '../store/types/types';
 
 // Define the user type
 export interface UserType {

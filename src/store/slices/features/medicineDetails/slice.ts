@@ -454,7 +454,7 @@ export const medicineDetailsSlice = createSlice({
 
     // for QR Code Scan
     setQrCodeToScanData: (
-      state: IMedicineScanData,
+      state: IMedicineDetailsType,
       payload: PayloadAction<any>,
     ) => {
       state.id = payload.payload?.id;
