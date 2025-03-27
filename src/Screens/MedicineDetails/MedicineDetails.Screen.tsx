@@ -85,9 +85,9 @@ const MedicineDetails: FC<{route: MedicineDetailsRouteProp}> = ({route}) => {
           <Text style={styles.manufacturerNameText}>{dosageFromStrength}</Text>
         </View>
 
-        <View style={styles.medicineTypeAndQuantityPosition}>
-          <View style={styles.medicineTypeAndQuantityStyle}>
-            <View style={styles.medicineTypeAndQuantityProperties}>
+        <View style={styles.dosageAndStrengthPosition}>
+          <View style={styles.dosageAndStrengthStyle}>
+            <View style={styles.dosageAndStrengthProperties}>
               <View style={styles.iconPosition}>
                 <MaterialCommunityIcons
                   name="pill"
@@ -96,20 +96,18 @@ const MedicineDetails: FC<{route: MedicineDetailsRouteProp}> = ({route}) => {
                 />
               </View>
               <Text style={styles.medicineTypeAndQuantityText}>
-                {indication}
+                {dosageFromStrength}
               </Text>
             </View>
           </View>
-          <View style={styles.medicineTypeAndQuantityStyle}>
+          {/* <View style={styles.medicineTypeAndQuantityStyle}>
             <View style={styles.medicineTypeAndQuantityProperties}>
               <View style={styles.iconPosition}>
                 <SimpleLineIcons name="drop" size={16} color={colors.header} />
               </View>
-              <Text style={styles.medicineTypeAndQuantityText}>
-                {sideEffects}
-              </Text>
+              <Text style={styles.medicineTypeAndQuantityText}>{}</Text>
             </View>
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.medicineDetailsComponentPosition}>

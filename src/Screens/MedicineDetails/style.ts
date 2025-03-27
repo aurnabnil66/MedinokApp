@@ -58,24 +58,24 @@ const styles = StyleSheet.create({
     //gap: scale(5),
     alignItems: 'center',
   },
-  medicineTypeAndQuantityPosition: {
+  dosageAndStrengthPosition: {
     flexDirection: 'row',
     gap: scale(10),
     marginLeft: scale(85),
     marginTop: verticalScale(10),
   },
-  medicineTypeAndQuantityProperties: {
+  dosageAndStrengthProperties: {
     alignSelf: 'center',
     flexDirection: 'row',
     gap: scale(7),
   },
-  medicineTypeAndQuantityStyle: {
+  dosageAndStrengthStyle: {
     backgroundColor: colors.textInput,
     borderRadius: scale(6),
-    height: verticalScale(24),
+    height: scale(35),
     justifyContent: 'center',
     right: scale(20),
-    width: scale(94),
+    width: scale(220),
   },
   medicineTypeAndQuantityText: {
     color: colors.header,
