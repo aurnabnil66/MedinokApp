@@ -58,9 +58,11 @@ const Login: FC = () => {
       password: '',
     },
   });
+
   useEffect(() => {
-    NativeModules.AlarmModule.setAlarm('Meeting reminder!', 10);
+    NativeModules.AlarmModule.setAlarmInSeconds(10);
   }, [1]);
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const {isInternetReachable, isCellularConnection} = useNetworkStatus();

@@ -69,6 +69,12 @@
         <receiver 
             android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher"
             android:exported="true" />
+
+        <activity android:name=".AlarmFullscreenActivity"
+        android:showWhenLocked="true"
+        android:turnScreenOn="true"
+        android:launchMode="singleTop"
+        android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"/>
             
         <receiver android:name=".AlarmReceiver" />
         <!-- <receiver 

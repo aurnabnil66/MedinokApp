@@ -4,32 +4,34 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
+import android.os.Build
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-class AlarmModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
-    override fun getName(): String {
-        return "AlarmModule"
-    }
+class AlarmModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+    override fun getName() = "AlarmModule"
     @ReactMethod
-    fun setAlarm(message: String, delayInSeconds: Int) {
-        val context = reactContext
-        val intent = Intent(context, AlarmReceiver::class.java).apply {
-            putExtra("message", message)
-        }
+    fun setAlarmInSeconds(seconds: Int) {
+        val context = reactApplicationContext
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, AlarmReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            context, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                PendingIntent.FLAG_IMMUTABLE else 0
         )
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
-        val triggerAtMillis = SystemClock.elapsedRealtime() + delayInSeconds * 1000
-        alarmManager?.setExact(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            triggerAtMillis,
-            pendingIntent
-        )
+        val triggerAt = System.currentTimeMillis() + seconds * 1000
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
+        } else {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent)
+        }
     }
 }
+
+
+
+
+
+

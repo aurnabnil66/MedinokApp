@@ -1,0 +1,135 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/alarm_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/user_circle"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="8dp">
+
+            <TextView
+                android:id="@+id/userNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello, User"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="It’s time to take your meds."
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/action_box_bg">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/pill_icon"/>
+
+            <TextView
+                android:id="@+id/medicineName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medicine Name"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:paddingStart="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/date_icon"/>
+
+            <TextView
+                android:id="@+id/scheduleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scheduled for time"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingStart="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/alert_icon"/>
+
+            <TextView
+                android:id="@+id/doseDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Strength, Take X pill(s)"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:paddingStart="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="16dp">
+
+        <Button
+            android:id="@+id/skipButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skip"
+            android:drawableLeft="@drawable/cross_icon"
+            android:onClick="exitApp"/>
+
+        <Button
+            android:id="@+id/takenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Taken"
+            android:drawableLeft="@drawable/check_icon"
+            android:onClick="takeMedicine"/>
+    </LinearLayout>
+</LinearLayout>

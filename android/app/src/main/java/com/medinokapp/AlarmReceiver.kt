@@ -1,13 +1,11 @@
 package com.medinokapp
-
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 class AlarmReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
-        val message = intent?.getStringExtra("message") ?: "Alarm!"
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-        // You could show a notification instead of Toast here
+    override fun onReceive(context: Context, intent: Intent) {
+        val alarmIntent = Intent(context, AlarmFullscreenActivity::class.java)
+        alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        context.startActivity(alarmIntent)
     }
 }
