@@ -59,11 +59,11 @@ const UserDrawerNavigator: FC = () => {
         options={{title: ''}}
       />
 
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="AlarmScreen"
         component={AlarmScreen}
         options={{headerShown: false}}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 };

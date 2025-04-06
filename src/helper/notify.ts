@@ -60,17 +60,17 @@ export const localSchedule = async (
             // soundName: alarmNotifData.soundName,
             timeoutAfter: 120000,
             actions: ['Snooze', 'Stop Alarm'],
-            importance: Importance.HIGH,
+            importance: 'high',
             playSound: true,
             allowWhileIdle: true,
             vibrate: true,
             invokeApp: true,
             repeatType: 'time', // Repeat at custom interval
             repeatTime: 30000, // Repeat every 1 minute (60000 ms)
-            data: {
-              screen: 'AlarmScreen',
-              params: JSON.stringify({medicineId: e.medicineLocalId}),
-            },
+            // data: {
+            //   screen: 'AlarmScreen',
+            //   params: JSON.stringify({medicineId: e.medicineLocalId}),
+            // },
           });
           // Schedule alarm using AlarmClock
           const alarmDate = new Date(fireDate);

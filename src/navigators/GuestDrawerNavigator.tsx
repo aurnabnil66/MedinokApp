@@ -52,11 +52,11 @@ const GuestDrawerNavigator: FC = () => {
         component={PreviewDoseDetails}
         options={{title: ''}}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="AlarmScreen"
         component={AlarmScreen}
         options={{headerShown: false}}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 };

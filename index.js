@@ -6,6 +6,9 @@ import {name as appName} from './app.json';
 import {Platform} from 'react-native';
 import {navigateToSceeen} from './src/navigators';
 import invokeApp from 'react-native-invoke-app';
+import AlarmScreen from './src/Screens/AlarmScreen/AlarmScreen';
+import {Provider} from 'react-redux';
+import {store} from './src/store';
 
 PushNotification.configure({
   onRegister: function (token) {
@@ -101,3 +104,13 @@ const handleSnooze = notification => {
 AppRegistry.registerComponent(appName, () => {
   return App;
 });
+
+const AlarmScreenIntent = () => {
+  return (
+    <Provider store={store}>
+      <AlarmScreen />
+    </Provider>
+  );
+};
+
+AppRegistry.registerComponent('AlarmScreen', () => AlarmScreenIntent);

@@ -21,8 +21,8 @@ import {useRoute} from '@react-navigation/native';
 
 const AlarmScreen = () => {
   const dispatch = useDispatch();
-  const route = useRoute(); // Get route params
-  const {medicineId} = route.params as {medicineId: string}; // Extract medicineId
+  // const route = useRoute(); // Get route params
+  // const {medicineId} = route.params as {medicineId: string}; // Extract medicineId
 
   const userName = useSelector(
     (state: RootState) => state.users?.user?.data?.user?.fullName,
@@ -47,9 +47,9 @@ const AlarmScreen = () => {
   });
 
   // Filter medicine based on the ID received from the notification
-  const medicine = filteredMedicineList.find(
-    med => med.medicineLocalId === medicineId,
-  );
+  // const medicine = filteredMedicineList.find(
+  //   med => med.medicineLocalId === medicineId,
+  // );
 
   return (
     <>
@@ -60,7 +60,7 @@ const AlarmScreen = () => {
         <View style={styles.userNameProperties}>
           <FontAwesome5 name="user-circle" size={30} color={colors.black} />
           <View style={{flexDirection: 'column'}}>
-            <Text style={styles.userNameText}>Hello {userName},</Text>
+            {/* <Text style={styles.userNameText}>Hello {userName},</Text> */}
             <Text style={styles.userNameText}>
               It’s time to take your meds.
             </Text>
@@ -75,17 +75,15 @@ const AlarmScreen = () => {
                 size={30}
                 color={colors.buttonBg}
               />
-              <Text style={styles.medicineNameText}>
-                {medicine?.medicineName}
-              </Text>
+              <Text style={styles.medicineNameText}>{}</Text>
             </View>
             <View style={styles.doseDetailsProperties}>
               <View style={styles.scheduleAndDoseProperties}>
                 <Fontisto name="date" size={20} color={colors.typedText} />
 
-                <Text style={styles.scheduleAndDoseText}>
+                {/* <Text style={styles.scheduleAndDoseText}>
                   Scheduled for {medicine?.takeStatus}
-                </Text>
+                </Text> */}
               </View>
               <View style={styles.scheduleAndDoseProperties}>
                 <MaterialCommunityIcons
@@ -95,8 +93,8 @@ const AlarmScreen = () => {
                 />
 
                 <Text style={styles.scheduleAndDoseText}>
-                  {medicine?.strengthMed}
-                  {medicine?.unitMed}, take {medicine?.doseQuantity} pill(s)
+                  {}
+                  {}, take {} pill(s)
                 </Text>
               </View>
             </View>
@@ -114,20 +112,20 @@ const AlarmScreen = () => {
                   <TouchableOpacity
                     style={styles.btnBackground}
                     onPress={() => {
-                      if (medicine?.medicineLocalId) {
-                        dispatch(
-                          setTakeMedicine({
-                            medicineLocalId: medicine.medicineLocalId,
-                            doseQuantity: parseInt(medicine.doseQuantity),
-                          }),
-                        );
-                        // console.log(
-                        //   'Dispatched:',
-                        //   medicine.medicineLocalId,
-                        //   medicine.doseQuantity,
-                        // );
-                        BackHandler.exitApp();
-                      }
+                      // if (medicine?.medicineLocalId) {
+                      //   dispatch(
+                      //     setTakeMedicine({
+                      //       medicineLocalId: medicine.medicineLocalId,
+                      //       doseQuantity: parseInt(medicine.doseQuantity),
+                      //     }),
+                      //   );
+                      //   //   // console.log(
+                      //   //   //   'Dispatched:',
+                      //   //   //   medicine.medicineLocalId,
+                      //   //   //   medicine.doseQuantity,
+                      //   //   // );
+                      //   BackHandler.exitApp();
+                      // }
                     }}>
                     <AntDesign name="check" size={28} color={colors.buttonBg} />
                   </TouchableOpacity>

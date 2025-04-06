@@ -21,13 +21,13 @@ import {moderateScale} from 'react-native-size-matters';
 
 export const NavigationRef = createNavigationContainerRef();
 
-export function navigateToSceeen(name: string, params?: any) {
-  console.log({name});
-  if (NavigationRef.isReady()) {
-    console.log('Navigating');
-    NavigationRef.navigate({name, params} as never);
-  }
-}
+// export function navigateToSceeen(name: string, params?: any) {
+//   console.log({name});
+//   if (NavigationRef.isReady()) {
+//     console.log('Navigating');
+//     NavigationRef.navigate({name, params} as never);
+//   }
+// }
 
 const Navigator: FC = () => {
   const authStatus = useSelector(
@@ -108,7 +108,7 @@ const Navigator: FC = () => {
 
   return (
     <GestureHandlerRootView>
-      <NavigationContainer navigationInChildEnabled={true} ref={NavigationRef}>
+      <NavigationContainer navigationInChildEnabled={true}>
         <UserStack />
       </NavigationContainer>
     </GestureHandlerRootView>

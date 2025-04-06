@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" /> 
 
 
     <application
@@ -44,23 +45,7 @@
       <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_description"
                   android:value="my channel"/>
 
-      <!-- Change the value to true to enable pop-up for in foreground (remote-only, for local use ignoreInForeground) -->
-      <!-- <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground" -->
-                  android:value="false"/>
-      <!-- Change the value to false if you don't want the creation of the default channel -->
-      <!-- <meta-data  android:name="com.dieam.reactnativepushnotification.channel_create_default" -->
-                  android:value="true "/>
-      <!-- Change the resource name to your App's accent color - or any other color you want -->
-      <!-- <meta-data  android:name="com.dieam.reactnativepushnotification.notification_color" -->
-                  android:resource="@color/white"/> <!-- or @android:color/{name} to use a standard color -->
-<!-- 
-      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
-      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" /> -->
-      <!-- <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
-          <intent-filter>
-              <action android:name="android.intent.action.BOOT_COMPLETED" />
-          </intent-filter>
-      </receiver> -->
+    
 
         <!-- Push Notification Receivers -->
         <receiver 
@@ -70,22 +55,19 @@
             android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher"
             android:exported="true" />
 
-        <activity android:name=".AlarmFullscreenActivity"
-        android:showWhenLocked="true"
-        android:turnScreenOn="true"
-        android:launchMode="singleTop"
-        android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"/>
-            
-        <receiver android:name=".AlarmReceiver" />
-        <!-- <receiver 
-            android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-            </intent-filter>
-        </receiver> -->
+        <activity
+          android:name=".AlarmFullscreenActivity"
+          android:exported="true"
+          android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+          android:launchMode="singleTop"
+          android:taskAffinity=""
+          android:showWhenLocked="true"
+          android:turnScreenOn="true"
+          android:excludeFromRecents="true"
+      />
+
+      <receiver android:name=".AlarmReceiver" android:exported="true" />
+        
 
         <!-- Push Notification Listener Service -->
         <service 
@@ -142,5 +124,3 @@
 
     </application>
 </manifest>
-
-
