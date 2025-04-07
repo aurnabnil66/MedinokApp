@@ -402,7 +402,7 @@ const OnceAdayDose: FC = () => {
         0,
       );
 
-      console.log(' array', dataArray);
+      //console.log(' array', dataArray);
 
       // Add the new data to the copied array
       updatedStoredList.push(...dataArray);

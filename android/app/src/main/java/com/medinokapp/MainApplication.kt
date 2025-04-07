@@ -16,6 +16,8 @@ import com.oblador.vectoricons.VectorIconsPackage;
 
 import com.medinokapp.AlarmPackage
 
+import com.medinokapp.AlarmSoundPackage
+
 class MainApplication : Application(), ReactApplication {
 
   override val reactNativeHost: ReactNativeHost =
@@ -26,6 +28,7 @@ class MainApplication : Application(), ReactApplication {
               //add(MyReactNativePackage())
               add(VectorIconsPackage())
               add(AlarmPackage())
+              add(AlarmSoundPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"

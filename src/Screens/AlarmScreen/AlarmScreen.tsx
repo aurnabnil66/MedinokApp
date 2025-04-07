@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   BackHandler,
+  NativeModules,
 } from 'react-native';
 import styles from './style';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,8 +22,8 @@ import {useRoute} from '@react-navigation/native';
 
 const AlarmScreen = () => {
   const dispatch = useDispatch();
-  // const route = useRoute(); // Get route params
-  // const {medicineId} = route.params as {medicineId: string}; // Extract medicineId
+
+  const {AlarmSoundModule} = NativeModules;
 
   const userName = useSelector(
     (state: RootState) => state.users?.user?.data?.user?.fullName,
@@ -46,10 +47,7 @@ const AlarmScreen = () => {
     return medicineDateString === formattedDate;
   });
 
-  // Filter medicine based on the ID received from the notification
-  // const medicine = filteredMedicineList.find(
-  //   med => med.medicineLocalId === medicineId,
-  // );
+  const medicine = filteredMedicineList[0];
 
   return (
     <>
@@ -60,7 +58,7 @@ const AlarmScreen = () => {
         <View style={styles.userNameProperties}>
           <FontAwesome5 name="user-circle" size={30} color={colors.black} />
           <View style={{flexDirection: 'column'}}>
-            {/* <Text style={styles.userNameText}>Hello {userName},</Text> */}
+            <Text style={styles.userNameText}>Hello {userName},</Text>
             <Text style={styles.userNameText}>
               It’s time to take your meds.
             </Text>
@@ -81,9 +79,9 @@ const AlarmScreen = () => {
               <View style={styles.scheduleAndDoseProperties}>
                 <Fontisto name="date" size={20} color={colors.typedText} />
 
-                {/* <Text style={styles.scheduleAndDoseText}>
+                <Text style={styles.scheduleAndDoseText}>
                   Scheduled for {medicine?.takeStatus}
-                </Text> */}
+                </Text>
               </View>
               <View style={styles.scheduleAndDoseProperties}>
                 <MaterialCommunityIcons
@@ -103,7 +101,10 @@ const AlarmScreen = () => {
                 <View>
                   <TouchableOpacity
                     style={styles.btnBackground}
-                    onPress={() => BackHandler.exitApp()}>
+                    onPress={() => {
+                      BackHandler.exitApp();
+                      AlarmSoundModule.stopAlarmSound();
+                    }}>
                     <Entypo name="cross" size={25} color={colors.black} />
                   </TouchableOpacity>
                   <Text style={styles.actionText}>Skip</Text>
@@ -126,6 +127,7 @@ const AlarmScreen = () => {
                       //   //   // );
                       //   BackHandler.exitApp();
                       // }
+                      BackHandler.exitApp();
                     }}>
                     <AntDesign name="check" size={28} color={colors.buttonBg} />
                   </TouchableOpacity>
