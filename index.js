@@ -5,7 +5,6 @@ import App from './App';
 import {name as appName} from './app.json';
 import {Platform} from 'react-native';
 import {navigateToSceeen} from './src/navigators';
-import invokeApp from 'react-native-invoke-app';
 import AlarmScreen from './src/Screens/AlarmScreen/AlarmScreen';
 import {Provider} from 'react-redux';
 import {store} from './src/store';
@@ -21,10 +20,6 @@ PushNotification.configure({
       handleStopAlarm(notification);
     } else if (notification.action === 'Snooze') {
       handleSnooze(notification);
-    }
-
-    if (notification.userInteraction === false) {
-      invokeApp();
     }
 
     if (notification.userInteraction) {
