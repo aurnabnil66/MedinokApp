@@ -17,7 +17,7 @@ import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 
-import com.codegulp.invokeapp.RNInvokeApp;
+
 
 class MainActivity : ReactActivity() {
 
@@ -34,7 +34,7 @@ class MainActivity : ReactActivity() {
 
    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        RNInvokeApp.sendEvent()
+
     }
 
   override fun createReactActivityDelegate(): ReactActivityDelegate =

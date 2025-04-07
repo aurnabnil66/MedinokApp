@@ -4483,6 +4483,11 @@ event-target-shim@^5.0.0, event-target-shim@^5.0.1:
   resolved "https://registry.yarnpkg.com/event-target-shim/-/event-target-shim-5.0.1.tgz#5d4d3ebdf9583d63a5333ce2deb7480ab2b05789"
   integrity sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
 
+eventemitter3@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
+  integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
+
 execa@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/execa/-/execa-5.1.1.tgz#f80ad9cbf4298f7bd1d4c9555c21e93741c411dd"
@@ -7221,6 +7226,13 @@ react-native-alarm-clock@^2.0.2:
   resolved "https://registry.yarnpkg.com/react-native-alarm-clock/-/react-native-alarm-clock-2.0.2.tgz#acd9871ec1d1ce508abc3bafead0b0b8a71a8769"
   integrity sha512-Ianf/xYmnThRScl3Ew0N9AfOAmiRyB2DaXrOI4Mu4+0mmINtTccHs5N2UAyb5Z6c/RwPNrViRIFc1KvTA0b9hg==
 
+react-native-background-actions@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-background-actions/-/react-native-background-actions-4.0.1.tgz#51fab1df75fb69428c059929284d2ab3b5ff673b"
+  integrity sha512-LADhnb4ag1oH5Lotq0j8K9e2cFmrafFyg2PCME88VkTjqDUgNcJonkNdMCTHN0N3fh+hwAA7nDR4Cxkj9Q8eCw==
+  dependencies:
+    eventemitter3 "^4.0.7"
+
 react-native-calendar-events@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-calendar-events/-/react-native-calendar-events-2.2.0.tgz#6cb78bf712457ca9928dae95b428c91e7b895ae0"
@@ -7297,11 +7309,6 @@ react-native-image-picker@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-8.2.0.tgz#d8656fdd1a0f1ad262c9c129d4f75900b685e56e"
   integrity sha512-jIGllQJuJIn0YKss/JEeb0Kos1HSsnIpU+i3bYxR27sOxSyDZQyP9dKR22olssQPlfH+rGNR/Jc6xKRkhm48vw==
-
-react-native-invoke-app@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-invoke-app/-/react-native-invoke-app-1.0.6.tgz#5ea2fe6e498cee2214d04afbd8d0005a8681ca36"
-  integrity sha512-+kpgr+trccd1R+ZxTnIOpGWVsr/W+JXUKiNibgwwx+KbdTxMgQCt47/mb2Z6/nMCVgTBXP5MSCpDGJ6II1byrw==
 
 react-native-is-edge-to-edge@1.1.6:
   version "1.1.6"

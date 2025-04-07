@@ -34,11 +34,54 @@ import {colors} from '../../theme/colors';
 import {BASE_URL} from '../../utils/environment';
 import {mobileSignInFormValidation} from '../../utils/formValidation';
 import styles from './style';
+import BackgroundService from 'react-native-background-actions';
 
 import {NativeModules} from 'react-native';
-//const {AlarmModule} = NativeModules;
+const {AlarmModule} = NativeModules;
 
 // alarm in 1 minute
+
+// NativeModules.AlarmModule.setAlarmInSeconds(10);
+
+const sleep = (time: any) => new Promise(resolve => setTimeout(resolve, time));
+
+const task = async () => {
+  // Your background task code here
+
+  // Call your native method to set the alarm
+  AlarmModule.setAlarmInSeconds(10);
+
+  // Sleep for some time (for example, 10 seconds)
+  await sleep(10000);
+};
+
+const options = {
+  taskName: 'AlarmTask',
+  taskTitle: 'Setting Alarm',
+  taskDesc: 'Setting alarm in the background',
+  taskIcon: {
+    name: 'ic_launcher',
+    type: 'mipmap',
+  },
+  // Optional: Define the frequency of the background task in milliseconds
+  taskManager: true,
+  enableHeadless: true,
+};
+
+const startBackgroundTask = async () => {
+  try {
+    await BackgroundService.start(task, options);
+  } catch (e) {
+    console.error('Error starting background task', e);
+  }
+};
+
+const stopBackgroundTask = () => {
+  BackgroundService.stop();
+};
+
+// Call startBackgroundTask to start the background task
+startBackgroundTask();
 
 interface ISignInFormDataProps {
   mobile: string;
@@ -59,9 +102,9 @@ const Login: FC = () => {
     },
   });
 
-  useEffect(() => {
-    NativeModules.AlarmModule.setAlarmInSeconds(10);
-  }, [1]);
+  // useEffect(() => {
+  //   NativeModules.AlarmModule.setAlarmInSeconds(10);
+  // }, [1]);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
