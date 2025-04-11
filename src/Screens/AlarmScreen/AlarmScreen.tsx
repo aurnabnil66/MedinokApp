@@ -128,6 +128,7 @@ const AlarmScreen = () => {
                       //   BackHandler.exitApp();
                       // }
                       BackHandler.exitApp();
+                      AlarmSoundModule.stopAlarmSound();
                     }}>
                     <AntDesign name="check" size={28} color={colors.buttonBg} />
                   </TouchableOpacity>

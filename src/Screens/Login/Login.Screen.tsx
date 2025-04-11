@@ -45,14 +45,27 @@ const {AlarmModule} = NativeModules;
 
 const sleep = (time: any) => new Promise(resolve => setTimeout(resolve, time));
 
-const task = async () => {
+const task = async (taskArguments: any): Promise<void> => {
   // Your background task code here
+  //const {delay} = taskArguments;
 
-  // Call your native method to set the alarm
-  AlarmModule.setAlarmInSeconds(10);
+  // AlarmModule.setAlarmInSeconds(10);
 
-  // Sleep for some time (for example, 10 seconds)
-  await sleep(10000);
+  // console.log('Alarm set in the background');
+
+  await new Promise<void>(() => {
+    // const intervalId = setInterval(() => {
+    //   if (!BackgroundService.isRunning()) {
+    //     // Call your native method to set the alarm
+    //     clearInterval(intervalId);
+    //     resolve();
+    //   }
+    // }, delay);
+
+    AlarmModule.setAlarmInSeconds(10);
+
+    console.log('Alarm set in the background');
+  });
 };
 
 const options = {
@@ -63,25 +76,28 @@ const options = {
     name: 'ic_launcher',
     type: 'mipmap',
   },
+  parameters: {
+    delay: 10000, // 10 seconds
+  },
   // Optional: Define the frequency of the background task in milliseconds
-  taskManager: true,
-  enableHeadless: true,
+  //taskManager: true,
+  //enableHeadless: true,
 };
 
-const startBackgroundTask = async () => {
-  try {
-    await BackgroundService.start(task, options);
-  } catch (e) {
-    console.error('Error starting background task', e);
-  }
-};
+// const startBackgroundTask = async () => {
+//   try {
+//     await BackgroundService.start(task, options);
+//   } catch (e) {
+//     console.error('Error starting background task', e);
+//   }
+// };
 
-const stopBackgroundTask = () => {
-  BackgroundService.stop();
-};
+// const stopBackgroundTask = () => {
+//   BackgroundService.stop();
+// };
 
 // Call startBackgroundTask to start the background task
-startBackgroundTask();
+//startBackgroundTask();
 
 interface ISignInFormDataProps {
   mobile: string;
@@ -89,6 +105,9 @@ interface ISignInFormDataProps {
 }
 
 const Login: FC = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   // yup validation with react-hook-form
   const {
     control,
@@ -102,12 +121,32 @@ const Login: FC = () => {
     },
   });
 
-  // useEffect(() => {
-  //   NativeModules.AlarmModule.setAlarmInSeconds(10);
-  // }, [1]);
+  useEffect(() => {
+    const startBackgroundTask = async () => {
+      try {
+        await BackgroundService.start(task, options);
+      } catch (e) {
+        console.error('Error starting background task', e);
+      }
+    };
 
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      void startBackgroundTask();
+    });
+
+    // Clean up the listeners and stop the background task when the component is unmounted
+    const unsubscribeBlur = navigation.addListener('blur', () => {
+      BackgroundService.stop(); // Stop the background task
+    });
+
+    // startBackgroundTask();
+
+    return () => {
+      unsubscribeFocus(); // Remove the focus listener
+      unsubscribeBlur(); // Remove the blur listener
+    };
+  }, [navigation]);
+
   const {isInternetReachable, isCellularConnection} = useNetworkStatus();
 
   const loading = useSelector((state: RootState) => state.users.user.isLoading);
